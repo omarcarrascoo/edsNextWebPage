@@ -1,0 +1,39 @@
+.crabCard{
+    width: 100%;
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.container{
+    width: 85%;
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    justify-content: center;
+}
+
+.textContainer{
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    text-align: justify;
+}
+.textContainer h3{
+    font-size: 64px;
+    font-weight: 500;
+}
+.right{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.btn{
+    padding: 12px 18px;
+    background: none;
+    color: var(--blue);
+    border: 1px solid var(--blue);
+    font-size: 20px;
+}

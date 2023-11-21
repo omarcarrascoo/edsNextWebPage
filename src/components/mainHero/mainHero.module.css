@@ -1,0 +1,36 @@
+.mainHero{
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    z-index: 100;
+}
+.container{
+    display: flex;
+    width: 95%;
+    gap: 30px;
+    align-items: center;
+
+}
+.textContainer{
+    width: 60%;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.textContainer h1{
+    font-size: 96px;
+    font-weight: 500;
+    letter-spacing: -2px;
+
+}
+.textContainer button{
+    margin-top: 20px;
+}
+.imageContainer{
+    position: absolute;
+    width: 800px;
+    height: 800px;
+    right: -350px;
+}

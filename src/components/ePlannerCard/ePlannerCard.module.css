@@ -1,0 +1,79 @@
+.ePlannerCard{
+    min-height: 100vh;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    width: 90%;
+    margin: 0 auto;
+}
+.container h2{
+    text-align: center;
+}
+.container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 90%;
+}
+.plannerGrid{
+    margin-top: 30px;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    justify-content: space-evenly;
+    width: 100%;
+}
+.card{
+    background: var(--lightBack);
+    min-height: 380px;
+    /* From https://css.glass */
+    background: rgba(96, 146, 146, 0.19);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(2.3px);
+    -webkit-backdrop-filter: blur(2.3px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.cardContainer{
+    width: 300px;
+    padding: 20px 20px;
+}
+.cardTitle{
+    font-size: 48px;
+}
+.smallParr{
+    margin-top: 280px;
+    font-size: 16px;
+    font-weight: 100;
+}
+.number{
+    font-size: 350px;
+    position: absolute;
+    margin: 0 auto;
+    left: 0;
+    right: 0;
+    text-align: center;
+    top: 20%;
+    z-index: -10;
+    color: #22acac36;
+}
+.mt20{
+    margin-top: 20px;
+}
+@media screen and (max-width: 1500px) {
+    .smallParr{
+        margin-top: 100px;
+    }
+    .number{
+        font-size: 285px;
+    }
+    .cardContainer{
+        padding: 0 20px;
+    }
+}

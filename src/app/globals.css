@@ -1,0 +1,66 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+:root{
+    --darkBg: #121212;
+    --blue: #22acac;
+    --white: #f2f2f2;
+    --lightBack: #1e1e1e;
+
+}
+body{
+    background: var(--darkBg);
+    color: #f2f2f2;
+    overflow-x: hidden;
+}
+.clasicBlue{
+    color: var(--blue);
+}
+.bigParr{
+    font-size: 24px;
+    line-height: 150%;
+    font-weight: 300;
+}
+.space50{
+    height: 50px;
+}
+.cbtn{
+    padding: 14px 20px;
+    max-width: 200px;
+    font-size: 24px;
+    color: var(--blue);
+    background: none;
+    border: 1px solid var(--blue);
+    font-weight: 100;
+}
+.boldParr{
+    font-size: 20px;
+    font-weight: 400;
+}
+.parr{
+    font-size: 20px;
+    line-height: 150%;
+    font-weight: 200;
+}
+.underlink{
+    color: var(--blue);
+    
+}
+.whitelink{
+    color: var(--white);
+}
+.center{
+    text-align: center;
+}
+.subtitle1{
+    font-size: 64px;
+    font-weight: 500;
+}
+
+@media screen and (max-width: 1500px) {
+    .subtitle1{
+        font-size: 42px;
+    }
+}
