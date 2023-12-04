@@ -77,3 +77,60 @@
         padding: 0 20px;
     }
 }
+@media screen and (max-width:1024px ) {
+    .ePlannerCard{
+        min-height: 60vh;
+    }
+    .container h2{
+        font-size: 64px;
+    }
+    .plannerGrid{
+        flex-wrap: wrap;
+    }
+    .card{
+        width: 100%;
+    }
+    .cardContainer{
+        width: 90%;
+    }
+    .cardTitle{
+        font-size: 64px;
+    }
+    .smallParr{
+        font-size: 24px;
+        font-weight: 100;
+        font-weight: 400;
+    }
+}
+@media screen and (max-width:800px ) {
+    .card{
+        padding: 50px 0;
+    }
+}
+@media screen and (max-width:675px ) {
+    .container h2{
+        font-size: 36px
+    }
+
+}
+@media screen and (max-width: 450px) {
+    .card{
+        text-align: center;
+    }
+    .cardContainer{
+        width: 95%;
+    }
+}
+@media screen and (max-width: 375px) {
+    .container h2{
+        font-size: 24px;
+    }
+    .cardTitle{
+        font-size: 48px;
+    }
+    .smallParr{
+        font-size: 20px;
+        font-weight: 100;
+        font-weight: 400;
+    }
+}

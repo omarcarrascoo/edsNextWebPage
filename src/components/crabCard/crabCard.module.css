@@ -23,6 +23,7 @@
 .textContainer h3{
     font-size: 64px;
     font-weight: 500;
+    text-align: left;
 }
 .right{
     display: flex;
@@ -30,10 +31,90 @@
     align-items: center;
     justify-content: center;
 }
+.imageContainer{
+    width: 300px;
+    height: 300px;
+    position: relative;
+}
 .btn{
     padding: 12px 18px;
     background: none;
     color: var(--blue);
     border: 1px solid var(--blue);
     font-size: 20px;
+    text-align: center;
+    text-decoration: none;
+}
+
+@media screen and (max-width: 1024px) {
+    .container{
+        flex-direction: column-reverse;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        min-height: 100vh;
+    }
+    .imageContainer{
+        width: 400px;
+        height: 400px;
+    }
+    .textContainer{
+        text-align: center;
+        width: 90%;
+    }
+    .textContainer h3{
+        font-size: 48px;
+    }
+}
+
+@media screen and (max-width: 800px) {
+    .crabCard{
+        padding: 50px 0;
+    }
+    .imageContainer{
+        width: 300px;
+        height: 300px;
+    }
+    .textContainer{
+        text-align: center;
+        width: 100%;
+    }
+    .textContainer h3{
+        font-size: 48px;
+    }
+}
+@media screen and (max-width: 675px) {
+    .textContainer h3{
+        font-size: 36px;
+    }
+    .btn{
+        padding: 16px 18px;
+        font-size: 24px;
+    }
+}
+@media screen and (max-width: 450px) {
+    .imageContainer{
+        width: 200px;
+        height: 200px;
+    }
+    .textContainer h3{
+        font-size: 24px;
+        text-align: center;
+    }
+    .textContainer{
+        text-align: justify;
+    }
+}
+@media screen and (max-width: 450px) {
+    .imageContainer{
+        width: 200px;
+        height: 200px;
+    }
+    .textContainer h3{
+        font-size: 24px;
+        text-align: center;
+    }
+    .textContainer a{
+        font-size: 16px;
+    }
 }

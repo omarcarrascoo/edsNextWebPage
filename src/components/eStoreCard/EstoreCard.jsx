@@ -10,7 +10,7 @@ function EstoreCard() {
                 <Image src={"/eraDigitalSolutionsCard.svg"} alt='E-stores ecommerce online store' fill/>
             </div>
             <div className={styles.textContainer}>
-                <h2><span className="none">E</span> STORE, NOT A REGULAR ECOMMERCE</h2>
+                <h2><span className="clasicBlue">E-STORE</span>, NOT A REGULAR ECOMMERCE</h2>
                 <p className="boldParr">Sale everywhere, every time, everything.</p>
                 <p className='parr justify'>We don't just develop online stores; we offer a tailored package to <span className="clasicBlue">automate your shipments, cut commissions, provide financial insights, and offer smart predictions</span> through data analysis to help you make informed decisions that positively impact your business.</p>
                 <Link href={"/"} className='underlink'>Learn More</Link>

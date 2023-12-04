@@ -5,7 +5,7 @@ import EstoreCard from "@/components/eStoreCard/EstoreCard";
 import VivianaCard from "@/components/vivianaCard/VivianaCard";
 import EPlannerCard from "@/components/ePlannerCard/EPlannerCard";
 import EPrintCard from "@/components/ePrintCard/EPrintCard";
-import EWebCard from "@/components/eWeb/EWebCardCard";
+import EWebCard from "@/components/eWebCard/EWebCardCard";
 import CrabCard from "@/components/crabCard/CrabCard";
 import ContactCard from "@/components/contactCard/ContactCard";
 import MainFooter from "@/components/mainFooter/mainFooter";

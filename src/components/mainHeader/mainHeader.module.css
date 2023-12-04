@@ -1,6 +1,6 @@
 .mainHeader{
     width: 100%;
-    height: 100px;
+    min-height: 100px;
     display: flex;
     align-items: center;
     position: fixed;
@@ -19,13 +19,24 @@ backdrop-filter: blur(5.1px);
     align-items: center;
     justify-content: space-between;
 }
-.container nav ul{
+.container .mainNav  .mainUl{
     display: flex;
     gap: 20px;
-    align-items: center;
+    /* align-items: center; */
 }
-.container nav ul li{
+.container .mainNav .mainUl li{
     list-style: none;
+}
+.container .mainNav .mainUl li a{
+    color: var(--white);
+    text-decoration: none;
+}
+.mobileNav .mainUl li{
+    list-style: none;
+}
+.mobileNav .mainUl li a{
+    color: var(--white);
+    text-decoration: none;
 }
 .container p{
     font-size: 24px;
@@ -35,4 +46,118 @@ backdrop-filter: blur(5.1px);
 .blue{
     color: var(--blue);
     font-weight: 600;
+}
+
+.serviceNav{
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    padding: 20px 40px 40px 10px;
+    padding-top: 40px;
+    width: 200px;
+    display: none;
+    gap: 20px;
+    transition:all 20s;
+    background: rgba(34, 172, 172, 0.729);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(5.1px);
+    -webkit-backdrop-filter: blur(5.1px);
+    z-index: 10;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+.mainNav .mainUl .productLi:hover > .serviceNav{
+    display:flex;
+}
+.serviceNav li{
+    text-align: left;
+    width: 100%;
+    color: var(--blue);
+}
+.serviceNav li a{
+    color: var(--blue);
+}
+.hamb{
+    display: none;
+}
+.mobileNav{
+    display: none;
+}
+@media screen and (max-width: 1024px) {
+    .mainHeader{
+        display: flex;
+        flex-direction: column;
+        min-height: none;
+        max-height: none;
+        height: fit-content;
+        z-index: 300;
+    }
+    .container{
+        min-height: 100px;
+    }
+    .container .mainNav{
+        display: none;
+    }
+    .mobileNav{
+        display: block;
+            background: rgba(59, 59, 59, 0.84);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(5.1px);
+            -webkit-backdrop-filter: blur(5.1px);
+           border-bottom-left-radius: 10px;
+           border-bottom-right-radius: 10px;
+            width: 100%;
+            flex-direction: column;
+            gap: 20px;
+            padding: 20px 0;
+            z-index: 800;
+            position: relative;
+    }
+    .mobileNav .mainUl{
+            display: flex;
+            flex-direction: column;
+            width: 90%;
+            margin: 0 auto;
+            gap: 30px;
+            font-size: 28px;
+            font-weight: 500;
+            
+    }
+    /* .mobileNav .mainUl li a{
+        font-size: 24px;
+    } */
+    .hamb{
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        align-items: center;
+        
+    }
+    .hamb div{
+        height: 3px;
+        width: 50px;
+        background: var(--white);
+        border-radius: 5px;
+    }
+    .hamb p{
+        font-size: 16px;
+    }
+
+}
+@media screen and (max-width: 450px) {
+    .hamb{
+        gap: 8px
+    }
+    .mainHeader{
+        height: 80px;
+    }
+    .hamb div{
+        height: 2px;
+        width: 30px;
+        background: var(--white);
+        border-radius: 5px;
+    }
+    .container p{
+        font-size: 18px;
+    }
 }

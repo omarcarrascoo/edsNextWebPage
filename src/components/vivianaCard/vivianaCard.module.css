@@ -63,6 +63,9 @@
     margin: 15px 0;
     list-style: none;
 }
+.btnContainer{
+    display: none;
+}
 
 @media screen and (max-width: 1500px) {
     .right ol li{
@@ -83,3 +86,160 @@
         font-size: 48px;
     }
 }
+@media screen and (max-width: 1024px) {
+   .grid{
+    flex-direction: column;
+    gap: 30px;
+   }
+   .mid{
+    display: none;
+   }
+   .left{
+    flex-direction: row;
+    width: 75%;
+    flex-wrap: wrap;
+    margin: 0 auto;
+    gap: 30px;
+   }
+   .socialMedia{
+    width: 100%;
+   }
+   .right{
+    width: 80%;
+    margin: 0 auto;
+    margin-top: 40px;
+   }
+   .socialText h3{
+    font-size: 28px;
+   }
+   .socialText p{
+    font-size: 20px;
+   }
+   .right ol li{
+    font-size: 20px;
+    font-weight: 200;
+    margin: 15px 0;
+    text-align: center;
+}
+.right h3{
+    font-size: 42px;
+    text-align: center;
+}
+.btnResponsiveDesk{
+    display: none;
+}
+.responsiveBtnMob{
+    text-align: center;
+    text-decoration: none;
+    border: 1px solid var(--blue);
+    padding: 12px 27px;
+    max-width: 300px;
+    margin: 0 auto;
+    font-size: 20px;
+}
+.btnContainer{
+    margin: 0 auto;
+    display: inline;
+}
+  
+}
+@media screen and (max-width: 800px) {
+    
+    .left{
+     width: 100%
+    }
+    .socialMedia{
+     width: 100%;
+     
+    }
+    .right{
+     width: 100%;
+     margin: 0 auto;
+     margin-top: 40px;
+    }
+    .socialText h3{
+     font-size: 28px;
+    }
+    .socialText p{
+     font-size: 20px;
+    }
+    .right ol li{
+     text-align: left;
+     line-height: 150%;
+    }
+    .right h3{
+        text-align: left;
+    }
+    .btnContainer{
+        margin: 0;
+    }
+   
+ }
+ @media screen and (max-width: 675px) {
+    
+    .parrFunnelCard{
+        font-size: 22px;
+        text-align: justify;
+    }
+    .socialText p{
+        text-align: justify;
+    }
+    .right ol li{
+        text-align: center;
+        font-size: 24px;
+        margin: 20px 0;
+
+    }
+    .right h3{
+       text-align: center;
+   }
+   .btnContainer{
+    margin: 0 auto;
+   }
+ }
+ @media screen and (max-width: 450px) {
+    .parrFunnelCard{
+        font-size: 18px;
+    }
+    .container h2{
+        font-size: 36px;
+        text-align: center;
+    }
+    .socialMedia{
+        flex-direction: column;
+    }
+    .socialText h3{
+        text-align: center;
+        font-size: 32px;
+    }
+    .socialText p{
+        text-align: center;
+    }
+    .right ol li{
+        text-align: center;
+        font-size: 18px;
+
+    }
+ }
+ @media screen and (max-width: 375px) {
+    .parrFunnelCard{
+        font-size: 16px;
+    }
+    .container h2{
+        font-size: 28px;
+        text-align: center;
+    }
+    .right h3{
+        font-size: 28px;
+    }
+    .socialText h3{
+        font-size: 20px;
+    }
+    .socialText p{
+        font-size: 16px;
+    }
+    .right ol li{
+        font-size: 16px;
+
+    }
+ }

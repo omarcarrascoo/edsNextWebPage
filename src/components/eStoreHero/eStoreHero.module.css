@@ -1,0 +1,258 @@
+.eStoreHero{
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    margin-top: 50px;
+}
+
+.containaer{
+    display: flex;
+    align-items: center;
+    width: 95%;
+    margin: 0 0 0 auto;
+
+}
+.textContainer{
+    width: 50%;
+    z-index: 30;
+}
+.textContainer h1{
+font-size: 86px;
+}
+.textContainer{
+    font-size: 20px;
+}
+.textContainer p{
+    margin-bottom: 10px;
+}
+.imgContainer{
+    position: absolute;
+    width: 1000px;
+    height: 700px;
+    right: -200px;
+}
+
+@media screen and (max-width: 1024px) {
+    .eStoreHero{
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        padding-top: 200px;
+    }
+    .textContainer{
+        width: 87%;
+        text-align: center;
+    }
+    .textContainer p{
+        margin-bottom: 40px;
+    }
+    .containaer{
+        flex-wrap: wrap-reverse;
+        align-items: center;
+        justify-content: center;
+        margin: 0;
+        width: 100%;
+    }
+    .imgContainer{
+        position: absolute;
+        right: 0;
+        left: 0;
+        top: 160px;
+        width: 800px;
+        height: 700px;
+        margin: 0 auto;
+    }
+}
+@media screen and (max-width: 820px) {
+    .eStoreHero{
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        padding-top: 90px;
+    }
+    .textContainer{
+        width: 87%;
+        text-align: center;
+    }
+    .textContainer p{
+        margin-bottom: 40px;
+    }
+    .containaer{
+        flex-wrap: wrap-reverse;
+        align-items: center;
+        justify-content: center;
+        margin: 0;
+        width: 100%;
+    }
+    .imgContainer{
+        position: absolute;
+        right: 0;
+        left: 0;
+        top: 160px;
+        width: 700px;
+        height: 400px;
+        margin: 0 auto;
+    }
+}
+
+@media screen and (max-width: 712px) {
+    .eStoreHero{
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        padding-top: 30px;
+    }
+    .textContainer{
+        width: 87%;
+        text-align: center;
+    }
+    .textContainer h1{
+        font-size: 64px;
+    }
+    .textContainer p{
+        margin-bottom: 40px;
+        width: 97%;
+        margin: 0 auto 40px auto;
+    }
+    .containaer{
+        flex-wrap: wrap-reverse;
+        align-items: center;
+        justify-content: center;
+        margin: 0;
+        width: 100%;
+    }
+    .imgContainer{
+        position: absolute;
+        right: 0;
+        left: 0;
+        top: 160px;
+        width: 500px;
+        height: 400px;
+        margin: 0 auto;
+    }
+}
+
+
+@media screen and (max-width: 500px) {
+    .eStoreHero{
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        padding-top: 00px;
+    }
+    .textContainer{
+        width: 87%;
+        text-align: center;
+    }
+    .textContainer h1{
+        font-size: 48px;
+    }
+    .textContainer p{
+        margin-bottom: 40px;
+        width: 97%;
+        margin: 0 auto 40px auto;
+    }
+    .containaer{
+        flex-wrap: wrap-reverse;
+        align-items: center;
+        justify-content: center;
+        margin: 0;
+        width: 100%;
+    }
+    .imgContainer{
+        position: absolute;
+        right: 0;
+        left: 0;
+        top: 120px;
+        width: 350px;
+        height: 400px;
+        margin: 0 auto;
+    }
+}
+@media screen and (max-width: 398px) {
+    .eStoreHero{
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        padding-top: 0px;
+    }
+    .textContainer{
+        width: 87%;
+        text-align: center;
+    }
+    .textContainer h1{
+        font-size: 42px;
+    }
+    .textContainer p{
+        margin-bottom: 40px;
+        width: 97%;
+        margin: 0 auto 40px auto;
+    }
+    .containaer{
+        flex-wrap: wrap-reverse;
+        align-items: center;
+        justify-content: center;
+        margin: 0;
+        width: 100%;
+    }
+    .imgContainer{
+        position: absolute;
+        right: 0;
+        left: 0;
+        top: 90px;
+        width: 350px;
+        height: 400px;
+        margin: 0 auto;
+    }
+}
+
+@media screen and (max-width: 375px) {
+    .eStoreHero{
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        padding-top: 0px;
+    }
+    .textContainer{
+        width: 87%;
+        text-align: center;
+    }
+    .textContainer h1{
+        font-size: 36px;
+    }
+    .textContainer p{
+        margin-bottom: 40px;
+        width: 97%;
+        margin: 0 auto 40px auto;
+    }
+    .containaer{
+        flex-wrap: wrap-reverse;
+        align-items: center;
+        justify-content: center;
+        margin: 0;
+        width: 100%;
+    }
+    .imgContainer{
+        position: absolute;
+        right: 0;
+        left: 0;
+        top: 20px;
+        width: 320px;
+        height: 400px;
+        margin: 0 auto;
+    }
+}
+@media screen and (max-width: 314px) {
+    .imgContainer{
+        position: absolute;
+        right: 0;
+        left: 0;
+        top: 20px;
+        width: 240px;
+        height: 400px;
+        margin: 0 auto;
+    }
+    .textContainer h1{
+        font-size: 32px;
+    }
+}

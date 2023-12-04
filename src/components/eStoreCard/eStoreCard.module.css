@@ -31,3 +31,120 @@
     font-size: 24px;
     font-weight: 500;
 }
+@media screen and (max-width: 1024px) {
+    .container{
+        flex-direction: column;
+    }
+    .eStoreCard{
+        padding: 50px 0;
+    }
+    .textContainer{
+        width: 100%;
+        text-align: center;
+    }
+    .textContainer h2{
+        font-size: 36px;
+    }
+}
+@media screen and (max-width: 800px) {
+    .container{
+        flex-direction: column;
+    }
+    .imgContainer{
+        width: 400px;
+        height: 300px;
+        position:relative
+    }
+    .textContainer{
+        width: 100%;
+        text-align: center;
+    }
+    .textContainer h2{
+        font-size: 28px;
+    }
+}
+@media screen and (max-width: 675px) {
+    .container{
+        flex-direction: column;
+        width: 90%;
+    }
+    .imgContainer{
+        width: 400px;
+        height: 300px;
+        position:relative
+    }
+    .textContainer{
+        width: 100%;
+        text-align: left;
+        text-align: center;
+        gap: 20px;
+    }
+    .textContainer h2{
+        font-size: 28px;
+    }
+}
+@media screen and (max-width: 450px) {
+    .container{
+        flex-direction: column;
+        width: 90%;
+        justify-content: baseline;
+        align-items: baseline;
+    }
+    .imgContainer{
+        width: 300px;
+        height: 200px;
+        margin: 0 auto;
+    }
+    .textContainer{
+        text-align: left;
+        gap: 10px;
+    }
+    .textContainer h2{
+        font-size: 24px;
+        text-align: center;
+    }
+    .textContainer p{
+        text-align:center;
+    }
+    .textContainer a{
+        text-align: center;
+    }
+}
+@media screen and (max-width: 375px) {
+    .container{
+        flex-direction: column;
+        width: 90%;
+        justify-content: baseline;
+        align-items: baseline;
+    }
+    .imgContainer{
+        width: 250px;
+        height: 150px;
+        margin: 0 auto;
+    }
+    .textContainer{
+        text-align: left;
+        gap: 10px;
+    }
+    .textContainer h2{
+        font-size: 20px;
+        text-align: center;
+    }
+    .textContainer p{
+        text-align:center;
+        font-size: 16px;
+    }
+    .textContainer a{
+        text-align: center;
+        font-size: 16px;
+        margin-top: 9px;
+    }
+}
+
+@media screen and (max-width: 280px) {
+    .imgContainer{
+        width: 220px;
+        height: 120px;
+        margin: 0 auto;
+    }
+}

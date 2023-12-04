@@ -13,7 +13,7 @@ function MainHero() {
                 <button className='cbtn'>Start Planning</button>
             </div>
             <div className={styles.imageContainer}>
-                <Image src={"/world.svg"} alt='Era Digital Solution world' width={800} height={800}/>
+                <Image src={"/world.svg"} alt='Era Digital Solution world' fill/>
             </div>
         </div>
     </section>

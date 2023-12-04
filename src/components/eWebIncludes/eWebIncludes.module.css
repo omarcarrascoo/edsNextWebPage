@@ -1,0 +1,118 @@
+.eWebIncludes{
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    margin-top: 140px;
+    justify-content: center;
+    margin-bottom: 140px;
+}
+.container{
+    width: 90%;
+}
+.container h2{
+    font-size: 48px;
+    font-weight: 300;
+    text-align: center;
+    margin-bottom: 80px;
+}
+.includesContainer{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 30px;
+}
+.icon{
+    width: 80px;
+    height: 80px;
+    position: relative;
+    margin: 0 auto;
+}
+.include h3{
+    font-size: 22px;
+    color: var(--blue);
+    font-weight: 400;
+    text-align: center;
+}
+.include{
+    width: 40%;
+    min-width: 330px;
+}
+.include p{
+    font-size: 18px;
+    text-align: justify;
+}
+
+@media screen and (max-width:1024px){
+    .include h3{
+        font-size: 28px;
+    }
+    .include p{
+        font-size: 24px;
+    }
+    .icon{
+        width: 100px;
+        height: 100px;
+    }
+}
+@media screen and (max-width:820px){
+    .container h2{
+        margin-bottom: 30px;
+    }
+    .include{
+        width: 90%;
+        margin-bottom: 40px;
+        background: var(--lightBack);
+        padding: 24px 28px;
+        border-radius: 10px;
+    }
+    .include h3{
+        font-size: 28px;
+    }
+    .include p{
+        font-size: 24px;
+        text-align: center;
+    }
+    .icon{
+        width: 100px;
+        height: 100px;
+    }
+
+}
+@media screen and (max-width:450px){
+    .mobile{
+        display: none;
+    }
+    .container h2{
+        font-size: 42px;
+    }
+    .include h3{
+        font-size: 24px;
+    }
+    .include p{
+        font-size: 20px;
+        text-align: center;
+    }
+    
+}
+@media screen and (max-width:350px){
+    .mobile{
+        display: none;
+    }
+    .container h2{
+        font-size: 32px;
+    }
+    .include h3{
+        font-size: 20px;
+    }
+    .include p{
+        font-size: 18px;
+        text-align: center;
+    }
+    .include{
+        min-width: 200px;
+        width: 100%;
+        padding: 20px 15px;
+    }
+    
+}

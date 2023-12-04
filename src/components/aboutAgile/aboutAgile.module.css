@@ -1,0 +1,61 @@
+.aboutAgile{
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 100px;
+}
+.container{
+    width: 90%
+}
+.card{
+    padding: 24px 20px;
+    display: flex;
+    align-items: center;
+    background: var(--lightBack);
+    margin-bottom: 40px;
+    border-radius: 10px;
+    text-align: left;
+}
+.imgContainer{
+    width: 120px;
+    height: 100px;
+    position: relative;
+}
+.textContainer{
+    width: 80%;
+}
+.textContainer h3{
+    font-weight: 400;
+    font-size: 28px;
+}
+.container{
+    text-align: center;
+}
+
+@media screen and (max-width: 1024px) {
+    .aboutAgile{
+        min-height: 50vh;
+    }
+}
+@media screen and (max-width: 450px) {
+    .card{
+        flex-direction: column;
+        text-align: center;
+    }
+}
+@media screen and (max-width: 312px) {
+    .card{
+        padding: 20px 0;
+    }
+    .textContainer h3{
+        font-weight: 400;
+        font-size: 24px;
+    }
+    .textContainer p{
+        font-size: 16px;
+    }
+    .textContainer{
+        width: 90%;
+    }
+}

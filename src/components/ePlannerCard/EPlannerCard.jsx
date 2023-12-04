@@ -5,7 +5,7 @@ function EPlannerCard() {
   return (
     <section className={styles.ePlannerCard}>
         <div className={styles.container}>
-            <h2 className={"subtitle1"}>TAKE CONTROL OF Y0UR BUSINESS WITH <br />E-PLANNER</h2>
+            <h2 className={"subtitle1"}>TAKE CONTROL OF Y0UR BUSINESS WITH <br /><span className="clasicBlue">E-PLANNER</span></h2>
             <p className='parr center'>We help you organize your business by <span className="clasicBlue">automating tasks and processes for easy management</span>. Our clients benefit from NORMA, a toolkit based on the best agile practices, making any business more efficient.</p>
             <div className={styles.plannerGrid}>
                 <div className={styles.card}>

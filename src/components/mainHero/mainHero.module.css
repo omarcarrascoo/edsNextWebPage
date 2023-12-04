@@ -4,12 +4,17 @@
     align-items: center;
     justify-content: flex-end;
     z-index: 100;
+    overflow-x: hidden;
+    overflow-y: hidden;
 }
 .container{
     display: flex;
     width: 95%;
     gap: 30px;
     align-items: center;
+    position: relative;
+    height: fit-content;
+    
 
 }
 .textContainer{
@@ -33,4 +38,140 @@
     width: 800px;
     height: 800px;
     right: -350px;
+}
+
+
+@media screen and (max-width: 1280px) {
+    .textContainer h1{
+        font-size: 64px;
+    }
+}
+@media screen and (max-width: 1012px) {
+    .container{
+        flex-wrap: wrap-reverse;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto;
+    }
+    .imageContainer{
+        position: relative;
+        right: 0;
+        width: 500px;
+        height: 500px;
+    }
+    .textContainer{
+        align-items: center;
+        width: 90%;
+    }
+    .textContainer h1{
+        font-size: 64px;
+        text-align: center;
+     }
+     .textContainer p{
+        text-align: center;
+     }
+}
+
+@media screen and (max-width: 800px) {
+    .container{
+        flex-wrap: wrap-reverse;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto;
+    }
+    .imageContainer{
+        position: relative;
+        right: 0;
+        width: 300px;
+        height: 300px;
+    }
+    .textContainer{
+        align-items: center;
+        width: 90%;
+    }
+    .textContainer h1{
+        font-size: 64px;
+        text-align: center;
+     }
+     .textContainer p{
+        text-align: center;
+        font-size: 22px
+     }
+}
+@media screen and (max-width: 675px) {
+    .container{
+        flex-wrap: wrap-reverse;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto;
+    }
+    .imageContainer{
+        position: relative;
+        right: 0;
+        width: 300px;
+        height: 300px;
+    }
+    .textContainer{
+        align-items: center;
+        width: 90%;
+    }
+    .textContainer h1{
+        font-size: 52px;
+        text-align: center;
+     }
+     .textContainer p{
+        text-align: center;
+        font-size: 22px
+     }
+}
+@media screen and (max-width: 450px) {
+    .container{
+        flex-wrap: wrap-reverse;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto;
+    }
+    .imageContainer{
+        position: relative;
+        right: 0;
+        width: 230px;
+        height: 200px;
+    }
+    .textContainer{
+        align-items: center;
+        width: 90%;
+    }
+    .textContainer h1{
+        font-size: 32px;
+        text-align: center;
+     }
+     .textContainer p{
+        text-align: center;
+        font-size: 16px
+     }
+     .textContainer button{
+        margin-top: 10px;
+        font-size: 20px;
+    }
+}
+@media screen and (max-width: 375px) {
+    .imageContainer{
+        position: relative;
+        right: 0;
+        width: 15x0px;
+        height: 150px;
+    }
+    .textContainer{
+        align-items: center;
+        width: 90%;
+    }
+    .textContainer h1{
+        font-size: 28px;
+        text-align: center;
+     }
+     .textContainer p{
+        text-align: center;
+        font-size: 16px;
+        font-weight: 100;
+     }
 }
