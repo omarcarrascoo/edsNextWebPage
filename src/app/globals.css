@@ -59,6 +59,16 @@ body{
     font-weight: 500;
 }
 
+.ql-container{
+    font-size: 20px !important;
+}
+.quill > .ql-container >.ql-editor a{
+    color: var(--blue);
+}
+.quill > .ql-container >.ql-editor.ql-blank::before{
+    color: #f2f2f2;;
+}
+
 @media screen and (max-width: 1500px) {
     .subtitle1{
         font-size: 42px;

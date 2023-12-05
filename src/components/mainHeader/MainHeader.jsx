@@ -1,6 +1,7 @@
 import React from 'react'
 import styles from './mainHeader.module.css'
 import Link from 'next/link'
+import AuthLinks from '../authLinks/AuthLinks'
 function MainHeader() {
   return (
     <header className={styles.mainHeader}>
@@ -20,7 +21,8 @@ function MainHeader() {
                     <li><Link href={"/about-us"}>About Us</Link></li>
                     <li>Blog</li>
                     <li><Link href={"/contact-us"}>Contact</Link></li>
-                    <li className='clascicBlue'>Login</li>
+                    {/* <li className='clascicBlue'><Link href={"/login"}>Login</Link></li> */}
+                    <AuthLinks/>
 
                 </ul>
             </nav>
@@ -45,7 +47,7 @@ function MainHeader() {
                     <li><Link href={"/about-us"}>About Us</Link></li>
                     <li>Blog</li>
                     <li><Link href={"/contact-us"}>Contact</Link></li>
-                    <li className='clascicBlue'>Login</li>
+                    <li className='clascicBlue'><Link href={"/login"}>Login</Link></li>
 
                 </ul>
             </nav>
