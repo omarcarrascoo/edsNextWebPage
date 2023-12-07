@@ -1,0 +1,15 @@
+.card{
+    max-width: 350px;
+    background: var(--lightBack);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    padding-bottom: 35px;
+}
+.container{
+    width: 90%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}

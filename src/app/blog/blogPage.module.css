@@ -1,0 +1,17 @@
+.container{
+    width: 90%;
+    margin: 0 auto;
+    margin-top: 200px;
+}
+.container h1{
+    font-size: 64px;
+}
+.postsContainer{
+    width: 90%;
+    margin: 50px auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    row-gap: 60px;
+}

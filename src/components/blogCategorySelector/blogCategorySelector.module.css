@@ -1,0 +1,31 @@
+.container{
+    width: 90%;
+    margin: 20px auto 0px auto;
+    background-color: var(--lightBack2);
+    padding: 20px 20px;
+    display: flex;
+    align-items: center;
+    gap: 25px;
+    border-radius: 25px;
+    /* border-top-left-radius: 25px;
+    border-bottom-left-radius: 25px; */
+    overflow: scroll;
+    
+}
+.btnCategory{
+    background: none;
+    color: var(--blue);
+    padding: 12px 18px;
+    border: 1px solid var(--blue);
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: 500;
+    min-width: 150px;
+    text-align: center;
+    transition: all .3s;
+}
+.btnCategory:hover{
+    background: var(--blue);
+    color: var(--white);
+    border: 1px solid var(--blue);
+}

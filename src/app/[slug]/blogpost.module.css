@@ -1,6 +1,6 @@
 .blogPost{
     min-height: 100vh;
-    margin-top: 250px;
+    margin-top: 150px;
 }
 .container{
     width: 80%;
@@ -18,7 +18,8 @@
     margin: 20px 0;
 }
 .imgContainer{
-    width: 100%;
+    width: 80%;
+    margin: 0 auto;
     position: relative;
     height: 300px;
     margin: 20px 0 40px 0;

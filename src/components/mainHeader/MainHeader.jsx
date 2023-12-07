@@ -19,7 +19,7 @@ function MainHeader() {
                      </ul>
                     </li>
                     <li><Link href={"/about-us"}>About Us</Link></li>
-                    <li>Blog</li>
+                    <li><Link href={"/blog"}>Blog</Link></li>
                     <li><Link href={"/contact-us"}>Contact</Link></li>
                     {/* <li className='clascicBlue'><Link href={"/login"}>Login</Link></li> */}
                     <AuthLinks/>
