@@ -22,7 +22,7 @@
 
 }
 .textContainer h2{
-    font-size: 64px;
+    font-size: 48px;
     font-weight: 400;
     
 }
@@ -138,6 +138,9 @@
   }
 }
 @media screen and (max-width: 450px){
+    .contactCard{
+        margin-top: 80px;
+    }
     .container{width: 90%;}
     .titles{
         width: 100%;

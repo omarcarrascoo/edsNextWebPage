@@ -20,7 +20,7 @@ function EPlannerCard() {
                     <div className={styles.cardContainer}>
                     <p className={styles.cardTitle}>Doing</p>
                         <p className={"parr"}>Researching ways to track and grow my business. <br /><br /></p>
-                        <p className={styles.smallParr}>Stay informed about your team's activities, identify bottlenecks, and enhance team connectivity.
+                        <p className={styles.smallParr}>Stay informed about your team&apos;s activities, identify bottlenecks, and enhance team connectivity.
                         </p>
                     <p className={styles.number}>2</p>
                     </div>

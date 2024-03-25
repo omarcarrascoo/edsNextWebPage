@@ -3,7 +3,7 @@ import MainFooter from '@/components/mainFooter/mainFooter'
 import MainHeader from '@/components/mainHeader/MainHeader'
 import React from 'react'
 import styles from './contactUs.module.css'
-function page() {
+function Page() {
   return (
     <>
         <MainHeader/>
@@ -15,4 +15,4 @@ function page() {
   )
 }
 
-export default page
+export default Page

@@ -1,0 +1,96 @@
+.eStoreSkull{
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.container{
+    display: flex;
+    gap: 30px;
+    align-items: center;
+    justify-content: center;
+}
+.imgContainer{
+    position: relative;
+    width: 300px;
+    height: 500px;
+}
+.textContainer {
+    width: 60%;
+}
+.textContainer p{
+    margin-bottom: 30px;
+}
+.textContainer h2{
+    font-size: 42px;
+    font-weight: 600;
+}
+.textContainer a {
+    text-decoration: none;
+}
+
+@media screen and (max-width: 1024px) {
+    .eStoreSkull{
+        min-height: 70vh;
+        margin-bottom: 300px;
+    }
+    .textContainer h2{
+        font-size: 42px;
+        font-weight: 600;
+    }
+    .textContainer{
+        width: 90%;
+    }
+    .container{
+        flex-direction: column;
+        text-align: center;
+        gap: 10px;
+    }
+}
+@media screen and (max-width: 675px) {
+    .eStoreSkull{
+        min-height: 100vh;
+        margin-bottom: 200px;
+    }
+    .textContainer h2{
+        font-size: 36px;
+        font-weight: 600;
+    }
+    .textContainer{
+        width: 90%;
+    }
+    .container{
+        flex-direction: column;
+        text-align: center;
+        gap: 10px;
+    }
+    .imgContainer{
+        position: relative;
+        width: 600px;
+        height: 300px;
+    }
+}
+@media screen and (max-width: 500px) {
+    .eStoreSkull{
+        min-height: 100vh;
+        margin-bottom: 200px;
+    }
+    .textContainer h2{
+        font-size: 42px;
+        font-weight:400;
+        margin-bottom: 10px;
+    }
+    .textContainer{
+        width: 90%;
+    }
+    .container{
+        flex-direction: column;
+        text-align: center;
+        gap: 10px;
+    }
+    .imgContainer{
+        position: relative;
+        width: 300px;
+        height: 300px;
+    }
+}

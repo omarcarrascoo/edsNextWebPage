@@ -4,7 +4,7 @@ import MainHeader from '@/components/mainHeader/MainHeader'
 import React from 'react'
 import styles from './blogPage.module.css'
 import BlogPostCard from '@/components/blogPostCard/BlogPostCard'
-function page() {
+function Page() {
   return (
     <>
         <MainHeader/>
@@ -16,13 +16,13 @@ function page() {
             <BlogCategorySelector/> 
             <div className={styles.postsContainer}>
               <BlogPostCard/>
+              {/* <BlogPostCard/>
               <BlogPostCard/>
               <BlogPostCard/>
               <BlogPostCard/>
               <BlogPostCard/>
               <BlogPostCard/>
-              <BlogPostCard/>
-              <BlogPostCard/>
+              <BlogPostCard/> */}
             </div>
         </main>
         <MainFooter/>
@@ -30,4 +30,4 @@ function page() {
   )
 }
 
-export default page
+export default Page

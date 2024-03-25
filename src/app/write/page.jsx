@@ -10,7 +10,7 @@ import "react-quill/dist/quill.bubble.css"
 import { useRouter } from 'next/navigation'
 import { useSession } from 'next-auth/react'
 
-function page() {
+function Page() {
   const [open, setOpen] = useState(false)
   const [value, setValue] = useState("")
   const {data, status} = useSession();
@@ -55,4 +55,4 @@ function page() {
   )
 }
 
-export default page
+export default Page

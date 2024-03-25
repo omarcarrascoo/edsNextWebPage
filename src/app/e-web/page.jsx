@@ -7,7 +7,7 @@ import EWebPanel from '@/components/eWebPanel/EWebPanel'
 import MainHeader from '@/components/mainHeader/MainHeader'
 import React from 'react'
 
-function page() {
+function Page() {
   return (
     <>
         <MainHeader/>
@@ -21,4 +21,4 @@ function page() {
   )
 }
 
-export default page
+export default Page

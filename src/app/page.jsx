@@ -13,11 +13,12 @@ import MainFooter from "@/components/mainFooter/mainFooter";
 export default function Home() {
   return <>
     <MainHeader/>
-    <div className={"space50"}></div>
+    <div className={'space50'}></div>
     <MainHero/>
     <div className={styles.container1}>
       <div className={styles.frase1}>
-        <p>"We have created a pack of tools that is everything small business need to <span className="clasicBlue">start conquering the digital era."</span></p>
+      <p>&quot;We have created a pack of tools that is everything small business need to <span className="clasicBlue">start conquering the digital era.&quot;</span></p>
+
       </div>
       <EstoreCard/>
       <div className={styles.spcae2}>

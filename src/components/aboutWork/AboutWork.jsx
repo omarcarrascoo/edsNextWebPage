@@ -12,7 +12,7 @@ function AboutWork() {
                     <Image src={"/checked.svg"} alt='Era digital solution requirement and analisis' fill/>
                 </div>
                 <h3>Requirements analysis</h3>
-                <p className="parr">During this stage, an analysis of each client's requirements is conducted to determine the features to be developed for the project, specifying everything it needs to do and have to achieve its maximum functionality.</p>
+                <p className="parr">During this stage, an analysis of each client&apos;s requirements is conducted to determine the features to be developed for the project, specifying everything it needs to do and have to achieve its maximum functionality.</p>
             </div>
             <div className={styles.card}>
                 <div className={styles.imgContainer}>

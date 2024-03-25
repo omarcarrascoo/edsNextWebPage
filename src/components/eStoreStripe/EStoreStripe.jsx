@@ -9,7 +9,7 @@ function EStoreStripe() {
             <div className={styles.imgContainer}>
                 <Image src={"/stripeLogo.png"} alt='Stripe Logo no commisions ecommerce' fill/>
             </div>
-            <h2>Era digital solutions don't charge <span className={styles.purple}>commissions on your sales</span></h2>
+            <h2>Era digital solutions don&apos;t charge <span className={styles.purple}>commissions on your sales</span></h2>
             <p className="parr">You just get the 3% charge by stripe the best payment processor used by amazon, google, shopify, kickstarter, indochino...</p>
             <Link className={`${styles.purple} underlink`} href={"/"}>Start selling without commisions</Link>
         </div>

@@ -15,7 +15,7 @@ export const metadata = {
   description: 'The best blog app!',
 }
 
-function page() {
+function Page() {
   return (
     <>
         <MainHeader/>
@@ -35,4 +35,4 @@ function page() {
   )
 }
 
-export default page
+export default Page

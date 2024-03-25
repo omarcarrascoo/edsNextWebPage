@@ -6,7 +6,6 @@
     position: fixed;
     top: 0;
     z-index: 100;
-    /* From https://css.glass */
 background: rgba(79, 79, 79, 0.149);
 box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
 backdrop-filter: blur(5.1px);
@@ -66,6 +65,16 @@ backdrop-filter: blur(5.1px);
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
 }
+.serviceNavMobile{
+    padding-top: 20px;
+    width: 100%;
+    display: none;
+    flex-direction: column;
+    gap: 20px;
+}
+.serviceNavMobile li{
+    padding-left: 15px;
+}
 .mainNav .mainUl .productLi:hover > .serviceNav{
     display:flex;
 }
@@ -89,7 +98,7 @@ backdrop-filter: blur(5.1px);
         flex-direction: column;
         min-height: none;
         max-height: none;
-        height: fit-content;
+        /* height: fit-content; */
         z-index: 300;
     }
     .container{
@@ -99,8 +108,9 @@ backdrop-filter: blur(5.1px);
         display: none;
     }
     .mobileNav{
-        display: block;
-            background: rgba(59, 59, 59, 0.84);
+            display: none;
+            background: #315e5ee8;
+            /* background: rgba(13, 13, 13, 0.842); */
             box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
             backdrop-filter: blur(5.1px);
             -webkit-backdrop-filter: blur(5.1px);
@@ -110,8 +120,12 @@ backdrop-filter: blur(5.1px);
             flex-direction: column;
             gap: 20px;
             padding: 20px 0;
-            z-index: 800;
-            position: relative;
+            /* z-index: 800; */
+            /* position: relative; */
+            transition: all 3s;
+    }
+    .open{
+        display: flex;
     }
     .mobileNav .mainUl{
             display: flex;

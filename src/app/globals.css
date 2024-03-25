@@ -5,7 +5,7 @@
 }
 :root{
     --darkBg: #121212;
-    --blue: #22acac;
+    --blue: #44B8B7;
     --white: #f2f2f2;
     --lightBack: #1e1e1e;
     --lightBack2: #272727;
@@ -35,6 +35,7 @@ body{
     background: none;
     border: 1px solid var(--blue);
     font-weight: 400;
+    border-radius: 10px;
 }
 .boldParr{
     font-size: 20px;
@@ -88,6 +89,7 @@ body{
         text-decoration: none;
         font-size: 24px;
         border: 1px solid var(--blue);
+        border-radius: 10px;
     }
 }
 @media screen and (max-width: 450px) {

@@ -7,7 +7,7 @@ import MainFooter from '@/components/mainFooter/mainFooter'
 import { signIn, useSession } from 'next-auth/react'
 import {useRouter} from 'next/navigation'
 
-function page() {
+function Page() {
 
   const {data, status} = useSession();
   const router = useRouter();
@@ -36,4 +36,4 @@ function page() {
   )
 }
 
-export default page
+export default Page

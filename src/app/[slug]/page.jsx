@@ -4,7 +4,7 @@ import MainHeader from '@/components/mainHeader/MainHeader'
 import Image from 'next/image'
 import MainFooter from '@/components/mainFooter/mainFooter'
 import ContactCard from '@/components/contactCard/ContactCard'
-function page() {
+function Page() {
   return (
     <>
         <MainHeader/>
@@ -35,4 +35,4 @@ function page() {
   )
 }
 
-export default page
+export default Page

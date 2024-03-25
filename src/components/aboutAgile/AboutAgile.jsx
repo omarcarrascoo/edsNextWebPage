@@ -20,11 +20,11 @@ function AboutAgile() {
                     <Image src={"/rows.svg"} alt='boost your eficiency contacting with era digital solutions' fill/>
                 </div>
                 <div className={styles.textContainer}>
-                <h3>Don't know <span className="clasicBlue">where to start?</span></h3>
+                <h3>Don&apos;t know <span className="clasicBlue">where to start?</span></h3>
                 <p className='parr'>The digital age is confusing. Get in touch with us and we will be happy to advise you 100% free.</p>
                 </div>
             </div>
-            <Link href={"/"} className='underlink'>Contact Us</Link>
+            <Link href={'/'} className='underlink'>Contact Us</Link>
         </div>
     </section>
   )
