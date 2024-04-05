@@ -1,0 +1,63 @@
+.hero{
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 100px;
+}
+.container{
+    width: 90%;
+}
+.text h1{
+    font-weight: 300;
+    font-size: 7.75rem;
+}
+.text h2{
+    font-weight: 300;
+    font-size: 7.75rem;
+}
+.form{
+    display: flex;
+    flex-direction: column;
+}
+.form input{
+    background: none;
+    border: 1px solid var(--blue);
+    padding: 17px 14px;
+    border-radius: 15px;
+    margin: 10px 0;
+    width: 100%;
+}
+
+
+
+
+
+
+
+
+
+@media screen and (max-width: 1320px) {
+
+}
+@media screen and (max-width: 1024px) {
+
+}
+@media screen and (max-width: 450px) {
+    .text h1{
+        font-size: 4.75rem;
+    }
+    .text h2{
+        margin-top: 20px;
+        font-size: 3.75rem;
+    }
+}
+@media screen and (max-width: 300px) {
+    .text h1{
+        font-size: 3.5rem;
+    }
+    .text h2{
+        margin-top: 20px;
+        font-size: 2.5rem;
+    }
+}

@@ -11,8 +11,9 @@ import MainHeader from '@/components/mainHeader/MainHeader'
 import React from 'react'
 
 export const metadata = {
-  title: 'About Us | Era Digital Solutions',
-  description: 'The best blog app!',
+  title: 'ABOUT US | ERA DIGITAL SOLUTIONS',
+  description: 'Era Digital Solution: Your trusted software development partner. We turn ideas into digital solutions, offering tailored strategies and accessible data analysis tools for businesses and entrepreneurs',
+  keywords: 'Software Solutions Provider, Custom Software Development, Mobile App Development, Web Development Services, Enterprise Software Development, Software Architecture Expertise, Innovative Software Solutions, Digital Transformation Partner, Cutting-Edge Technology Solutions, Business Software Development, Software Engineering Excellence, Software Consultancy Services, Agile Software Development Approach, Full-Stack Development Capabilities, Industry-Leading Software Developers'
 }
 
 function Page() {

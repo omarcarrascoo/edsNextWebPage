@@ -24,13 +24,13 @@ function MainHeader() {
             <nav className={styles.mainNav}>
                 <ul className={styles.mainUl}>
                     <li><Link href={"/"}>Home</Link></li>
-                    <li className={styles.productLi}><Link  href={'/e-store'}>Products</Link>
+                    <li className={styles.productLi}>Products
                      <ul className={styles.serviceNav}>
                         <li><Link href={"/e-store"}>E-STORE</Link></li>
                         <li><Link href={"/e-web"}>E-WEB</Link></li>
                         <li><Link href={"/bespoke-mobile-application-development"}>App Development</Link></li>
-                        <li><Link href={"/build-to-suit-software"}>Build to Suit</Link></li>
-                        <li><Link href={"/viviana-digital-analisis"}>Viviana</Link></li>
+                        <li><Link href={"/e-start"}>E-start</Link></li>
+                        <li><Link href={"/viviana-audience-analitics"}>Viviana</Link></li>
                      </ul>
                     </li>
                     <li><Link href={"/about-us"}>About Us</Link></li>
@@ -56,8 +56,8 @@ function MainHeader() {
                         <li><Link href={"/e-store"}>@ E-STORE</Link></li>
                         <li><Link href={"/e-web"}>@ E-WEB</Link></li>
                         <li><Link href={"/bespoke-mobile-application-development"}>@ App Development</Link></li>
-                        <li><Link href={"/build-to-suit-software"}>@ Build to Suit</Link></li>
-                        <li><Link href={"/viviana-digital-analisis"}>@ Viviana</Link></li>
+                        <li><Link href={"/e-start"}>@ E-start</Link></li>
+                        <li><Link href={"/viviana-audience-analitics"}>@ Viviana</Link></li>
                      </ul>
                     </li>
                     <li><Link href={"/about-us"}>About Us</Link></li>

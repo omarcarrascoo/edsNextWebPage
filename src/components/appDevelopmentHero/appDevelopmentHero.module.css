@@ -64,6 +64,13 @@ font-size: 64px;
     }
 }
 @media screen and (max-width: 820px) {
+    .textContainer{
+        background: rgba(79, 79, 79, 0.149);
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        backdrop-filter: blur(5.1px);
+        -webkit-backdrop-filter: blur(5.1px);
+        padding: 20px 18px 60px 18px;
+    }
     .eStoreHero{
         align-items: center;
         justify-content: center;
