@@ -1,4 +1,3 @@
-import AuthProvider from '@/providers/authProvider'
 import './globals.css'
 import { Montserrat } from 'next/font/google'
 
@@ -13,7 +12,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={montserrat.className}><AuthProvider>{children}</AuthProvider></body>
+      <body className={montserrat.className}>{children}</body>
     </html>
   )
 }
