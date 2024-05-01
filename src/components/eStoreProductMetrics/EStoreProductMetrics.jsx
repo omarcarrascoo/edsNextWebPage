@@ -23,7 +23,7 @@ function EStoreProductMetrics() {
                     <li>Track the previous pages of your visitors.</li>
                     <li>and much more...</li>
                 </ul>
-                <Link className='underlink' href={"/"}>Start selling</Link>
+                <Link className='underlink' href={"/contact-us"}>Start selling</Link>
             </div>
             <div className={`${styles.imgContainer} ${styles.desktop}`}>
                 <Image className={styles.desktop} src={"/neckles.png"} fill alt='Get metric of your products with era digital solution'/>

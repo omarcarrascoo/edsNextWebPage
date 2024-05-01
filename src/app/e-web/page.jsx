@@ -4,6 +4,7 @@ import EWebHero from '@/components/eWebHero/EWebHero'
 import EWebIncludes from '@/components/eWebIncludes/EWebIncludes'
 import EWebMetrics from '@/components/eWebMetrics/EWebMetrics'
 import EWebPanel from '@/components/eWebPanel/EWebPanel'
+import MainFooter from '@/components/mainFooter/mainFooter'
 import MainHeader from '@/components/mainHeader/MainHeader'
 import React from 'react'
 
@@ -18,12 +19,15 @@ function Page() {
   return (
     <>
         <MainHeader/>
-        <EWebHero/>
-        <EWebMetrics/>
-        <EWebPanel/>
-        <EWebIncludes/>
-        <EWebDisign/>
-        <ContactCard/>
+        <main>
+          <EWebHero/>
+          <EWebMetrics/>
+          <EWebPanel/>
+          <EWebIncludes/>
+          <EWebDisign/>
+          <ContactCard/>
+        </main>
+        <MainFooter/>
     </>
   )
 }

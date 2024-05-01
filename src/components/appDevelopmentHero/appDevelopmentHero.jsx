@@ -7,9 +7,9 @@ function AppDevelopmentHero() {
     <section className={styles.eStoreHero}>
         <div className={styles.containaer}>
             <div className={styles.textContainer}>
-                <h1>The best victory is being in your customer's pocket.</h1>
+                <h1>The best victory is being in your customer&apos;s pocket.</h1>
                 <p className='parr'>We develop build to suit <span className='clasicBlue'>IOS and Android applications</span> designed to skyrocket your success.</p>
-                <Link href={"/"} className='underlink'>Start Planning</Link>
+                <Link href={"/contact-us"} className='underlink'>Start Planning</Link>
             </div>
             <div className={styles.imgContainer}>
               <Image src={"/robotApp.png"} fill alt='E-store card'/>

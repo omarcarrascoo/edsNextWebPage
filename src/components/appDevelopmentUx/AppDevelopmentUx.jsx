@@ -14,7 +14,7 @@ function AppDevelopmentUx() {
                 <p className="parr">
                     Transform your app into an intuitive masterpiece. We understand the critical role user experience plays in the success of your application. We ensure seamless navigation, effortless interaction, and captivating visuals
                 </p>
-                <Link className='underlink' href={"/"}>Start Planning</Link>
+                <Link className='underlink' href={"/contact-us"}>Start Planning</Link>
             </div>
             
         </div>

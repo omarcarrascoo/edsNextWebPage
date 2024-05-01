@@ -9,7 +9,7 @@ function EStoreFinacial() {
             <div className={styles.textContainer}>
                 <h2>We make your data understandable, get <span className="clasicBlue">profesional finical insight</span> easy and fast.</h2>
                 <p className="parr">When prosperity comes, do not use all of it. <br /> -Confucius</p>
-                <Link className='underlink' href={"/"}>Start Planning</Link>
+                <Link className='underlink' href={"/contact-us"}>Start Planning</Link>
             </div>
             <div className={styles.imgContainer}>
                 <Image src={"/eradigitalsolutionsdashboard.png"} alt='Era digital solutions finicial dashboard' fill/>

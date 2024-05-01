@@ -12,7 +12,7 @@ function EWebDisign() {
             <div className={styles.textContainer}>
                 <h2>Your business is unique your site should be as-well</h2>
                 <p className='parr'>All our design are 100% unique and tailored to your business, we involve our clients in every part of the design process so it reflects the real vision of the brand.</p>
-                <Link href={"/"} className='cbtn'>Start Creating</Link>
+                <Link href={"/contact-us"} className='cbtn'>Start Creating</Link>
             </div>
         </div>
     </section>

@@ -36,6 +36,26 @@ body{
     border: 1px solid var(--blue);
     font-weight: 400;
     border-radius: 10px;
+    transition: all .3s;
+}
+.cbtn a{
+    color: var(--blue);
+    text-decoration: none;
+}
+.cbtn:hover{
+    padding: 14px 20px;
+    max-width: 200px;
+    font-size: 24px;
+    color: var(--white);
+    background: var(--blue);
+    border: 1px solid var(--blue);
+    font-weight: 400;
+    border-radius: 10px;
+}
+.cbtn:hover a{
+    color: var(--white);
+    text-decoration: none;
+    transition: all .3s;
 }
 .boldParr{
     font-size: 20px;

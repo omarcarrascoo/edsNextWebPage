@@ -12,7 +12,7 @@ function AppDevelopmentReview() {
             <div className={styles.textContainer}>
                 <h2>REAL TIME UPDATE WHILE DEVELOPMENT</h2>
                 <p className='parr'>
-                    Real-time updates during development ensure you're always informed about the state of your project. From initial design to final implementation, you'll have a clear picture of progress at every stage. Stay in the loop, make informed decisions, and watch your vision come to life with confidence.
+                    Real-time updates during development ensure you&apos;re always informed about the state of your project. From initial design to final implementation, you&apos;ll have a clear picture of progress at every stage. Stay in the loop, make informed decisions, and watch your vision come to life with confidence.
                 </p>
                 <Link href={"/"} className='cbtn'>Start Planning</Link>
             </div>

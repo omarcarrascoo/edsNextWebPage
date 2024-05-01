@@ -12,9 +12,9 @@ function AppDevelopmentIdea() {
             <div className={styles.textContainer}>
                 <h2><span className='clasicBlue'>Innovation is the key </span> for every business to survive in this digital era</h2>
                 <p className='parr'>
-                    Big businesses know that the best way to connect with active clients is by creating an app. In today's digital world, an app isn't just a tool – it's a way to offer personalized experiences and make interactions seamless. By embracing apps, you can build strong connections with your audience and take your brand to new heights.
+                    Big businesses know that the best way to connect with active clients is by creating an app. In today&apos;s digital world, an app isn&apos;t just a tool – it&apos;s a way to offer personalized experiences and make interactions seamless. By embracing apps, you can build strong connections with your audience and take your brand to new heights.
                 </p>
-                <Link href={"/"} className='cbtn'>Start Planning</Link>
+                <Link href={"/contact-us"} className='cbtn'>Start Planning</Link>
             </div>
         </div>
     </section>

@@ -6,6 +6,7 @@ import EStoreReasons from '@/components/eStoreReasons/EStoreReasons'
 import EStoreSkull from '@/components/eStoreSkull/EStoreSkull'
 import EStoreStripe from '@/components/eStoreStripe/EStoreStripe'
 import EStoreTruck from '@/components/eStoreTruck/EStoreTruck'
+import MainFooter from '@/components/mainFooter/mainFooter'
 import MainHeader from '@/components/mainHeader/MainHeader'
 import React from 'react'
 
@@ -32,6 +33,7 @@ function Page() {
             <EStoreStripe/>
             <EStoreReasons/>
             <ContactCard/>
+            <MainFooter/>
         </main>
     </>
   )

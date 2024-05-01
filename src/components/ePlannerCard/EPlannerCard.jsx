@@ -34,7 +34,7 @@ function EPlannerCard() {
                     </div>
                 </div>
             </div>
-            <Link href={"/"} className={`underlink ${styles.mt20}`}>Start Planning</Link>
+            <Link href={"/e-store"} className={`underlink ${styles.mt20}`}>Start Planning</Link>
         </div>
     </section>
   )

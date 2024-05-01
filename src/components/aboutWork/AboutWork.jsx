@@ -36,7 +36,7 @@ function AboutWork() {
                 <p className="parr">This is the final stage of every project, which involves delivering all the components developed in the project with their respective tests. At this stage, the project will be ready to go live.</p>
             </div>
         </div>
-        <Link className='underlink' href={"/"}>Book a meating</Link>
+        <Link className='underlink' href={"/contact-us"}>Book a meating</Link>
     </section>
   )
 }

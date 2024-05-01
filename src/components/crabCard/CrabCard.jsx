@@ -9,7 +9,7 @@ function CrabCard() {
             <div className={styles.textContainer}>
                 <h3>Become an early adopter</h3>
                 <p className='parr'>We are changing the way businesses interpret their data with the Crab system. Our mission is to provide micro and small businesses with a new way to interpret their data, making professional analysis comprehensible. We analyze everything: operation, expenses, costs, your team, your productivity, marketing, and your social media. Get to know where your business is faltering and make decisions based on information.</p>
-                <Link href={"/"} className={styles.btn}>Get early access</Link>
+                <Link href={"/viviana-audience-analitics"} className={styles.btn}>Get early access</Link>
             </div>
             <div className="right">
             <div className={styles.imageContainer}>

@@ -30,7 +30,7 @@ function Page() {
                         <div>
                             <h1><span className="clasicBlue">Need Financing </span>to Fuel Your Digital Transformation?</h1>
                             <p className="parr">
-                                Rest assured, we've got your back. In this era of rapid change, we refuse to leave anyone behind. Our mission is to stand shoulder-to-shoulder with business owners, ensuring they secure their place in the digital realm and navigate through this era of transformation.
+                                Rest assured, we&apos;ve got your back. In this era of rapid change, we refuse to leave anyone behind. Our mission is to stand shoulder-to-shoulder with business owners, ensuring they secure their place in the digital realm and navigate through this era of transformation.
                             </p>
                         </div>
                         <div>

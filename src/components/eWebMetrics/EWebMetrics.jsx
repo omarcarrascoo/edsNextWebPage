@@ -42,7 +42,7 @@ function EWebMetrics() {
             </div>
           </div>
         </div>
-        <Link className='cbtn' href={"/"}>Start Planning</Link>
+        <Link className='cbtn' href={"/contact-us"}>Start Planning</Link>
       </div>
     </section>
   )

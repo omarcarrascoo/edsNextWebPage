@@ -7,6 +7,7 @@ import ContactCard from '@/components/contactCard/ContactCard'
 import EPrintCard from '@/components/ePrintCard/EPrintCard'
 import EStoreFinacial from '@/components/eStoreFinacial/EStoreFinacial'
 import EWebMetrics from '@/components/eWebMetrics/EWebMetrics'
+import MainFooter from '@/components/mainFooter/mainFooter'
 import MainHeader from '@/components/mainHeader/MainHeader'
 import React from 'react'
 
@@ -30,7 +31,7 @@ function Page() {
             <EPrintCard/>
             <AboutAgile/>
             <ContactCard/>
-            
+            <MainFooter/>
         </main>
     </>
   )

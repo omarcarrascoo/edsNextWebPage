@@ -1,6 +1,7 @@
 import React from 'react'
 import styles from './eWeb.module.css'
 import Image from 'next/image'
+import Link from 'next/link'
 function EWebCard() {
   return (
     <section className={styles.eWebCard}>
@@ -11,7 +12,7 @@ function EWebCard() {
           <p className={`parr ${styles.parrEweb}`}>With an E-page, <span className="none">gain insights into your visitors, understand your audience, and get a sense of what they expect.</span> Track your visits and calls to action, and identify areas where your page may be falling short.</p>
           <div className={styles.btnContainer}>
           <button className={`cbtn ${styles.btnEWeb}`}>
-            Start Planning
+           <Link href={"/e-web"}>Learn More</Link>
           </button>
           </div>
         </div>

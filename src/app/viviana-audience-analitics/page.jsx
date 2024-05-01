@@ -17,7 +17,7 @@ function Page() {
                     <div className={styles.text}>
                         <h1>VIVIANA</h1>
                         <p className='parr'>
-                            Be among the first to experience the power of Viviana! We're inviting early adopters to join our beta program for this revolutionary tool. Viviana is an all-encompassing audience analytics solution that seamlessly integrates with social media platforms, websites, online stores, and business applications. With Viviana at your fingertips, you'll gain invaluable insights into marketing performance and user behavior with your products. Uncover hidden opportunities within your digital strategies and receive clear metrics pinpointing areas where your business may be falling short in the digital landscape. Don't miss this opportunity to stay ahead of the curve with Viviana.
+                            Be among the first to experience the power of Viviana! We&apos;re inviting early adopters to join our beta program for this revolutionary tool. Viviana is an all-encompassing audience analytics solution that seamlessly integrates with social media platforms, websites, online stores, and business applications. With Viviana at your fingertips, you&apos;ll gain invaluable insights into marketing performance and user behavior with your products. Uncover hidden opportunities within your digital strategies and receive clear metrics pinpointing areas where your business may be falling short in the digital landscape. Don&apos;t miss this opportunity to stay ahead of the curve with Viviana.
                         </p>
                     </div>
                     <div className={styles.text}>

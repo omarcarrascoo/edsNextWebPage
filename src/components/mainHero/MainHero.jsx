@@ -1,6 +1,7 @@
 import React from 'react'
 import styles from './mainHero.module.css'
 import Image from 'next/image'
+import Link from 'next/link'
 function MainHero() {
   return (
     <section className={styles.mainHero}>
@@ -10,7 +11,7 @@ function MainHero() {
                 <br /> BUSINESS</span> INTO <br/> THE <span className="clasicBlue">DIGITAL</span> ERA</h1>
                 <p className="bigParr">Your customers are online, your competitors are online, and the opportunities are online. 
                 What are you waiting for?</p>
-                <button className='cbtn'>Start Planning</button>
+                <button className='cbtn'><Link href={"/contact-us"}>Start Planning</Link></button>
             </div>
             <div className={styles.imageContainer}>
                 <Image src={"/world.svg"} alt='Era Digital Solution world' fill/>
