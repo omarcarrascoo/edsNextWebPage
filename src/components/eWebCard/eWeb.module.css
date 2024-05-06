@@ -105,7 +105,7 @@
         width: 100%;
         border: 2px solid var(--blue);
         font-weight: 500;
-        background: var(--blue);
+        /* background: var(--blue); */
         color: var(--white);
     }
     .textContainer h2{

@@ -44,7 +44,7 @@ body{
 }
 .cbtn:hover{
     padding: 14px 20px;
-    max-width: 200px;
+    /* max-width: 200px; */
     font-size: 24px;
     color: var(--white);
     background: var(--blue);

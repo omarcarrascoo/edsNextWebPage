@@ -6,7 +6,7 @@ function EStoreReasons() {
     <section className={styles.eStoreReasons}>
         <div className={styles.container}>
             <div className={styles.imgContainer}>
-                <Image alt='Reaso to have an online store or ecommerce with era digital solutions' src={"/moneyguy.svg"} fill/>
+                <Image alt='Five Reasons to have an online store or ecommerce with era digital solutions' src={"/moneyguy.svg"} fill/>
             </div>
             <div className={styles.textContainer}>
                 <h2><span className="clasicBlue">5 Reason</span> to have an online store/e-commerce</h2>
