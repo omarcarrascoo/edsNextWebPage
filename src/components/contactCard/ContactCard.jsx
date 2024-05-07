@@ -1,8 +1,34 @@
-import React from 'react'
+"use client"
+import React, { useState } from 'react'
 import styles from './contactCard.module.css'
 import Image from 'next/image'
 import Link from 'next/link'
+import axios from 'axios';
+
 function ContactCard() {
+  const [formData, setFormData] = useState();
+      const handleChange = (e) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+      };
+
+      const mail = async (data) => {
+        try {
+          const response = await axios.post(`https://ivanatovillaart.com/api/mail/startProject`, data, {
+            headers: {
+              'Content-Type': 'application/json',
+            },
+          });
+          alert("Your message has been received. Someone will be in contact with you shortly.")
+          
+        } catch (error) {
+          console.log('Error sending email:', error);
+        }
+      };
+
+      const handleSubmit = (e) => {
+        e.preventDefault();
+        mail(formData);
+      };
   return (
     <section className={styles.contactCard}>
         <div className={styles.container}>
@@ -34,15 +60,15 @@ function ContactCard() {
            </div>
             <div className={styles.formContainer}>
               <p className="parr clasicBlue">Leave us your contact data and will contact you for a first interview</p>
-              <form action="">
+              <form action="POST" onSubmit={handleSubmit}>
                 <label htmlFor="name">Full Name</label>
-                <input type="text" placeholder='Your name...' />
+                <input name="name" type="text" placeholder='Your name...' />
                 <label htmlFor="email">Email</label>
-                <input name='email' type="email" placeholder='example@gmail.com' />
+                <input name='email' type="email" placeholder='example@gmail.com' onChange={handleChange}/>
                 <label htmlFor="subject">Subject:</label>
-                <input name="subject" type="text" placeholder='I want to develop my e-store...' />
+                <input name="subject" type="text" placeholder='I want to develop my e-store...' onChange={handleChange}/>
                 <label htmlFor="message">Message</label>
-                <textarea name="message" id="message" cols="30" rows="10" placeholder="I have an awsome product that i want to start selling everywere and anytime"></textarea>
+                <textarea name="message" id="message" cols="30" rows="10" placeholder="I have an awsome product that i want to start selling everywere and anytime" onChange={handleChange}></textarea>
                 <button className='cbtn'>Start Planning</button>
               </form>
             </div>
