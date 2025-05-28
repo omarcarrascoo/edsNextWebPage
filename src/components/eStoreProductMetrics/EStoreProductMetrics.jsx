@@ -7,8 +7,8 @@ function EStoreProductMetrics() {
     <section className={styles.eStoreProductMetrics}>
         <div className={styles.container}>
             <div className={`${styles.imgContainer} ${styles.mobile}`}>
-                <Image className={styles.desktop} src={"/neckles.png"} fill alt='Get metric of your products with era digital solution'/>
-                <Image className={styles.mobile} src={"/neckles3.png"} fill alt='Get metric of your products with era digital solution'/>
+                <Image className={styles.desktop} src={"/v2.jpg"} fill alt='Get metric of your products with era digital solution'/>
+                <Image className={styles.mobile} src={"/v2.jpg"} fill alt='Get metric of your products with era digital solution'/>
             </div>
             <div className={styles.textContainer}>
                 <h2>Ecommerce that give you <span className="clasicBlue">metrics</span> of your products</h2>
@@ -26,7 +26,7 @@ function EStoreProductMetrics() {
                 <Link className='underlink' href={"/contact-us"}>Start selling</Link>
             </div>
             <div className={`${styles.imgContainer} ${styles.desktop}`}>
-                <Image className={styles.desktop} src={"/brainwareapp.png"} fill alt='Get metric of your products with era digital solution'/>
+                <Image className={styles.desktop} src={"/v2.jpg"} fill alt='Get metric of your products with era digital solution'/>
             </div>
         </div>
     </section>

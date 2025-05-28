@@ -10,6 +10,7 @@
     width: 90%;
     align-items: center;
     justify-content: center;
+    gap: 50px;
 }
 .textContainer{
     width: 50%;
@@ -25,7 +26,7 @@
 }
 .imgContainer{
     position: relative;
-    width: 600px;
+    width: 400px;
     height: 1000px;
 } 
 .mobile{
