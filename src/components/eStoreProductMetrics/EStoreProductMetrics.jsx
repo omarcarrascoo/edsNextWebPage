@@ -26,7 +26,7 @@ function EStoreProductMetrics() {
                 <Link className='underlink' href={"/contact-us"}>Start selling</Link>
             </div>
             <div className={`${styles.imgContainer} ${styles.desktop}`}>
-                <Image className={styles.desktop} src={"/neckles.png"} fill alt='Get metric of your products with era digital solution'/>
+                <Image className={styles.desktop} src={"/brainwareapp.png"} fill alt='Get metric of your products with era digital solution'/>
             </div>
         </div>
     </section>
