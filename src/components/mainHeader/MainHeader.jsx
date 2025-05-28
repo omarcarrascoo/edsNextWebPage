@@ -18,7 +18,12 @@ function MainHeader() {
 
 
   return (
+    <>
+    
     <header className={styles.mainHeader}>
+      <div className={styles.promotion}>
+            <Link href={"/e-store"} className="parr">100% Free Ecommerce for ENTREPRENEURs</Link>
+      </div>
         <div className={styles.container}>
             <p><span className={styles.blue}>ERA |</span> DIGITAL SOLUTIONS</p>
             <nav className={styles.mainNav}>
@@ -67,6 +72,7 @@ function MainHeader() {
                 </ul>
             </nav>
     </header>
+    </>
   )
 }
 

@@ -1,17 +1,42 @@
 .mainHeader{
     width: 100%;
-    min-height: 100px;
+    min-height: 124px;
     display: flex;
+    flex-direction: column;
     align-items: center;
     position: fixed;
     top: 0;
     z-index: 100;
-background: rgba(79, 79, 79, 0.149);
-box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-backdrop-filter: blur(5.1px);
--webkit-backdrop-filter: blur(5.1px);
+    background: rgba(79, 79, 79, 0.149);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(5.1px);
+    -webkit-backdrop-filter: blur(5.1px);
 }
+.promotion{
+    width: 100%;
+    background-color: var(--blue);
+    text-align: center;
+    padding: 8px;
+    margin-bottom: 5px;
+
+    text-decoration: underline;
+    transition: all .3s;
+    border: 1px solid var(--blue);
+}
+.promotion a{
+    font-size: 1rem;
+    color: var(--white);
+}
+.promotion:hover{
+    background: none;
+    color:  var(--blue);
+}
+.promotion:hover a{
+    color:  var(--blue);
+}
+
 .container{
+    padding-top: 20px;
     width: 90%;
     margin: 0 auto;
     display: flex;
@@ -159,11 +184,22 @@ backdrop-filter: blur(5.1px);
 
 }
 @media screen and (max-width: 450px) {
+    .promotion{
+        width: 100%;
+        background-color: var(--blue);
+        text-align: center;
+        padding: 8px;
+        margin-bottom: 0px;
+    
+        text-decoration: underline;
+        transition: all .3s;
+        border: 1px solid var(--blue);
+    }
     .hamb{
         gap: 8px
     }
     .mainHeader{
-        height: 80px;
+        min-height: 80px;
     }
     .hamb div{
         height: 2px;
