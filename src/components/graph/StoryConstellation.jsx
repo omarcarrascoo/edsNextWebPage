@@ -526,43 +526,129 @@ function buildStoryNodes(modules) {
 // MESH PRIMITIVES
 // =============================================================================
 
+// Each service gets a distinctive identity: { hub, sat, micro }
+// Hubs get heavier/more intricate shapes; satellites mirror or contrast
+const SERVICE_SHAPE = {
+  'web-apps':   { hub: 'icosa',   sat: 'octa',    micro: 'dot'   },
+  'ai':         { hub: 'dodeca',  sat: 'tetra',   micro: 'tetra' },
+  'mobile':     { hub: 'cube',    sat: 'cube',    micro: 'dot'   },
+  'backend':    { hub: 'octa',    sat: 'cube',    micro: 'octa'  },
+  'dashboards': { hub: 'cyl',     sat: 'cube',    micro: 'dot'   },
+  'ecommerce':  { hub: 'cone',    sat: 'tetra',   micro: 'tetra' },
+  'fintech':    { hub: 'torus',   sat: 'octa',    micro: 'dot'   },
+  'security':   { hub: 'spike',   sat: 'tetra',   micro: 'tetra' },
+  'messaging':  { hub: 'sphere',  sat: 'icosa',   micro: 'dot'   },
+  'logistics':  { hub: 'prism',   sat: 'tetra',   micro: 'octa'  },
+}
+
+// Pick a geometry "shape" deterministically per node so rendering is stable
+function pickShape(node, isCore, isMicro) {
+  // Service nodes: use the per-service mapping so each cluster looks different
+  if (node.isService && node.serviceSlug && SERVICE_SHAPE[node.serviceSlug]) {
+    const m = SERVICE_SHAPE[node.serviceSlug]
+    if (isCore) return m.hub
+    if (isMicro) return m.micro
+    return m.sat
+  }
+  if (isCore) return 'icosa'
+  if (isMicro) {
+    const s = (node.id || '').charCodeAt(2) || 0
+    return ['dot', 'tetra', 'octa'][s % 3]
+  }
+  const s = (node.id || '').split('').reduce((a, c) => a + c.charCodeAt(0), 0)
+  return ['octa', 'tetra', 'icosa', 'dodeca', 'cube'][s % 5]
+}
+
 function NodeMesh({ node, color, opacityRef }) {
   const { type = 'node', label, meta, tag, labelPlacement = 'right', sonar = true } = node
   const isCore  = type === 'core'
   const isMicro = type === 'micro'
   const size = isCore ? 1.4 : isMicro ? 0.18 : 0.55
-  const segments = isCore ? 1 : 0
+
+  const shape = useMemo(() => pickShape(node, isCore, isMicro), [node.id, isCore, isMicro])
 
   const innerRef = useRef()
   const sonarRef = useRef()
   const dotRef   = useRef()
   const meshRef  = useRef()
   const outerRef = useRef()
+  const shellRef = useRef()
   const torusARef = useRef()
   const torusBRef = useRef()
+  const torusCRef = useRef()
+  const orbitARef = useRef()
+  const orbitBRef = useRef()
   const lightRef = useRef()
   const labelRef = useRef()
+
+  // per-node phase so they don't pulse in lockstep
+  const phase = useMemo(
+    () => ((node.id || '').split('').reduce((a, c) => a + c.charCodeAt(0), 0) % 1000) / 1000,
+    [node.id]
+  )
 
   useFrame((state) => {
     const t = state.clock.elapsedTime
     const op = opacityRef.current
+
+    // breathing pulse — subtle scale "alive" feel
+    const breath = 1 + Math.sin(t * 1.4 + phase * 6.28) * (isCore ? 0.04 : isMicro ? 0.18 : 0.07)
+
     if (innerRef.current) {
-      innerRef.current.rotation.x = t * 0.18
-      innerRef.current.rotation.y = t * 0.24
+      innerRef.current.rotation.x = t * (isCore ? 0.22 : 0.18)
+      innerRef.current.rotation.y = t * (isCore ? 0.30 : 0.24) + phase * 6.28
+      innerRef.current.scale.setScalar(breath)
+    }
+    if (outerRef.current) {
+      // counter-rotation makes the wireframe alive
+      outerRef.current.rotation.x = -t * 0.34 + phase * 3
+      outerRef.current.rotation.z = t * 0.20
+      outerRef.current.scale.setScalar(1 / breath)  // inverse breath = tension
+    }
+    if (shellRef.current) {
+      shellRef.current.rotation.y = t * 0.10 + phase * 6.28
+      shellRef.current.rotation.z = t * 0.08
     }
     if (sonarRef.current && !isMicro) {
-      const cycle = (t * 0.42) % 1
+      const cycle = ((t * 0.42) + phase) % 1
       sonarRef.current.scale.setScalar(1 + cycle * 2.4)
       sonarRef.current.material.opacity = 0.5 * (1 - cycle) * op
     }
     if (dotRef.current) {
-      const pulse = 0.65 + Math.sin(t * 2.8) * 0.35
+      const pulse = 0.65 + Math.sin(t * 2.8 + phase * 6.28) * 0.35
       dotRef.current.material.opacity = pulse * op
     }
-    if (meshRef.current) meshRef.current.material.opacity = (isMicro ? 0.45 : 0.85) * op
+    if (meshRef.current) meshRef.current.material.opacity = (isMicro ? 0.55 : 0.85) * op
     if (outerRef.current) outerRef.current.material.opacity = 0.55 * op
-    if (torusARef.current) torusARef.current.material.opacity = 0.35 * op
-    if (torusBRef.current) torusBRef.current.material.opacity = 0.22 * op
+    if (shellRef.current) shellRef.current.material.opacity = 0.18 * op
+
+    if (torusARef.current) {
+      torusARef.current.rotation.z = t * 0.4
+      torusARef.current.material.opacity = 0.45 * op
+    }
+    if (torusBRef.current) {
+      torusBRef.current.rotation.z = -t * 0.25
+      torusBRef.current.rotation.x = Math.PI / 2 + Math.sin(t * 0.3) * 0.2
+      torusBRef.current.material.opacity = 0.32 * op
+    }
+    if (torusCRef.current) {
+      torusCRef.current.rotation.x = t * 0.18
+      torusCRef.current.rotation.y = t * 0.22
+      torusCRef.current.material.opacity = 0.22 * op
+    }
+
+    // little orbiting spheres around cores
+    if (orbitARef.current) {
+      const a = t * 0.9 + phase * 6.28
+      orbitARef.current.position.set(Math.cos(a) * (size + 0.6), Math.sin(a) * (size + 0.6) * 0.4, Math.sin(a * 0.7) * 0.3)
+      orbitARef.current.material.opacity = 0.85 * op
+    }
+    if (orbitBRef.current) {
+      const a = -t * 0.6 + phase * 3.14
+      orbitBRef.current.position.set(Math.cos(a) * (size + 1.0), Math.sin(a * 1.3) * 0.3, Math.sin(a) * (size + 1.0) * 0.6)
+      orbitBRef.current.material.opacity = 0.7 * op
+    }
+
     if (lightRef.current) lightRef.current.intensity = (isCore ? 1.4 : 0.45) * op
     if (labelRef.current) labelRef.current.style.opacity = String(op)
   })
@@ -576,29 +662,70 @@ function NodeMesh({ node, color, opacityRef }) {
     return { x: r, y: 0, a: 'left' }
   }, [labelPlacement, size])
 
+  // Geometry by shape
+  const renderShapeGeometry = (s, sz) => {
+    switch (s) {
+      case 'icosa':  return <icosahedronGeometry args={[sz, 1]} />
+      case 'tetra':  return <tetrahedronGeometry args={[sz, 0]} />
+      case 'dodeca': return <dodecahedronGeometry args={[sz, 0]} />
+      case 'cube':   return <boxGeometry args={[sz * 1.15, sz * 1.15, sz * 1.15]} />
+      case 'dot':    return <sphereGeometry args={[sz * 0.6, 10, 10]} />
+      case 'sphere': return <sphereGeometry args={[sz, 16, 12]} />
+      case 'cyl':    return <cylinderGeometry args={[sz * 0.85, sz * 0.85, sz * 1.6, 12, 1]} />
+      case 'cone':   return <coneGeometry args={[sz * 1.05, sz * 1.7, 14, 1]} />
+      case 'torus':  return <torusGeometry args={[sz * 0.95, sz * 0.32, 12, 28]} />
+      case 'spike':  return <coneGeometry args={[sz * 0.55, sz * 2.0, 5, 1]} />  // sharp 5-side spike
+      case 'prism':  return <cylinderGeometry args={[sz * 0.9, sz * 0.9, sz * 1.4, 6, 1]} />  // hexagonal prism
+      case 'octa':
+      default:       return <octahedronGeometry args={[sz, 0]} />
+    }
+  }
+
+  // Companion shape for the counter-rotating mini — keeps each cluster cohesive
+  const counterShapeFor = (s) => {
+    const map = {
+      icosa: 'octa', dodeca: 'icosa', octa: 'tetra', tetra: 'octa',
+      cube: 'octa', sphere: 'octa', cyl: 'tetra', cone: 'tetra',
+      torus: 'sphere', spike: 'tetra', prism: 'octa',
+    }
+    return map[s] || 'octa'
+  }
+
   return (
     <group>
       {!isMicro && (
-        <pointLight ref={lightRef} color={color} intensity={0} distance={isCore ? 8 : 3.5} decay={2} />
+        <pointLight ref={lightRef} color={color} intensity={0} distance={isCore ? 9 : 4} decay={2} />
       )}
 
+      {/* INNER wireframe — primary shape */}
       <mesh ref={(el) => { innerRef.current = el; meshRef.current = el }}>
-        <octahedronGeometry args={[size, segments]} />
+        {renderShapeGeometry(shape, size)}
         <meshBasicMaterial color={color} wireframe transparent opacity={0} />
       </mesh>
 
+      {/* OUTER counter-rotating mini shape (mid nodes + cores) */}
       {!isMicro && (
         <mesh ref={outerRef}>
-          <octahedronGeometry args={[size * 0.55, 0]} />
+          {renderShapeGeometry(counterShapeFor(shape), size * 0.45)}
           <meshBasicMaterial color={color} wireframe transparent opacity={0} />
         </mesh>
       )}
 
+      {/* SHELL — translucent outer hull (cores only) */}
+      {isCore && (
+        <mesh ref={shellRef}>
+          <icosahedronGeometry args={[size * 1.7, 1]} />
+          <meshBasicMaterial color={color} wireframe transparent opacity={0} />
+        </mesh>
+      )}
+
+      {/* CENTER DOT */}
       <mesh ref={dotRef}>
         <sphereGeometry args={[isMicro ? 0.06 : isCore ? 0.18 : 0.11, 12, 12]} />
         <meshBasicMaterial color={color} transparent opacity={0} />
       </mesh>
 
+      {/* SONAR ring (mid + core) */}
       {sonar && !isMicro && (
         <mesh ref={sonarRef} rotation={[Math.PI / 2, 0, 0]}>
           <ringGeometry args={[size + 0.05, size + 0.1, 48]} />
@@ -606,14 +733,27 @@ function NodeMesh({ node, color, opacityRef }) {
         </mesh>
       )}
 
+      {/* CORE: 3 toroidal orbits + 2 orbiting beads */}
       {isCore && (
         <>
           <mesh ref={torusARef} rotation={[Math.PI / 2, 0, 0]}>
-            <torusGeometry args={[size + 0.6, 0.012, 8, 96]} />
+            <torusGeometry args={[size + 0.7, 0.014, 8, 110]} />
             <meshBasicMaterial color="#2DE2C5" transparent opacity={0} />
           </mesh>
           <mesh ref={torusBRef} rotation={[Math.PI / 2, Math.PI / 4, Math.PI / 6]}>
-            <torusGeometry args={[size + 1.0, 0.008, 8, 96]} />
+            <torusGeometry args={[size + 1.1, 0.010, 8, 110]} />
+            <meshBasicMaterial color="#38BDF8" transparent opacity={0} />
+          </mesh>
+          <mesh ref={torusCRef} rotation={[Math.PI / 3, Math.PI / 3, 0]}>
+            <torusGeometry args={[size + 1.5, 0.008, 8, 110]} />
+            <meshBasicMaterial color="#A8B3C1" transparent opacity={0} />
+          </mesh>
+          <mesh ref={orbitARef}>
+            <sphereGeometry args={[0.07, 10, 10]} />
+            <meshBasicMaterial color={color} transparent opacity={0} />
+          </mesh>
+          <mesh ref={orbitBRef}>
+            <sphereGeometry args={[0.05, 10, 10]} />
             <meshBasicMaterial color="#38BDF8" transparent opacity={0} />
           </mesh>
         </>
@@ -870,7 +1010,7 @@ function Scene({ modules }) {
       if (ref) ref.position.copy(s.pos)
     }
 
-    // ===== Edges =====
+    // ===== Edges with subtle breathing pulse =====
     for (let i = 0; i < edges.length; i++) {
       const e = edges[i]
       const ai = idIdx.get(e.from)
@@ -887,7 +1027,9 @@ function Scene({ modules }) {
         positions.needsUpdate = true
       }
       const visible = Math.min(states[ai].opacity.current, states[bi].opacity.current)
-      ref.material.opacity = (e.opacity ?? 0.4) * visible
+      // gentle breathing: each edge pulses on its own phase
+      const breath = 0.85 + Math.sin(t * 1.1 + i * 0.31) * 0.15
+      ref.material.opacity = (e.opacity ?? 0.4) * visible * breath
     }
   })
 
@@ -895,6 +1037,9 @@ function Scene({ modules }) {
     <>
       <ambientLight intensity={0.35} />
       <fog attach="fog" args={['#070A0F', 14, 42]} />
+
+      {/* Atmospheric dust */}
+      <DustField />
 
       {/* Edges */}
       {edges.map((e, i) => {
@@ -944,6 +1089,69 @@ function Scene({ modules }) {
         )
       })}
     </>
+  )
+}
+
+function DustField() {
+  const pointsRef = useRef()
+  const geomRef = useRef()
+  const COUNT = 400
+
+  const { positions, basePositions, seeds } = useMemo(() => {
+    const positions = new Float32Array(COUNT * 3)
+    const basePositions = new Float32Array(COUNT * 3)
+    const seeds = new Float32Array(COUNT)
+    for (let i = 0; i < COUNT; i++) {
+      // distribute along the entire camera path range, with random radius
+      const z = -90 + Math.random() * 110           // z in [-90, 20]
+      const r = 4 + Math.random() * 22              // radial spread
+      const angle = Math.random() * Math.PI * 2
+      const x = Math.cos(angle) * r
+      const y = Math.sin(angle) * r * 0.55          // squashed vertically
+      positions[i * 3]     = x
+      positions[i * 3 + 1] = y
+      positions[i * 3 + 2] = z
+      basePositions[i * 3]     = x
+      basePositions[i * 3 + 1] = y
+      basePositions[i * 3 + 2] = z
+      seeds[i] = Math.random() * 1000
+    }
+    return { positions, basePositions, seeds }
+  }, [])
+
+  useFrame((state) => {
+    const t = state.clock.elapsedTime
+    if (!geomRef.current) return
+    const arr = geomRef.current.attributes.position.array
+    for (let i = 0; i < COUNT; i++) {
+      const s = seeds[i]
+      const idx = i * 3
+      arr[idx]     = basePositions[idx]     + Math.sin(t * 0.18 + s * 0.013) * 0.6
+      arr[idx + 1] = basePositions[idx + 1] + Math.cos(t * 0.21 + s * 0.011) * 0.5
+      arr[idx + 2] = basePositions[idx + 2] + Math.sin(t * 0.15 + s * 0.017) * 0.4
+    }
+    geomRef.current.attributes.position.needsUpdate = true
+  })
+
+  return (
+    <points ref={pointsRef}>
+      <bufferGeometry ref={geomRef}>
+        <bufferAttribute
+          attach="attributes-position"
+          count={COUNT}
+          array={positions}
+          itemSize={3}
+        />
+      </bufferGeometry>
+      <pointsMaterial
+        color="#2DE2C5"
+        size={0.04}
+        sizeAttenuation
+        transparent
+        opacity={0.45}
+        depthWrite={false}
+      />
+    </points>
   )
 }
 

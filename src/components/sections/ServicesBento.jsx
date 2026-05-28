@@ -224,7 +224,7 @@ function ServicePanel({ item, index, total }) {
 
   return (
     <article
-      className="shrink-0 w-[100vw] h-screen flex items-center justify-center px-6 sm:px-12"
+      className="shrink-0 w-[100vw] h-screen flex items-center justify-center px-6 sm:px-12 pt-20 pb-24 sm:pt-28 sm:pb-20"
     >
       <div className="grid lg:grid-cols-[1.05fr_1fr] gap-10 items-center max-w-6xl w-full">
         {/* LEFT — editorial copy */}
@@ -236,8 +236,16 @@ function ServicePanel({ item, index, total }) {
 
           <div className="flex items-baseline gap-5 mb-4">
             <span
-              className="font-display font-semibold text-fog-50/[0.08] leading-none"
-              style={{ fontSize: 'clamp(96px, 16vw, 200px)', letterSpacing: '-0.05em' }}
+              className="font-display font-semibold leading-none"
+              style={{
+                fontSize: 'clamp(80px, 14vw, 180px)',
+                letterSpacing: '-0.05em',
+                background: 'linear-gradient(180deg, rgba(244,247,250,0.42) 0%, rgba(45,226,197,0.20) 100%)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                backgroundClip: 'text',
+                textShadow: '0 0 30px rgba(45,226,197,0.12)',
+              }}
             >
               {num}
             </span>
@@ -310,6 +318,7 @@ export default function ServicesBento() {
   const story = useScrollStory()
   const wrapperRef = useRef(null)
   const trackRef = useRef(null)
+  const headerRef = useRef(null)
   const [activeIdx, setActiveIdx] = useState(0)
   const items = t.services.items
   const count = items.length
@@ -336,6 +345,20 @@ export default function ServicesBento() {
       if (trackRef.current) {
         const dx = -progress * (count - 1) * 100  // vw
         trackRef.current.style.transform = `translate3d(${dx}vw, 0, 0)`
+      }
+
+      // On mobile, fade the section header out as the horizontal track starts moving
+      if (headerRef.current) {
+        const isMobile = window.innerWidth < 1024
+        if (isMobile && active) {
+          // Fade window: 0..0.06 of progress => 1..0
+          const fade = Math.max(0, Math.min(1, 1 - progress / 0.06))
+          headerRef.current.style.opacity = String(fade)
+          headerRef.current.style.transform = `translateY(${(1 - fade) * -8}px)`
+        } else {
+          headerRef.current.style.opacity = '1'
+          headerRef.current.style.transform = 'translateY(0px)'
+        }
       }
 
       // Push pin state to story scene
@@ -367,15 +390,18 @@ export default function ServicesBento() {
       {/* Sticky viewport */}
       <div className="sticky top-0 h-screen overflow-hidden">
         {/* Top bar */}
-        <div className="absolute top-0 left-0 right-0 z-20 px-6 sm:px-12 pt-8 pointer-events-none">
+        <div
+          ref={headerRef}
+          className="absolute top-0 left-0 right-0 z-20 px-6 sm:px-12 pt-5 sm:pt-8 pointer-events-none will-change-[opacity,transform]"
+        >
           <div className="flex items-end justify-between gap-6">
             <div>
-              <div className="eyebrow mb-3">
+              <div className="eyebrow mb-2 sm:mb-3">
                 <span className="eyebrow-dot" />
                 {t.services.eyebrow}
               </div>
-              <h2 className="display-md text-balance">
-                <span className="text-fog-50">{t.services.title}</span>
+              <h2 className="font-display font-semibold tracking-tight text-fog-50 text-balance text-[clamp(20px,3.6vw,38px)] leading-[1.05]">
+                {t.services.title}
               </h2>
             </div>
             <p className="hidden md:block mono-label text-fog-500 text-[10px] max-w-xs text-right">
