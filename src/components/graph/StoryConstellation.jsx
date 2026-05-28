@@ -23,6 +23,7 @@ export function ScrollProvider({ children }) {
   const progressRef = useRef(0)
   const sectionsRef = useRef(new Map())
   const tickersRef = useRef(new Set())
+  const servicesPinRef = useRef({ active: false, progress: 0, total: 0 })
 
   useEffect(() => {
     let raf = 0
@@ -62,6 +63,8 @@ export function ScrollProvider({ children }) {
       tickersRef.current.add(fn)
       return () => tickersRef.current.delete(fn)
     },
+    setServicesPin: (state) => { servicesPinRef.current = state },
+    getServicesPin: () => servicesPinRef.current,
   }), [])
 
   return <ScrollContext.Provider value={value}>{children}</ScrollContext.Provider>
@@ -102,6 +105,90 @@ const CAM_PATH = [
   { z: -58, y: 0.2, look: { x: 0, y: 0, z: -66 } },  // act 4
   { z: -80, y: 0,   look: { x: 0, y: 0, z: -92 } },  // act 5
 ]
+
+// Service mini-constellations (laid out on a horizontal track at SERVICE_Z)
+// Each gets a tiny graph: 1 hub + 5-6 satellites arranged with personality
+const SERVICE_Z = -30
+const SERVICE_X_GAP = 18
+export const SERVICE_SLUGS = [
+  'web-apps', 'ai', 'mobile', 'backend', 'dashboards',
+  'ecommerce', 'fintech', 'security', 'messaging', 'logistics',
+]
+const SERVICE_GRAPH = {
+  'web-apps':   { hub: 'WEB',      color: 'active', sats: ['SaaS','CRM','Portal','Admin','API'] },
+  'ai':         { hub: 'AI',       color: 'active', sats: ['Agent','LLM','Tools','Memory','Rules','Loop'] },
+  'mobile':     { hub: 'MOBILE',   color: 'live',   sats: ['iOS','Android','Push','Auth','Sync'] },
+  'backend':    { hub: 'BACKEND',  color: 'live',   sats: ['REST','GraphQL','DB','Queue','Cache','Cloud'] },
+  'dashboards': { hub: 'BI',       color: 'run',    sats: ['KPI','Chart','Alert','Export','Live'] },
+  'ecommerce':  { hub: 'COMMERCE', color: 'live',   sats: ['Cart','POS','Stock','Pay','SKU'] },
+  'fintech':    { hub: 'FINTECH',  color: 'active', sats: ['Auth','Audit','Cards','Tx','Bank','Logs'] },
+  'security':   { hub: 'SECURITY', color: 'warn',   sats: ['Pentest','Audit','Auth','Harden','Scan'] },
+  'messaging':  { hub: 'REALTIME', color: 'run',    sats: ['Chat','Push','Inbox','WS','Email'] },
+  'logistics':  { hub: 'ROUTES',   color: 'live',   sats: ['Track','Driver','ETA','Map','Stop'] },
+}
+
+function buildServiceCluster(slug, originX) {
+  const def = SERVICE_GRAPH[slug]
+  if (!def) return { nodes: [], edges: [], flows: [] }
+  const nodes = []
+  const edges = []
+  const flows = []
+  const z = SERVICE_Z
+  const hubId = `svc-${slug}-hub`
+  nodes.push({
+    id: hubId,
+    type: 'core',
+    pos: [originX, 0, z],
+    label: def.hub,
+    meta: 'cluster',
+    state: def.color,
+    fixed: true,
+    isService: true,
+    serviceSlug: slug,
+    actStart: 0.28,
+    actEnd: 0.55,
+  })
+  def.sats.forEach((label, i) => {
+    const angle = (-Math.PI / 2) + (i * (2 * Math.PI / def.sats.length))
+    const r = 3.6
+    const x = originX + Math.cos(angle) * r
+    const y = Math.sin(angle) * r * 0.78
+    const z2 = z + Math.sin(angle * 2) * 0.4
+    const id = `svc-${slug}-s${i}`
+    const placement = Math.abs(Math.cos(angle)) > Math.abs(Math.sin(angle))
+      ? (Math.cos(angle) > 0 ? 'right' : 'left')
+      : (Math.sin(angle) > 0 ? 'top' : 'bottom')
+    nodes.push({
+      id, type: 'node', pos: [x, y, z2],
+      label, state: ['active','run','live','live','run','active'][i % 6],
+      labelPlacement: placement,
+      isService: true,
+      serviceSlug: slug,
+      actStart: 0.28,
+      actEnd: 0.55,
+    })
+    edges.push({ from: hubId, to: id, opacity: 0.5, strong: true, isService: true, serviceSlug: slug })
+    if (i % 2 === 0) {
+      flows.push({ from: hubId, to: id, color: '#2DE2C5', delay: i * 0.3, duration: 2.4, isService: true, serviceSlug: slug })
+    }
+  })
+  // a couple micros for atmosphere
+  for (let i = 0; i < 6; i++) {
+    const a = (i / 6) * Math.PI * 2 + 0.4
+    const r = 2 + (i % 3) * 0.5
+    nodes.push({
+      id: `svc-${slug}-m${i}`,
+      type: 'micro',
+      pos: [originX + Math.cos(a) * r, Math.sin(a) * r * 0.7, z + Math.sin(a*3) * 0.6],
+      state: i % 3 === 0 ? 'run' : i % 3 === 1 ? 'active' : 'live',
+      isService: true,
+      serviceSlug: slug,
+      actStart: 0.28,
+      actEnd: 0.55,
+    })
+  }
+  return { nodes, edges, flows }
+}
 
 function buildStoryNodes(modules) {
   const nodes = []
@@ -212,15 +299,50 @@ function buildStoryNodes(modules) {
   edges.push({ from: 'prob-2', to: 'prob-4', dashed: true, opacity: 0.18, color: '#F5B544' })
   edges.push({ from: 'prob-0', to: 'prob-2', dashed: true, opacity: 0.18, color: '#F5B544' })
 
-  // ---------- TRANSITION 2 → 3: arrows of light pulling the islands together ----------
-  for (let i = 0; i < 8; i++) {
+  // ---------- TRANSITION 2 → SERVICES TRACK: arrows of light pulling forward ----------
+  for (let i = 0; i < 6; i++) {
     nodes.push({
       id: `t2-m-${i}`,
       type: 'micro',
-      pos: [(Math.random() - 0.5) * 10, (Math.random() - 0.5) * 4, -28 - i * 1.6],
+      pos: [(Math.random() - 0.5) * 10, (Math.random() - 0.5) * 4, -26 - i * 0.7],
       state: i % 2 === 0 ? 'run' : 'active',
-      actStart: 0.32,
-      actEnd: 0.55,
+      actStart: 0.24,
+      actEnd: 0.4,
+    })
+  }
+
+  // ---------- ACT 2.5: Services horizontal track (10 mini-constellations) ----------
+  // Centered around X=0; total span = (count-1) * SERVICE_X_GAP
+  const trackOffsetX = -((SERVICE_SLUGS.length - 1) * SERVICE_X_GAP) / 2
+  SERVICE_SLUGS.forEach((slug, i) => {
+    const x0 = trackOffsetX + i * SERVICE_X_GAP
+    const cluster = buildServiceCluster(slug, x0)
+    cluster.nodes.forEach(n => nodes.push(n))
+    cluster.edges.forEach(e => edges.push(e))
+    cluster.flows.forEach(f => flows.push(f))
+  })
+
+  // dotted thread connecting service hubs along the rail
+  for (let i = 0; i < SERVICE_SLUGS.length - 1; i++) {
+    edges.push({
+      from: `svc-${SERVICE_SLUGS[i]}-hub`,
+      to:   `svc-${SERVICE_SLUGS[i + 1]}-hub`,
+      opacity: 0.22,
+      dashed: true,
+      color: '#38BDF8',
+      isService: true,
+    })
+  }
+
+  // ---------- TRANSITION 2.5 → 3: re-converge to center for Value act ----------
+  for (let i = 0; i < 8; i++) {
+    nodes.push({
+      id: `t2b-m-${i}`,
+      type: 'micro',
+      pos: [(Math.random() - 0.5) * 10, (Math.random() - 0.5) * 4, -34 - i * 1.2],
+      state: i % 2 === 0 ? 'run' : 'active',
+      actStart: 0.55,
+      actEnd: 0.65,
     })
   }
 
@@ -570,6 +692,8 @@ function Scene({ modules }) {
       type: n.type || 'node',
       actStart: n.actStart ?? 0,
       actEnd: n.actEnd ?? 1,
+      isService: n.isService === true,
+      serviceSlug: n.serviceSlug,
       opacity: { current: 0 },
     }))
     idIdxRef.current = new Map(nodes.map((n, i) => [n.id ?? `n${i}`, i]))
@@ -611,29 +735,51 @@ function Scene({ modules }) {
 
     // ===== Camera path driven by scroll progress =====
     const p = story.getProgress ? story.getProgress() : 0  // 0..1
-    const segs = CAM_PATH.length - 1
-    const scaled = p * segs
-    const i0 = Math.min(segs - 1, Math.floor(scaled))
-    const f = scaled - i0
-    const ease = f < 0.5 ? 2 * f * f : 1 - Math.pow(-2 * f + 2, 2) / 2
-    const a = CAM_PATH[i0]
-    const b = CAM_PATH[i0 + 1]
-    const camZ = a.z + (b.z - a.z) * ease
-    const camY = a.y + (b.y - a.y) * ease
-    const lookZ = a.look.z + (b.look.z - a.look.z) * ease
+    const pin = story.getServicesPin ? story.getServicesPin() : null
 
-    camera.position.x += (mouseTarget.current.x * 1.5 - camera.position.x) * 0.06
-    camera.position.y += (camY + mouseTarget.current.y * 0.6 - camera.position.y) * 0.08
-    camera.position.z += (camZ - camera.position.z) * 0.08
-    camera.lookAt(0, 0, lookZ)
+    let targetCamX, targetCamY, targetCamZ, targetLookX, targetLookY, targetLookZ
 
-    cursorPlaneZ.current = lookZ
+    if (pin && pin.active) {
+      // ----- HORIZONTAL TRAVERSAL through services track -----
+      const trackOffsetX = -((SERVICE_SLUGS.length - 1) * SERVICE_X_GAP) / 2
+      const totalSpan = (SERVICE_SLUGS.length - 1) * SERVICE_X_GAP
+      const sliceP = Math.max(0, Math.min(1, pin.progress))
+      const trackX = trackOffsetX + sliceP * totalSpan
+      targetCamX = trackX
+      targetCamY = 0
+      targetCamZ = SERVICE_Z + 12   // pull camera back from track to see clusters
+      targetLookX = trackX
+      targetLookY = 0
+      targetLookZ = SERVICE_Z
+    } else {
+      // ----- VERTICAL NARRATIVE (default) -----
+      const segs = CAM_PATH.length - 1
+      const scaled = p * segs
+      const i0 = Math.min(segs - 1, Math.floor(scaled))
+      const f = scaled - i0
+      const ease = f < 0.5 ? 2 * f * f : 1 - Math.pow(-2 * f + 2, 2) / 2
+      const a = CAM_PATH[i0]
+      const b = CAM_PATH[i0 + 1]
+      targetCamX = 0
+      targetCamY = a.y + (b.y - a.y) * ease
+      targetCamZ = a.z + (b.z - a.z) * ease
+      targetLookX = 0
+      targetLookY = 0
+      targetLookZ = a.look.z + (b.look.z - a.look.z) * ease
+    }
+
+    camera.position.x += (targetCamX + mouseTarget.current.x * 1.5 - camera.position.x) * 0.08
+    camera.position.y += (targetCamY + mouseTarget.current.y * 0.6 - camera.position.y) * 0.08
+    camera.position.z += (targetCamZ - camera.position.z) * 0.08
+    camera.lookAt(targetLookX, targetLookY, targetLookZ)
+
+    cursorPlaneZ.current = targetLookZ
 
     // unproject the mouse to a plane at lookZ, then store world point as cursor
     if (cursorActive.current) {
       const v = new THREE.Vector3(mouseTarget.current.x, mouseTarget.current.y, 0.5).unproject(camera)
       const dir = v.sub(camera.position).normalize()
-      const distance = (lookZ - camera.position.z) / dir.z
+      const distance = (targetLookZ - camera.position.z) / dir.z
       const world = camera.position.clone().add(dir.multiplyScalar(distance))
       cursor.current.copy(world)
     }
@@ -642,15 +788,34 @@ function Scene({ modules }) {
     for (let i = 0; i < states.length; i++) {
       const s = states[i]
       const isMicro = s.type === 'micro'
+      const isService = s.isService === true
 
-      // opacity by "act window" — ease in/out around node lifetime
-      const span = s.actEnd - s.actStart
-      const local = span > 0 ? (p - s.actStart) / span : 0
+      // opacity logic
       let visible = 1
-      if (local < 0 || local > 1) visible = 0
-      else if (local < 0.15) visible = local / 0.15
-      else if (local > 0.85) visible = (1 - local) / 0.15
-      else visible = 1
+      if (isService) {
+        // service nodes only visible during pin, opacity follows distance from camera X
+        if (!pin || !pin.active) {
+          visible = 0
+        } else {
+          const dx = Math.abs(s.base.x - targetCamX)
+          // full opacity within ~6 units of camera, fade to 0 by ~14 units
+          if (dx > 14) visible = 0
+          else if (dx > 6) visible = 1 - (dx - 6) / 8
+          else visible = 1
+        }
+      } else {
+        // narrative nodes: standard act-window opacity, but hidden during pin
+        if (pin && pin.active) {
+          visible = 0
+        } else {
+          const span = s.actEnd - s.actStart
+          const local = span > 0 ? (p - s.actStart) / span : 0
+          if (local < 0 || local > 1) visible = 0
+          else if (local < 0.15) visible = local / 0.15
+          else if (local > 0.85) visible = (1 - local) / 0.15
+          else visible = 1
+        }
+      }
       s.opacity.current += (visible - s.opacity.current) * 0.12
 
       // Wander (idle) motion
