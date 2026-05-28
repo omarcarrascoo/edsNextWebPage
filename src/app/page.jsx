@@ -1,36 +1,34 @@
-import MainHeader from "@/components/mainHeader/MainHeader";
-import styles from "./homepage.module.css";
-// import MainHero from "@/components/mainHero/mainHero";
-import EstoreCard from "@/components/eStoreCard/EstoreCard";
-import VivianaCard from "@/components/vivianaCard/VivianaCard";
-import EPlannerCard from "@/components/ePlannerCard/EPlannerCard";
-import EPrintCard from "@/components/ePrintCard/EPrintCard";
-import EWebCard from "@/components/eWebCard/EWebCardCard";
-import CrabCard from "@/components/crabCard/CrabCard";
-import ContactCard from "@/components/contactCard/ContactCard";
-import MainFooter from "@/components/mainFooter/mainFooter";
-import MainHero from "@/components/mainHero/MainHero";
+import SiteHeader from '@/components/site/SiteHeader'
+import SiteFooter from '@/components/site/SiteFooter'
+import StoryShell from '@/components/graph/StoryShell'
+import Hero from '@/components/sections/Hero'
+import ProblemSection from '@/components/sections/ProblemSection'
+import ValueSection from '@/components/sections/ValueSection'
+import ServicesBento from '@/components/sections/ServicesBento'
+import SystemMap from '@/components/sections/SystemMap'
+import AISection from '@/components/sections/AISection'
+import TrustSection from '@/components/sections/TrustSection'
+import UseCases from '@/components/sections/UseCases'
+import MarqueeQuotes from '@/components/sections/MarqueeQuotes'
+import FinalCta from '@/components/sections/FinalCta'
 
 export default function Home() {
-  return <>
-    <MainHeader/>
-    <div className={'space50'}></div>
-    <MainHero/>
-    <div className={styles.container1}>
-      <div className={styles.frase1}>
-      <p>&quot;We have created a pack of tools that is everything small business need to <span className="clasicBlue">start conquering the digital era.&quot;</span></p>
-
-      </div>
-      <EstoreCard/>
-      <div className={styles.spcae2}>
-        <VivianaCard/>
-      </div>
-      <EPlannerCard/>
-      <EPrintCard/>
-      <EWebCard/>
-      <CrabCard/>
-    </div>
-    <ContactCard/>
-    <MainFooter/>
-  </>;
+  return (
+    <StoryShell>
+      <SiteHeader />
+      <main className="relative">
+        <Hero />
+        <ProblemSection />
+        <ValueSection />
+        <ServicesBento />
+        <SystemMap />
+        <AISection />
+        <TrustSection />
+        <UseCases />
+        <MarqueeQuotes />
+        <FinalCta />
+      </main>
+      <SiteFooter />
+    </StoryShell>
+  )
 }
