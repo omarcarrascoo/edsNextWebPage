@@ -1,59 +1,140 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import dynamic from 'next/dynamic'
+import { motion, useScroll, useMotionValueEvent } from 'framer-motion'
+import { useRef } from 'react'
+import { Layers, Hand } from 'lucide-react'
 import { useT } from '@/i18n/LanguageProvider'
 
-const CLUSTERS = [
-  {
-    name: 'PRODUCT',
-    dot: 'active',
-    nodes: [
-      { label: 'Web',         meta: 'SaaS · Portales' },
-      { label: 'Móvil',       meta: 'iOS · Android' },
-      { label: 'Dashboards',  meta: 'BI · KPIs' },
-    ],
-  },
-  {
-    name: 'INTELLIGENCE',
-    dot: 'run',
-    nodes: [
-      { label: 'AI',     meta: 'Workflows' },
-      { label: 'Agents', meta: 'Reglas · memoria' },
-    ],
-  },
-  {
-    name: 'INFRA',
-    dot: 'live',
-    nodes: [
-      { label: 'Backend / APIs', meta: 'Postgres · Redis' },
-      { label: 'Fintech',         meta: 'Pagos · Auth' },
-      { label: 'Security',        meta: 'Hardening · Audit' },
-    ],
-  },
-  {
-    name: 'OPS',
-    dot: 'live',
-    nodes: [
-      { label: 'Messaging',        meta: 'Realtime' },
-      { label: 'Ecommerce / POS',  meta: 'Ventas · Stock' },
-    ],
-  },
+const GlassStack = dynamic(() => import('@/components/graph/GlassStack'), {
+  ssr: false,
+  loading: () => null,
+})
+
+const LAYER_TONES = [
+  { dot: '#2DE2C5', label: 'text-accent' },
+  { dot: '#38BDF8', label: 'text-signal-blue' },
+  { dot: '#9D8DF1', label: 'text-[#9D8DF1]' },
+  { dot: '#F5B544', label: 'text-signal-amber' },
+  { dot: '#2DE2C5', label: 'text-accent' },
+  { dot: '#38BDF8', label: 'text-signal-blue' },
+  { dot: '#9D8DF1', label: 'text-[#9D8DF1]' },
+  { dot: '#F5B544', label: 'text-signal-amber' },
+  { dot: '#2DE2C5', label: 'text-accent' },
+  { dot: '#38BDF8', label: 'text-signal-blue' },
 ]
+
+function FlatCard({ layer, index }) {
+  const tone = LAYER_TONES[index % LAYER_TONES.length]
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 8 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-40px' }}
+      transition={{ duration: 0.4, delay: Math.min(index * 0.04, 0.3) }}
+      className="group relative rounded-xl border bg-[rgba(10,14,20,0.78)] backdrop-blur-md transition-all duration-300 hover:bg-[rgba(15,21,30,0.9)]"
+      style={{
+        borderColor: 'rgba(255,255,255,0.07)',
+        boxShadow:
+          '0 1px 0 rgba(255,255,255,0.04) inset, 0 18px 38px -18px rgba(0,0,0,0.7)',
+      }}
+    >
+      <div
+        aria-hidden
+        className="absolute left-0 top-2 bottom-2 w-[2px] rounded-full opacity-70 group-hover:opacity-100 transition-opacity"
+        style={{ background: tone.dot, boxShadow: `0 0 12px ${tone.dot}` }}
+      />
+      <div className="flex items-center gap-3 sm:gap-4 px-4 py-4 sm:px-6 sm:py-[18px]">
+        <span className="mono-label text-fog-500 text-[11px] tracking-[0.18em] w-7 shrink-0">
+          {layer.code}
+        </span>
+        <span
+          className={`mono-label text-[10px] tracking-[0.22em] w-[78px] sm:w-[92px] shrink-0 ${tone.label}`}
+        >
+          {layer.tag}
+        </span>
+        <div className="flex-1 min-w-0">
+          <p className="text-fog-50 text-[14px] sm:text-[15px] font-medium leading-tight truncate">
+            {layer.title}
+          </p>
+          <p className="mono-label text-fog-500 text-[10px] tracking-[0.14em] mt-1 truncate">
+            {layer.meta}
+          </p>
+        </div>
+      </div>
+    </motion.div>
+  )
+}
 
 export default function ValueSection() {
   const t = useT()
+  const sectionRef = useRef(null)
+  const scrollProgressRef = useRef(0)
+
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ['start end', 'end start'],
+  })
+
+  // mirror MotionValue into a plain ref so the three.js useFrame loop can read it
+  useMotionValueEvent(scrollYProgress, 'change', (v) => {
+    scrollProgressRef.current = v
+  })
+
+  const layers = t.value.layers || []
 
   return (
-    <section className="section relative">
-      <div className="container-shell">
-        <div className="grid lg:grid-cols-[1fr_1.15fr] gap-14 items-start">
+    <section
+      id="value"
+      ref={sectionRef}
+      className="section relative"
+      style={{ background: '#05080C' }}
+    >
+      {/* subtle grid texture, capped */}
+      <div
+        aria-hidden
+        className="absolute inset-0 opacity-[0.035] pointer-events-none"
+        style={{
+          backgroundImage:
+            'linear-gradient(to right, rgba(255,255,255,0.6) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.6) 1px, transparent 1px)',
+          backgroundSize: '64px 64px',
+          maskImage:
+            'radial-gradient(ellipse 70% 60% at 70% 50%, black, transparent 80%)',
+        }}
+      />
+
+      <div className="container-shell relative">
+        {/* TOP — section index */}
+        <motion.div
+          initial={{ opacity: 0, y: -8 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-80px' }}
+          transition={{ duration: 0.6 }}
+          className="mb-12 flex items-center justify-between gap-4"
+        >
+          <p className="mono-label text-fog-500 text-[10px] tracking-[0.22em]">
+            {'// VALUE · 03 · stack()'}
+          </p>
+          <div className="hidden sm:flex items-center gap-2">
+            <Layers size={11} className="text-accent" />
+            <span className="mono-label text-accent text-[10px] tracking-[0.22em]">
+              {t.value.stackLabel}
+            </span>
+            <span className="mono-label text-fog-500 text-[10px]">
+              / {t.value.stackMeta}
+            </span>
+          </div>
+        </motion.div>
+
+        <div className="grid lg:grid-cols-[1fr_1.05fr] gap-12 lg:gap-16 items-start">
+          {/* LEFT — narrative */}
           <div>
             <motion.div
               initial={{ opacity: 0, y: 12 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-80px' }}
               transition={{ duration: 0.6 }}
-              className="eyebrow mb-6"
+              className="eyebrow mb-7"
             >
               <span className="eyebrow-dot" />
               {t.value.eyebrow}
@@ -63,97 +144,124 @@ export default function ValueSection() {
               initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-80px' }}
-              transition={{ duration: 0.7 }}
-              className="display-lg text-balance"
+              transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
+              className="font-display font-semibold tracking-[-0.035em] leading-[0.96] text-balance"
+              style={{ fontSize: 'clamp(36px, 5.4vw, 84px)' }}
             >
-              <span className="text-fog-50">{t.value.titleA}</span>{' '}
-              <span className="text-fog-300">{t.value.titleB}</span>{' '}
-              <span className="editorial text-accent">{t.value.titleC}</span>
+              <span className="text-fog-50 block">{t.value.titleA}</span>
+              <span className="text-fog-200 block">{t.value.titleB}</span>
             </motion.h2>
 
-            <motion.div
+            <motion.p
               initial={{ opacity: 0, y: 12 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-80px' }}
-              transition={{ duration: 0.6, delay: 0.15 }}
-              className="mt-7 space-y-4 max-w-xl"
+              transition={{ duration: 0.7, delay: 0.15 }}
+              className="editorial text-fog-300 mt-5 text-balance"
+              style={{ fontSize: 'clamp(20px, 2vw, 28px)', lineHeight: 1.25 }}
             >
-              <p className="text-fog-200 text-[17px] leading-relaxed">{t.value.body1}</p>
-              <p className="text-fog-200 text-[17px] leading-relaxed">{t.value.body2}</p>
-              <p className="text-fog-400 text-[15px] leading-relaxed pt-2 border-t border-white/[0.06]">
-                {t.value.body3}
-              </p>
-            </motion.div>
+              {t.value.titleC}
+            </motion.p>
 
             <motion.div
               initial={{ opacity: 0, y: 12 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-80px' }}
               transition={{ duration: 0.6, delay: 0.25 }}
-              className="mt-8 flex flex-wrap gap-2"
+              className="mt-9 space-y-4 max-w-xl"
             >
-              {CLUSTERS.map((c) => (
-                <span
-                  key={c.name}
-                  className="inline-flex items-center gap-2 px-2.5 py-1 rounded-full border border-white/10 bg-white/[0.02]"
-                >
-                  <span className={`status-dot ${c.dot}`} />
-                  <span className="mono-label text-fog-300 text-[10px]">{c.name}</span>
-                </span>
-              ))}
+              <p className="text-fog-100 text-[16px] sm:text-[17px] leading-relaxed font-medium">
+                {t.value.body1}
+              </p>
+              <p className="text-fog-200 text-[14px] sm:text-[15px] leading-relaxed text-pretty">
+                {t.value.body2}
+              </p>
+              <p className="text-fog-400 text-[13px] sm:text-[14px] leading-relaxed text-pretty pt-4 border-t border-white/[0.06]">
+                {t.value.body3}
+              </p>
+            </motion.div>
+
+            {/* drag hint — only desktop where the 3D is */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true, margin: '-80px' }}
+              transition={{ duration: 0.7, delay: 0.4 }}
+              className="mt-8 hidden lg:flex items-center gap-2 text-fog-500"
+            >
+              <Hand size={12} className="text-accent" />
+              <p className="mono-label text-[10px] tracking-[0.2em]">
+                drag · rotate · scroll · expands
+              </p>
             </motion.div>
           </div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-80px' }}
-            transition={{ duration: 0.7, delay: 0.1 }}
-            className="glass-panel rounded-2xl overflow-hidden"
-          >
-            <div className="flex items-center justify-between px-5 py-3.5 border-b glass-divider">
-              <p className="mono-label text-fog-400">capability.graph</p>
-              <span className="mono-label text-fog-500 text-[10px]">4 clusters · 10 nodes</span>
-            </div>
-
-            <div className="p-5 grid sm:grid-cols-2 gap-4">
-              {CLUSTERS.map((cluster, ci) => (
-                <motion.div
-                  key={cluster.name}
-                  initial={{ opacity: 0, y: 12 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: 0.1 + ci * 0.08 }}
-                  className="rounded-xl border border-white/[0.06] bg-white/[0.015] p-4"
-                >
-                  <div className="flex items-center justify-between mb-3">
-                    <div className="flex items-center gap-2">
-                      <span className={`status-dot ${cluster.dot}`} />
-                      <p className="mono-label text-fog-200 text-[10px] tracking-[0.2em]">{cluster.name}</p>
-                    </div>
-                    <span className="mono-label text-fog-500 text-[9px]">{cluster.nodes.length} nodes</span>
-                  </div>
-                  <ul className="space-y-1.5">
-                    {cluster.nodes.map((n, ni) => (
-                      <li key={n.label} className="flex items-center justify-between gap-3 text-[12px]">
-                        <span className="text-fog-100 font-medium truncate">{n.label}</span>
-                        <span className="mono-label text-fog-500 text-[10px] truncate">{n.meta}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </motion.div>
-              ))}
-            </div>
-
-            <div className="px-5 py-3 border-t glass-divider flex items-center justify-between">
-              <p className="mono-label text-fog-500 text-[10px]">mesh · 6 hub-edges · 10 spokes</p>
-              <p className="mono-label text-signal-green flex items-center gap-1.5 text-[10px]">
-                <span className="status-dot live" />
-                CONVERGED
+          {/* RIGHT — 3D glass stack on lg+, flat list below */}
+          <div className="relative">
+            {/* layers title */}
+            <div className="flex items-center justify-between mb-5">
+              <p className="mono-label text-fog-400 text-[10px] tracking-[0.22em]">
+                {t.value.layersTitle}
+              </p>
+              <p className="mono-label text-fog-500 text-[10px] tracking-[0.18em]">
+                {String(layers.length).padStart(2, '0')} / 10
               </p>
             </div>
-          </motion.div>
+
+            {/* DESKTOP — three.js glass stack viewport */}
+            <motion.div
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-80px' }}
+              transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+              className="hidden lg:block relative w-full"
+              style={{ height: '620px' }}
+            >
+              <GlassStack layers={layers} scrollProgressRef={scrollProgressRef} />
+              {/* corner crosshairs — quiet HUD framing */}
+              <div aria-hidden className="absolute inset-0 pointer-events-none">
+                <div className="absolute top-0 left-0 w-3 h-3 border-t border-l border-accent/40" />
+                <div className="absolute top-0 right-0 w-3 h-3 border-t border-r border-accent/40" />
+                <div className="absolute bottom-0 left-0 w-3 h-3 border-b border-l border-accent/40" />
+                <div className="absolute bottom-0 right-0 w-3 h-3 border-b border-r border-accent/40" />
+              </div>
+            </motion.div>
+
+            {/* MOBILE / TABLET — flat vertical list */}
+            <div className="lg:hidden space-y-2">
+              {layers.map((layer, i) => (
+                <FlatCard key={layer.code} layer={layer} index={i} />
+              ))}
+            </div>
+          </div>
         </div>
+
+        {/* CLOSING — sober, mono-anchored. */}
+        <motion.div
+          initial={{ opacity: 0, y: 18 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-80px' }}
+          transition={{ duration: 0.85, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+          className="mt-20 lg:mt-24 pt-8 border-t border-white/[0.06]"
+        >
+          <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-5">
+            <div className="flex items-center gap-3">
+              <span className="status-dot active" />
+              <p className="mono-label text-fog-500 text-[10px] tracking-[0.22em]">
+                {t.value.stackLabel} · {t.value.stackMeta}
+              </p>
+            </div>
+            <p
+              className="font-display font-semibold text-fog-50 tracking-[-0.02em] text-balance"
+              style={{
+                fontSize: 'clamp(20px, 2.4vw, 34px)',
+                lineHeight: 1.15,
+              }}
+            >
+              {t.value.closing}
+            </p>
+          </div>
+        </motion.div>
       </div>
     </section>
   )
