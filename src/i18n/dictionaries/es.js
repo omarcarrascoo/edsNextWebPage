@@ -397,7 +397,7 @@ const es = {
         { code: '05', tag: 'i2c',         title: 'Integración i2c',           meta: 'Tarjetas · activación · sync' },
         { code: '06', tag: 'SALESFORCE',  title: 'Integración Salesforce',    meta: 'CRM · operación · flujos' },
         { code: '07', tag: 'MESSAGING',   title: 'Mensajería segura',         meta: 'Trace · cifrado · inbox' },
-        { code: '08', tag: 'TPK',         title: 'Encriptación · TPK',        meta: 'Llaves · hash · in-transit' },
+        { code: '08', tag: 'KEYS',        title: 'Encriptación · TPK · ZPK',  meta: 'Llaves · hash · in-transit' },
         { code: '09', tag: 'PCI',         title: 'PCI compliance',            meta: 'Diseño · segmentación · logs' },
       ],
     },
@@ -473,8 +473,38 @@ const es = {
       ],
     },
 
+    bpc: {
+      eyebrow: '// 07 · switch()',
+      title: 'Conectamos plataformas de procesamiento',
+      titleAccent: 'como BPC SmartVista al resto de tu operación.',
+      body:
+        'BPC SmartVista vive en el centro de operaciones financieras críticas: pagos, tarjetas, switching, adquirencia, canales digitales y fraud management. Diseñamos la capa que conecta esa infraestructura con apps móviles, back office, dashboards y APIs internas.',
+      bodyClose:
+        'No se trata de "conectarse al proveedor". Se trata de construir una arquitectura clara alrededor de esa conexión: validaciones, seguridad, monitoreo, trazabilidad, manejo de errores y visibilidad operativa.',
+      modules: [
+        { code: '01', title: 'Card issuing',           meta: 'Debit · credit · prepaid · virtual' },
+        { code: '02', title: 'Card management',         meta: 'Estados · ciclos · sincronización' },
+        { code: '03', title: 'Transaction processing',  meta: 'Autorización · captura · clearing' },
+        { code: '04', title: 'Switching',                meta: 'ATM · POS · routing inteligente' },
+        { code: '05', title: 'Merchant acquiring',      meta: 'POS · e-commerce · SoftPOS' },
+        { code: '06', title: 'Digital banking',         meta: 'Canales · wallets · self-service' },
+        { code: '07', title: 'Fraud management',        meta: 'Reglas · scoring · alertas' },
+        { code: '08', title: 'Reporting operativo',     meta: 'Métricas · auditoría · dashboards' },
+      ],
+      flowTitle: 'Capa de integración',
+      flowSteps: [
+        { label: 'App móvil · Web banking',         meta: 'Frontend' },
+        { label: 'API Gateway · Backend financiero',meta: 'Auth · routing' },
+        { label: 'Reglas de negocio',                meta: 'Validación · estados' },
+        { label: 'BPC · SmartVista',                  meta: 'Procesamiento · tarjetas · switching' },
+        { label: 'Back office · dashboards · audit', meta: 'Visibilidad operativa' },
+      ],
+      witty:
+        'Conectar sistemas financieros no debería sentirse como armar un mueble sueco sin instrucciones. Pero con dinero real de por medio. Y sin embargo, aquí estamos.',
+    },
+
     salesforce: {
-      eyebrow: '// 07 · sync()',
+      eyebrow: '// 08 · sync()',
       title: 'Salesforce conectado a tu operación financiera,',
       titleAccent: 'no solo a tu equipo comercial.',
       body:
@@ -490,7 +520,7 @@ const es = {
     },
 
     dashboards: {
-      eyebrow: '// 08 · observe()',
+      eyebrow: '// 09 · observe()',
       title: 'Datos financieros dispersos',
       titleAccent: 'en paneles claros para decidir.',
       body:
@@ -508,7 +538,7 @@ const es = {
     },
 
     backoffice: {
-      eyebrow: '// 09 · operate()',
+      eyebrow: '// 10 · operate()',
       title: 'Back office para que los equipos internos',
       titleAccent: 'no dependan de procesos manuales.',
       body:
@@ -547,14 +577,14 @@ const es = {
     },
 
     security: {
-      eyebrow: '// 10 · secure()',
+      eyebrow: '// 11 · secure()',
       title: 'Seguridad desde la arquitectura,',
       titleAccent: 'no como parche al final.',
       body:
         'En fintech, la seguridad no puede ser un parche al final del proyecto. Debe estar presente desde el diseño de datos, permisos, APIs, comunicación entre servicios, manejo de llaves, logs y exposición de información.',
-      tpkTitle: 'Manejo de llaves · TPK',
+      tpkTitle: 'Manejo de llaves · TPK · ZPK',
       tpkBody:
-        'Tenemos experiencia con flujos donde el manejo seguro de llaves, datos sensibles y componentes como TPK forman parte de la arquitectura.',
+        'Tenemos experiencia con flujos donde el manejo seguro de llaves de cifrado forma parte de la arquitectura: TPK (Terminal Pin Key) para proteger PINs en terminales, ZPK (Zone Pin Key) para envolver llaves entre zonas seguras, y el resto de la jerarquía de claves que sostiene una operación bancaria seria.',
       pillars: [
         { title: 'Manejo de datos sensibles',  meta: 'Cifrado · acceso · exposición mínima' },
         { title: 'Auth · permisos',            meta: 'OAuth2 · RBAC · MFA' },
@@ -568,7 +598,7 @@ const es = {
     },
 
     pci: {
-      eyebrow: '// 11 · comply()',
+      eyebrow: '// 12 · comply()',
       title: 'Diseñamos infraestructura',
       titleAccent: 'orientada a PCI compliance.',
       body:
@@ -603,7 +633,7 @@ const es = {
     },
 
     architecture: {
-      eyebrow: '// 12 · architect()',
+      eyebrow: '// 13 · architect()',
       title: 'La capa que conecta producto, operación',
       titleAccent: 'y proveedores financieros.',
       body:
@@ -619,7 +649,7 @@ const es = {
     },
 
     useCases: {
-      eyebrow: '// 13 · cases()',
+      eyebrow: '// 14 · cases()',
       title: 'Lo que podemos construir',
       items: [
         { num: '01', title: 'Plataforma de transferencias',     meta: 'Crear · validar · monitorear · auditar' },
@@ -636,7 +666,7 @@ const es = {
     },
 
     differentiators: {
-      eyebrow: '// 14 · why()',
+      eyebrow: '// 15 · why()',
       title: 'Por qué con Era Digital Solutions',
       items: [
         { title: 'Entendemos sistemas críticos',  body: 'Reglas, estados, seguridad, proveedores, auditoría — y muchas formas creativas de que algo se rompa si se diseña mal.' },
@@ -649,7 +679,7 @@ const es = {
     },
 
     process: {
-      eyebrow: '// 15 · build()',
+      eyebrow: '// 16 · build()',
       title: 'Cómo construimos infraestructura fintech',
       steps: [
         { num: '01', title: 'Diagnóstico',     body: 'Flujo financiero, sistemas, proveedores, reglas, riesgos y puntos de fricción.' },
@@ -668,7 +698,7 @@ const es = {
     },
 
     faq: {
-      eyebrow: '// 16 · faq()',
+      eyebrow: '// 17 · faq()',
       title: 'Preguntas frecuentes',
       items: [
         {
@@ -678,6 +708,14 @@ const es = {
         {
           q: '¿Pueden integrarse con proveedores como i2c?',
           a: 'Sí. Desarrollamos capas de integración para conectar proveedores de tarjetas como i2c con apps móviles, back office, APIs internas y flujos operativos.',
+        },
+        {
+          q: '¿Pueden integrarse con BPC / SmartVista?',
+          a: 'Sí. Diseñamos capas de integración para conectar sistemas internos, apps móviles, back office, dashboards y APIs con ecosistemas basados en BPC / SmartVista, especialmente en flujos de pagos, tarjetas, switching, adquirencia, procesamiento y operación financiera.',
+        },
+        {
+          q: '¿BPC reemplaza al core bancario?',
+          a: 'No necesariamente. BPC puede formar parte del ecosistema de pagos, tarjetas, canales o procesamiento, dependiendo de la arquitectura de cada institución. Nuestro trabajo es entender el rol que cumple dentro del flujo y construir la capa de conexión correcta.',
         },
         {
           q: '¿Pueden conectarse con Salesforce?',
@@ -696,8 +734,8 @@ const es = {
           a: 'Diseñamos infraestructura orientada a PCI compliance y buenas prácticas de seguridad financiera. La certificación formal depende del alcance, auditoría y procesos internos correspondientes.',
         },
         {
-          q: '¿Manejan encriptación TPK?',
-          a: 'Tenemos experiencia con flujos financieros donde el manejo seguro de llaves, datos sensibles y componentes como TPK forman parte de la arquitectura.',
+          q: '¿Manejan encriptación TPK y ZPK?',
+          a: 'Sí. Tenemos experiencia con flujos financieros donde el manejo seguro de llaves de cifrado es parte de la arquitectura: TPK (Terminal Pin Key) para PINs en terminales, ZPK (Zone Pin Key) para envolver llaves entre zonas seguras, y la jerarquía de claves asociada a operaciones de pagos, switching y procesamiento.',
         },
         {
           q: '¿Pueden construir un back office bancario?',
@@ -707,7 +745,7 @@ const es = {
     },
 
     finalCta: {
-      eyebrow: '// 17 · ship()',
+      eyebrow: '// 18 · ship()',
       title: 'Construyamos la infraestructura financiera',
       titleAccent: 'que tu operación necesita para crecer.',
       body:

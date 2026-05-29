@@ -129,18 +129,18 @@ export function TradingTerminal({ ops = [], title = 'tx.feed' }) {
         </div>
       </div>
 
-      {/* table head */}
-      <div className="grid grid-cols-[60px_100px_1fr_70px_70px_50px] gap-2 px-4 py-2 mono-label text-fog-600 text-[9px] tracking-[0.18em] border-b border-white/[0.04]">
+      {/* table head — CCY hidden on mobile, columns shrink with viewport */}
+      <div className="grid grid-cols-[44px_minmax(0,1fr)_minmax(0,1fr)_56px_44px] sm:grid-cols-[56px_90px_minmax(0,1fr)_56px_60px_44px] gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 mono-label text-fog-600 text-[9px] tracking-[0.18em] border-b border-white/[0.04]">
         <span>TYPE</span>
-        <span>OP</span>
-        <span>AMOUNT</span>
-        <span>CCY</span>
-        <span>STATUS</span>
+        <span className="truncate">OP</span>
+        <span className="truncate">AMOUNT</span>
+        <span className="hidden sm:inline truncate">CCY</span>
+        <span className="truncate">STATUS</span>
         <span className="text-right">MS</span>
       </div>
 
       {/* rows */}
-      <div className="px-4 py-2 space-y-1 font-mono text-[12px] min-h-[260px]">
+      <div className="px-3 sm:px-4 py-2 space-y-1 font-mono text-[11px] sm:text-[12px] min-h-[260px]">
         {feed.map((row, i) => {
           const fade = Math.max(0.4, (i + 1) / feed.length)
           const statusColor =
@@ -152,15 +152,15 @@ export function TradingTerminal({ ops = [], title = 'tx.feed' }) {
           return (
             <div
               key={row.id}
-              className="grid grid-cols-[60px_100px_1fr_70px_70px_50px] gap-2 items-center animate-[txFade_0.4s_ease-out]"
+              className="grid grid-cols-[44px_minmax(0,1fr)_minmax(0,1fr)_56px_44px] sm:grid-cols-[56px_90px_minmax(0,1fr)_56px_60px_44px] gap-1.5 sm:gap-2 items-center animate-[txFade_0.4s_ease-out] min-w-0"
               style={{ opacity: fade }}
             >
-              <span className="mono-label text-fog-500 text-[10px] tracking-[0.14em]">{row.code}</span>
+              <span className="mono-label text-fog-500 text-[10px] tracking-[0.14em] truncate">{row.code}</span>
               <span className="text-fog-200 truncate">{row.op}</span>
               <span className="text-fog-50 tabular-nums truncate">{row.amount}</span>
-              <span className="text-fog-400 text-[11px]">{row.currency}</span>
-              <span className={`${statusColor} text-[11px] mono-label tracking-[0.12em]`}>{row.status}</span>
-              <span className="text-fog-500 text-[10px] text-right tabular-nums">{row.ms}</span>
+              <span className="hidden sm:inline text-fog-400 text-[11px] truncate">{row.currency}</span>
+              <span className={`${statusColor} text-[11px] mono-label tracking-[0.12em] truncate`}>{row.status}</span>
+              <span className="text-fog-500 text-[10px] text-right tabular-nums truncate">{row.ms}</span>
             </div>
           )
         })}
@@ -1192,18 +1192,18 @@ export function CompliancePipeline({ items = [] }) {
           {completed} / {items.length}
         </p>
       </div>
-      <div className="p-4 font-mono text-[12.5px] min-h-[420px]">
+      <div className="p-3 sm:p-4 font-mono text-[11px] sm:text-[12.5px] min-h-[420px]">
         {items.map((it, i) => {
           const state = i < completed ? 'done' : i === completed ? 'running' : 'pending'
           return (
             <div
               key={i}
-              className="flex items-center gap-3 py-1.5 border-b border-white/[0.04] last:border-0"
+              className="flex items-center gap-2 sm:gap-3 py-1.5 border-b border-white/[0.04] last:border-0 min-w-0"
             >
-              <span className="w-7 mono-label text-fog-600 text-[10px] tracking-[0.16em] tabular-nums">
+              <span className="w-6 sm:w-7 shrink-0 mono-label text-fog-600 text-[10px] tracking-[0.16em] tabular-nums">
                 {String(i + 1).padStart(2, '0')}
               </span>
-              <span className="w-5 shrink-0">
+              <span className="w-4 sm:w-5 shrink-0">
                 {state === 'done' && <span className="text-signal-green">✓</span>}
                 {state === 'running' && (
                   <span className="inline-block w-2.5 h-2.5 rounded-full bg-signal-amber animate-pulse" />
@@ -1211,7 +1211,7 @@ export function CompliancePipeline({ items = [] }) {
                 {state === 'pending' && <span className="text-fog-600">·</span>}
               </span>
               <span
-                className={`flex-1 truncate ${
+                className={`flex-1 truncate min-w-0 ${
                   state === 'done' ? 'text-fog-300' :
                   state === 'running' ? 'text-fog-50' :
                   'text-fog-600'
@@ -1220,7 +1220,7 @@ export function CompliancePipeline({ items = [] }) {
                 {it}
               </span>
               <span
-                className={`mono-label text-[9px] tracking-[0.16em] tabular-nums ${
+                className={`mono-label text-[9px] tracking-[0.14em] tabular-nums shrink-0 ${
                   state === 'done' ? 'text-signal-green' :
                   state === 'running' ? 'text-signal-amber' :
                   'text-fog-600'
@@ -1315,6 +1315,177 @@ export function BuildPipeline({ steps = [] }) {
             </div>
           )
         })}
+      </div>
+    </div>
+  )
+}
+
+// =============================================================================
+// SwitchMatrix — central BPC core surrounded by 8 module nodes in a circle.
+// Periodic active route highlights one module at a time with a glowing arc +
+// traveling particle. Looks like a transaction switching board.
+// =============================================================================
+export function SwitchMatrix({ modules = [] }) {
+  const [activeIdx, setActiveIdx] = useState(0)
+  const [pulseT, setPulseT] = useState(0)
+
+  // cycle active route every 1.6s
+  useEffect(() => {
+    if (!modules.length) return
+    const id = setInterval(() => {
+      setActiveIdx((i) => (i + 1) % modules.length)
+    }, 1600)
+    return () => clearInterval(id)
+  }, [modules.length])
+
+  // travel particle progress
+  useEffect(() => {
+    let raf = 0
+    let last = performance.now()
+    const tick = (now) => {
+      const dt = (now - last) / 1000
+      last = now
+      setPulseT((t) => (t + dt * 0.8) % 1)
+      raf = requestAnimationFrame(tick)
+    }
+    raf = requestAnimationFrame(tick)
+    return () => cancelAnimationFrame(raf)
+  }, [])
+
+  const VB = 320 // viewbox size
+  const CX = VB / 2
+  const CY = VB / 2
+  const RING_R = 118 // node ring radius
+  const HUB_R = 30
+
+  return (
+    <div className="rounded-xl border border-white/[0.07] bg-[rgba(8,12,18,0.5)] backdrop-blur-sm overflow-hidden">
+      <div className="flex items-center justify-between px-4 py-2.5 border-b border-white/[0.06]">
+        <div className="flex items-center gap-2">
+          <span className="status-dot run" />
+          <p className="mono-label text-fog-400 text-[10px] tracking-[0.22em]">switch.matrix</p>
+        </div>
+        <p className="mono-label text-accent text-[10px] tracking-[0.18em] tabular-nums">
+          ROUTE · {String(activeIdx + 1).padStart(2, '0')} / {String(modules.length).padStart(2, '0')}
+        </p>
+      </div>
+
+      <div className="relative aspect-square w-full max-w-[460px] mx-auto p-4">
+        <svg viewBox={`0 0 ${VB} ${VB}`} className="w-full h-full">
+          <defs>
+            <filter id="switchGlow" x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur stdDeviation="2.5" result="b" />
+              <feMerge><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge>
+            </filter>
+            <radialGradient id="hubGradient">
+              <stop offset="0%" stopColor="#2DE2C5" stopOpacity="0.6" />
+              <stop offset="100%" stopColor="#2DE2C5" stopOpacity="0" />
+            </radialGradient>
+          </defs>
+
+          {/* outer ring track */}
+          <circle cx={CX} cy={CY} r={RING_R} fill="none" stroke="rgba(45,226,197,0.12)" strokeWidth="1" strokeDasharray="2 4" />
+          <circle cx={CX} cy={CY} r={RING_R - 14} fill="none" stroke="rgba(45,226,197,0.06)" strokeWidth="0.6" />
+
+          {/* connection lines from hub to each node — dim by default, active one bright */}
+          {modules.map((mod, i) => {
+            const ang = -Math.PI / 2 + (i / modules.length) * Math.PI * 2
+            const nx = CX + Math.cos(ang) * RING_R
+            const ny = CY + Math.sin(ang) * RING_R
+            const isActive = i === activeIdx
+            return (
+              <line
+                key={`line-${i}`}
+                x1={CX}
+                y1={CY}
+                x2={nx}
+                y2={ny}
+                stroke="#2DE2C5"
+                strokeOpacity={isActive ? 0.85 : 0.12}
+                strokeWidth={isActive ? 1.5 : 0.7}
+                filter={isActive ? 'url(#switchGlow)' : undefined}
+              />
+            )
+          })}
+
+          {/* traveling particle on the active line */}
+          {(() => {
+            const ang = -Math.PI / 2 + (activeIdx / modules.length) * Math.PI * 2
+            const nx = CX + Math.cos(ang) * RING_R
+            const ny = CY + Math.sin(ang) * RING_R
+            const px = CX + (nx - CX) * pulseT
+            const py = CY + (ny - CY) * pulseT
+            return <circle cx={px} cy={py} r={4} fill="#2DE2C5" filter="url(#switchGlow)" />
+          })()}
+
+          {/* hub halo */}
+          <circle cx={CX} cy={CY} r={HUB_R + 18} fill="url(#hubGradient)" />
+          {/* hub */}
+          <circle cx={CX} cy={CY} r={HUB_R} fill="rgba(13,22,32,0.95)" stroke="rgba(45,226,197,0.5)" strokeWidth="1.2" />
+          <circle cx={CX} cy={CY} r={5} fill="#2DE2C5" filter="url(#switchGlow)" />
+          <text x={CX} y={CY + 2} textAnchor="middle" fontFamily="var(--font-mono), monospace" fontSize="9" fontWeight="600" fill="#F4F7FA" letterSpacing="2">
+            BPC
+          </text>
+          <text x={CX} y={CY + 14} textAnchor="middle" fontFamily="var(--font-mono), monospace" fontSize="7" fill="#7C8A9C" letterSpacing="2.4">
+            SMARTVISTA
+          </text>
+
+          {/* nodes */}
+          {modules.map((mod, i) => {
+            const ang = -Math.PI / 2 + (i / modules.length) * Math.PI * 2
+            const nx = CX + Math.cos(ang) * RING_R
+            const ny = CY + Math.sin(ang) * RING_R
+            const isActive = i === activeIdx
+            // label position outside the ring, with anchor flipping by side
+            const labelOut = 26
+            const lx = CX + Math.cos(ang) * (RING_R + labelOut)
+            const ly = CY + Math.sin(ang) * (RING_R + labelOut)
+            const onLeft = Math.cos(ang) < -0.15
+            const onRight = Math.cos(ang) > 0.15
+            const anchor = onRight ? 'start' : onLeft ? 'end' : 'middle'
+            return (
+              <g key={mod.code}>
+                <circle
+                  cx={nx}
+                  cy={ny}
+                  r={isActive ? 9 : 6}
+                  fill={isActive ? '#2DE2C5' : 'rgba(13,22,32,0.95)'}
+                  stroke="#2DE2C5"
+                  strokeWidth={isActive ? 1.5 : 0.8}
+                  strokeOpacity={isActive ? 1 : 0.55}
+                  filter={isActive ? 'url(#switchGlow)' : undefined}
+                />
+                <text
+                  x={lx}
+                  y={ly}
+                  textAnchor={anchor}
+                  dominantBaseline="middle"
+                  fontFamily="var(--font-display), sans-serif"
+                  fontSize="9.5"
+                  fontWeight={isActive ? 600 : 500}
+                  fill={isActive ? '#F4F7FA' : '#A4B0BC'}
+                >
+                  {mod.title}
+                </text>
+              </g>
+            )
+          })}
+        </svg>
+      </div>
+
+      {/* active module detail strip */}
+      <div className="px-4 py-3 border-t border-white/[0.06] flex items-center justify-between gap-3">
+        <div className="flex items-center gap-2 min-w-0">
+          <span className="mono-label text-accent text-[10px] tracking-[0.22em] shrink-0">
+            {modules[activeIdx]?.code}
+          </span>
+          <p className="text-fog-100 text-[12.5px] font-medium truncate">
+            {modules[activeIdx]?.title}
+          </p>
+        </div>
+        <p className="mono-label text-fog-500 text-[10px] tracking-[0.14em] truncate hidden sm:block">
+          {modules[activeIdx]?.meta}
+        </p>
       </div>
     </div>
   )

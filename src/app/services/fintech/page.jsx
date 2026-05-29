@@ -64,6 +64,7 @@ export default function FintechPage() {
         <Integration f={f} />
         <Payments f={f} />
         <I2C f={f} />
+        <BPC f={f} />
         <Salesforce f={f} />
         <Dashboards f={f} />
         <BackOffice f={f} />
@@ -867,8 +868,8 @@ function Integration({ f }) {
 function Payments({ f }) {
   return (
     <SectionShell id="payments">
-      <div className="grid lg:grid-cols-[1fr_1.2fr] gap-12 items-center">
-        <div>
+      <div className="grid lg:grid-cols-[1fr_1.2fr] gap-12 items-center min-w-0">
+        <div className="min-w-0">
           <SectionHeader
             eyebrow={f.payments.eyebrow}
             title={f.payments.title}
@@ -896,6 +897,7 @@ function Payments({ f }) {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-60px' }}
           transition={{ duration: 0.85 }}
+          className="min-w-0"
         >
           <TradingTerminal ops={f.payments.tickerOps} />
         </motion.div>
@@ -945,7 +947,80 @@ function I2C({ f }) {
 }
 
 // =============================================================================
-// 07 · SALESFORCE
+// 07 · BPC / SMARTVISTA
+// =============================================================================
+function BPC({ f }) {
+  if (!f.bpc) return null
+  return (
+    <SectionShell id="bpc">
+      <div className="max-w-3xl mx-auto text-center min-w-0">
+        <Eyebrow>{f.bpc.eyebrow}</Eyebrow>
+        <motion.h2
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-80px' }}
+          transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
+          className="font-display font-semibold tracking-[-0.02em] leading-[1.06] text-pretty"
+          style={{
+            fontSize: 'clamp(22px, 4.4vw, 60px)',
+            hyphens: 'auto',
+            overflowWrap: 'anywhere',
+          }}
+        >
+          <span className="text-fog-50 block">{f.bpc.title}</span>
+          <span className="text-fog-300 block font-light italic">
+            {f.bpc.titleAccent}
+          </span>
+        </motion.h2>
+        <motion.p
+          initial={{ opacity: 0, y: 12 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-80px' }}
+          transition={{ duration: 0.7, delay: 0.15 }}
+          className="text-fog-300 text-[15px] sm:text-[16px] leading-relaxed text-pretty mt-6 max-w-xl mx-auto"
+        >
+          {f.bpc.body}
+        </motion.p>
+
+        {/* 8 module pills, inline — minimal, no cards, no icons */}
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-80px' }}
+          transition={{ duration: 0.6, delay: 0.3 }}
+          className="mt-10 flex flex-wrap justify-center gap-1.5 max-w-2xl mx-auto"
+        >
+          {f.bpc.modules.map((m) => (
+            <span
+              key={m.code}
+              className="mono-label text-fog-300 text-[10px] tracking-[0.18em] px-2.5 py-1.5 rounded-full border border-white/[0.07] bg-white/[0.02]"
+            >
+              {m.title}
+            </span>
+          ))}
+        </motion.div>
+
+        {/* mono divider with the relation */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true, margin: '-80px' }}
+          transition={{ duration: 0.7, delay: 0.45 }}
+          className="mt-10 flex items-center justify-center gap-3"
+        >
+          <span className="block w-12 h-px bg-white/10" />
+          <span className="mono-label text-accent text-[10px] tracking-[0.22em]">
+            BPC · SMARTVISTA
+          </span>
+          <span className="block w-12 h-px bg-white/10" />
+        </motion.div>
+      </div>
+    </SectionShell>
+  )
+}
+
+// =============================================================================
+// 08 · SALESFORCE
 // =============================================================================
 function Salesforce({ f }) {
   return (
@@ -1166,8 +1241,8 @@ function PillarCard({ pillar }) {
 function PCI({ f }) {
   return (
     <SectionShell id="pci">
-      <div className="grid lg:grid-cols-[1fr_1fr] gap-12 items-start">
-        <div className="space-y-8">
+      <div className="grid lg:grid-cols-[1fr_1fr] gap-12 items-start min-w-0">
+        <div className="space-y-8 min-w-0">
           <SectionHeader
             eyebrow={f.pci.eyebrow}
             title={f.pci.title}
@@ -1223,6 +1298,7 @@ function PCI({ f }) {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-60px' }}
           transition={{ duration: 0.85 }}
+          className="min-w-0"
         >
           <CompliancePipeline items={f.pci.capabilities} />
         </motion.div>
