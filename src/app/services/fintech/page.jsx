@@ -23,6 +23,21 @@ const BankParticles = dynamic(
   { ssr: false, loading: () => null },
 )
 
+const MoneyParticles = dynamic(
+  () => import('@/components/graph/MoneyParticles'),
+  { ssr: false, loading: () => null },
+)
+
+const GlobeNetwork = dynamic(
+  () => import('@/components/graph/GlobeNetwork'),
+  { ssr: false, loading: () => null },
+)
+
+const DataReform = dynamic(
+  () => import('@/components/graph/DataReform'),
+  { ssr: false, loading: () => null },
+)
+
 const capabilityIcons = {
   '01': Network,
   '02': Activity,
@@ -132,9 +147,37 @@ function SectionHeader({ eyebrow, title, accent, body, align = 'left', max = 'ma
 // =============================================================================
 function Hero({ f }) {
   return (
-    <section className="relative overflow-hidden pt-32 sm:pt-44 pb-20 sm:pb-32">
-      {/* breadcrumb */}
-      <div className="container-shell relative z-10 mb-8">
+    <section
+      className="relative overflow-hidden"
+      style={{ minHeight: '100vh', background: '#05080C' }}
+    >
+      {/* GLOBE — full bleed, dominating the viewport */}
+      <div className="absolute inset-0 z-0">
+        <GlobeNetwork />
+      </div>
+
+      {/* Bottom dark fade so the headline reads cleanly against the globe */}
+      <div
+        aria-hidden
+        className="absolute inset-x-0 bottom-0 h-[55%] z-[1] pointer-events-none"
+        style={{
+          background:
+            'linear-gradient(to top, rgba(5,8,12,0.92) 0%, rgba(5,8,12,0.55) 50%, rgba(5,8,12,0.0) 100%)',
+        }}
+      />
+
+      {/* Top fade so the breadcrumb + status read against any globe pole */}
+      <div
+        aria-hidden
+        className="absolute inset-x-0 top-0 h-[20%] z-[1] pointer-events-none"
+        style={{
+          background:
+            'linear-gradient(to bottom, rgba(5,8,12,0.7) 0%, rgba(5,8,12,0.0) 100%)',
+        }}
+      />
+
+      {/* TOP-LEFT — breadcrumb */}
+      <div className="absolute top-24 sm:top-28 left-4 sm:left-8 lg:left-14 z-10 pointer-events-auto">
         <p className="mono-label text-fog-500 text-[10px] tracking-[0.22em] flex items-center gap-2">
           <a href="/" className="hover:text-fog-200 transition-colors">
             {f.breadcrumb.services}
@@ -144,87 +187,92 @@ function Hero({ f }) {
         </p>
       </div>
 
-      {/* grid backdrop */}
-      <div
-        aria-hidden
-        className="absolute inset-0 opacity-[0.04] pointer-events-none"
-        style={{
-          backgroundImage:
-            'linear-gradient(to right, rgba(255,255,255,0.6) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.6) 1px, transparent 1px)',
-          backgroundSize: '64px 64px',
-          maskImage:
-            'radial-gradient(ellipse 80% 60% at 70% 50%, black, transparent 80%)',
-        }}
-      />
+      {/* TOP-RIGHT — live status (HUD label, not ticker grid) */}
+      <div className="absolute top-24 sm:top-28 right-4 sm:right-8 lg:right-14 z-10 hidden sm:flex flex-col items-end gap-1 pointer-events-none">
+        <div className="flex items-center gap-2">
+          <span className="status-dot run" />
+          <span className="mono-label text-accent text-[10px] tracking-[0.22em]">
+            global · 24/7
+          </span>
+        </div>
+        <span className="mono-label text-fog-500 text-[10px] tracking-[0.22em]">
+          14 financial cities · live
+        </span>
+      </div>
 
-      <div className="container-shell relative z-10 grid lg:grid-cols-[1.1fr_1fr] gap-12 items-center">
-        {/* LEFT — copy */}
-        <div>
-          <Eyebrow>{f.hero.eyebrow}</Eyebrow>
+      {/* CENTERED EYEBROW — sits high, small, near the top of the visual */}
+      <motion.div
+        initial={{ opacity: 0, y: -6 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.1 }}
+        className="absolute top-[26%] left-1/2 -translate-x-1/2 z-10 pointer-events-none text-center"
+      >
+        <p className="mono-label text-accent text-[10px] tracking-[0.32em]">
+          {f.hero.eyebrow}
+        </p>
+      </motion.div>
+
+      {/* HEADLINE — bottom-anchored, tight against the gradient bed.
+          The globe rises behind it like the foundation of an idea. */}
+      <div className="absolute inset-x-0 bottom-0 z-10 px-4 sm:px-8 lg:px-14 pb-12 sm:pb-16">
+        <div className="container-shell">
           <motion.h1
-            initial={{ opacity: 0, y: 18 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
-            className="font-display font-semibold tracking-[-0.035em] leading-[0.96] text-balance break-words"
-            style={{ fontSize: 'clamp(36px, 6vw, 88px)' }}
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.95, ease: [0.22, 1, 0.36, 1], delay: 0.2 }}
+            className="font-display font-semibold tracking-[-0.035em] leading-[0.94] text-pretty break-words"
+            style={{
+              fontSize: 'clamp(40px, 7.6vw, 116px)',
+              hyphens: 'auto',
+              overflowWrap: 'anywhere',
+              wordBreak: 'normal',
+            }}
           >
             <span className="text-fog-50 block">{f.hero.titleA}</span>
             <span className="text-fog-200 block">{f.hero.titleB}</span>
             <span className="text-fog-300 block font-light italic">{f.hero.titleC}</span>
           </motion.h1>
-          <motion.p
-            initial={{ opacity: 0, y: 12 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7, delay: 0.2 }}
-            className="editorial text-fog-300 mt-5 text-pretty break-words"
-            style={{ fontSize: 'clamp(18px, 2vw, 28px)', lineHeight: 1.3 }}
-          >
-            {f.hero.titleAccent}
-          </motion.p>
-          <motion.p
-            initial={{ opacity: 0, y: 12 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7, delay: 0.3 }}
-            className="mt-6 text-fog-400 text-[14px] sm:text-[15px] leading-relaxed text-pretty max-w-xl"
-          >
-            {f.hero.subtitle}
-          </motion.p>
+
           <motion.div
-            initial={{ opacity: 0, y: 8 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.4 }}
-            className="mt-8 flex flex-wrap items-center gap-3"
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.45 }}
+            className="mt-6 grid lg:grid-cols-[1.4fr_1fr] gap-8 items-end"
           >
-            <a href="#contact" className="btn-primary">
-              {f.hero.ctaPrimary}
-              <ArrowRight size={15} />
-            </a>
-            <a
-              href="#capabilities"
-              className="text-fog-300 text-[14px] inline-flex items-center gap-1.5 hover:text-accent transition-colors"
+            <p
+              className="editorial text-fog-200 text-pretty break-words max-w-2xl"
+              style={{ fontSize: 'clamp(17px, 1.8vw, 24px)', lineHeight: 1.3 }}
             >
-              {f.hero.ctaSecondary} <ChevronRight size={13} />
-            </a>
+              {f.hero.titleAccent}
+            </p>
+            <div className="flex flex-wrap items-center gap-3 lg:justify-end">
+              <a href="#contact" className="btn-primary">
+                {f.hero.ctaPrimary}
+                <ArrowRight size={15} />
+              </a>
+              <a
+                href="#capabilities"
+                className="text-fog-300 text-[14px] inline-flex items-center gap-1.5 hover:text-accent transition-colors"
+              >
+                {f.hero.ctaSecondary} <ChevronRight size={13} />
+              </a>
+            </div>
           </motion.div>
         </div>
+      </div>
 
-        {/* RIGHT — live tickers */}
-        <motion.div
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.85, delay: 0.2 }}
-          className="grid grid-cols-2 gap-3"
-        >
-          <TickerNumber label={f.hero.hudVolume} base={4820000} volatility={0.025} prefix="$" />
-          <TickerNumber label={f.hero.hudLatency} base={142} volatility={0.18} suffix="ms" />
-          <TickerNumber label={f.hero.hudLive} base={12480} volatility={0.05} />
-          <TickerNumber label={f.hero.hudPCI} base={99.94} volatility={0.005} suffix="%" />
-        </motion.div>
+      {/* CORNER CROSSHAIRS — quiet HUD framing for the entire hero */}
+      <div aria-hidden className="absolute inset-6 sm:inset-10 pointer-events-none z-[2]">
+        <div className="absolute top-0 left-0 w-3 h-3 border-t border-l border-accent/35" />
+        <div className="absolute top-0 right-0 w-3 h-3 border-t border-r border-accent/35" />
+        <div className="absolute bottom-0 left-0 w-3 h-3 border-b border-l border-accent/35" />
+        <div className="absolute bottom-0 right-0 w-3 h-3 border-b border-r border-accent/35" />
+      </div>
+
+      {/* SCROLL HINT — bottom right, tiny */}
+      <div className="absolute bottom-4 right-4 sm:right-8 lg:right-14 z-10 pointer-events-none hidden sm:flex items-center gap-2 text-fog-500">
+        <p className="mono-label text-[9px] tracking-[0.22em]">scroll</p>
+        <span className="block w-px h-4 bg-fog-500 animate-pulse" />
       </div>
     </section>
   )
@@ -270,6 +318,21 @@ function Problem({ f }) {
 // =============================================================================
 // 03 · CAPABILITIES
 // =============================================================================
+// Bento layout — 12-col asymmetric grid: hero (col-span-6 row-span-2) +
+// horizontal (col-span-6) + 4×3-col + 3 footer cards. Each capability gets
+// its own thematic micro-animation.
+const CAPABILITY_LAYOUT = {
+  '01': 'lg:col-span-6 lg:row-span-2',  // API — hero
+  '02': 'lg:col-span-3',                  // BI
+  '03': 'lg:col-span-3',                  // BACKOFFICE
+  '04': 'lg:col-span-3',                  // PAYMENTS
+  '05': 'lg:col-span-3',                  // i2c
+  '06': 'lg:col-span-4',                  // SALESFORCE
+  '07': 'lg:col-span-4',                  // MESSAGING
+  '08': 'lg:col-span-4',                  // TPK
+  '09': 'lg:col-span-12',                 // PCI — full width footer
+}
+
 function Capabilities({ f }) {
   return (
     <SectionShell id="capabilities">
@@ -278,40 +341,459 @@ function Capabilities({ f }) {
         title={f.capabilities.title}
         accent={f.capabilities.titleAccent}
       />
-      <div className="mt-12 grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
-        {f.capabilities.items.map((it, i) => {
-          const Icon = capabilityIcons[it.code] || Cpu
-          return (
-            <motion.div
-              key={it.code}
-              initial={{ opacity: 0, y: 12 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-40px' }}
-              transition={{ duration: 0.5, delay: Math.min(i * 0.04, 0.3) }}
-              className="group rounded-xl border border-white/[0.07] bg-white/[0.015] p-5 hover:bg-white/[0.04] hover:border-accent/20 transition-all"
-            >
-              <div className="flex items-center justify-between mb-4">
-                <span className="inline-flex w-10 h-10 rounded-lg bg-accent/10 border border-accent/25 items-center justify-center text-accent">
-                  <Icon size={17} />
-                </span>
-                <span className="mono-label text-fog-600 text-[10px] tracking-[0.18em]">
-                  {it.code}
-                </span>
-              </div>
-              <p className="mono-label text-accent text-[10px] tracking-[0.22em] mb-1.5">
-                {it.tag}
-              </p>
-              <p className="text-fog-50 text-[15px] font-medium leading-tight">
-                {it.title}
-              </p>
-              <p className="mono-label text-fog-500 text-[10px] tracking-[0.12em] mt-2 truncate">
-                {it.meta}
-              </p>
-            </motion.div>
-          )
-        })}
+      <div className="mt-12 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-3 auto-rows-[minmax(180px,auto)]">
+        {f.capabilities.items.map((it, i) => (
+          <CapabilityCard key={it.code} item={it} index={i} />
+        ))}
       </div>
     </SectionShell>
+  )
+}
+
+function CapabilityCard({ item, index }) {
+  const Icon = capabilityIcons[item.code] || Cpu
+  const layoutClass = CAPABILITY_LAYOUT[item.code] || 'lg:col-span-4'
+  const isHero = item.code === '01'
+  const isFullWidth = item.code === '09'
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 12 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-40px' }}
+      transition={{ duration: 0.5, delay: Math.min(index * 0.04, 0.3) }}
+      className={`group relative ${layoutClass} rounded-xl border border-white/[0.07] bg-white/[0.015] p-5 sm:p-6 hover:bg-white/[0.03] hover:border-accent/25 transition-all overflow-hidden`}
+    >
+      {/* hover gradient */}
+      <div
+        aria-hidden
+        className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+        style={{
+          background:
+            'radial-gradient(ellipse 60% 70% at 70% 20%, rgba(45,226,197,0.08), transparent 60%)',
+        }}
+      />
+
+      {/* layout depends on whether this is the hero card */}
+      {isHero ? (
+        <div className="relative h-full flex flex-col">
+          <div className="flex items-center justify-between">
+            <span className="inline-flex w-12 h-12 rounded-xl bg-accent/10 border border-accent/30 items-center justify-center text-accent">
+              <Icon size={20} />
+            </span>
+            <span className="mono-label text-fog-600 text-[10px] tracking-[0.18em]">
+              {item.code}
+            </span>
+          </div>
+          <p className="mono-label text-accent text-[10px] tracking-[0.22em] mt-6">
+            {item.tag}
+          </p>
+          <p className="font-display text-fog-50 text-[28px] sm:text-[34px] font-medium tracking-[-0.02em] leading-[1.05] mt-2 max-w-md">
+            {item.title}
+          </p>
+          <p className="mono-label text-fog-500 text-[10px] tracking-[0.14em] mt-3">
+            {item.meta}
+          </p>
+          <div className="mt-auto pt-6">
+            <CapabilityVisual code={item.code} large />
+          </div>
+        </div>
+      ) : isFullWidth ? (
+        <div className="relative grid sm:grid-cols-[auto_1fr_auto] gap-5 items-center h-full">
+          <span className="inline-flex w-11 h-11 rounded-xl bg-accent/10 border border-accent/25 items-center justify-center text-accent shrink-0">
+            <Icon size={18} />
+          </span>
+          <div className="min-w-0">
+            <div className="flex items-center gap-3 mb-1">
+              <p className="mono-label text-accent text-[10px] tracking-[0.22em]">
+                {item.tag}
+              </p>
+              <span className="mono-label text-fog-600 text-[10px] tracking-[0.18em]">
+                {item.code}
+              </span>
+            </div>
+            <p className="text-fog-50 text-[16px] sm:text-[18px] font-medium leading-tight">
+              {item.title}
+            </p>
+            <p className="mono-label text-fog-500 text-[10px] tracking-[0.12em] mt-1.5">
+              {item.meta}
+            </p>
+          </div>
+          <div className="hidden sm:block w-[200px]">
+            <CapabilityVisual code={item.code} />
+          </div>
+        </div>
+      ) : (
+        <div className="relative h-full flex flex-col">
+          <div className="flex items-center justify-between mb-4">
+            <span className="inline-flex w-10 h-10 rounded-lg bg-accent/10 border border-accent/25 items-center justify-center text-accent">
+              <Icon size={16} />
+            </span>
+            <span className="mono-label text-fog-600 text-[10px] tracking-[0.18em]">
+              {item.code}
+            </span>
+          </div>
+          <p className="mono-label text-accent text-[10px] tracking-[0.22em] mb-1.5">
+            {item.tag}
+          </p>
+          <p className="text-fog-50 text-[14px] sm:text-[15px] font-medium leading-tight">
+            {item.title}
+          </p>
+          <p className="mono-label text-fog-500 text-[10px] tracking-[0.12em] mt-1.5">
+            {item.meta}
+          </p>
+          <div className="mt-auto pt-4">
+            <CapabilityVisual code={item.code} />
+          </div>
+        </div>
+      )}
+    </motion.div>
+  )
+}
+
+// Each capability code gets its own micro-animation. Lightweight CSS / SVG.
+function CapabilityVisual({ code, large }) {
+  switch (code) {
+    case '01': return <ApiTrace large={large} />
+    case '02': return <SparklinePulse />
+    case '03': return <WindowChrome />
+    case '04': return <PaymentChip />
+    case '05': return <MiniCard />
+    case '06': return <CloudNodes />
+    case '07': return <MessageBubbles />
+    case '08': return <KeyStream />
+    case '09': return <PciCheckBar />
+    default: return null
+  }
+}
+
+// 01 — API request/response trace
+function ApiTrace({ large }) {
+  const [tick, setTick] = useState(0)
+  useEffect(() => {
+    const id = setInterval(() => setTick((t) => t + 1), 1100)
+    return () => clearInterval(id)
+  }, [])
+  const traces = [
+    { method: 'GET',    path: '/v1/accounts',         status: 200, ms: 42 },
+    { method: 'POST',   path: '/v1/transfers',        status: 201, ms: 184 },
+    { method: 'POST',   path: '/v1/cards/auth',       status: 200, ms: 88 },
+    { method: 'POST',   path: '/v1/i2c/sync',         status: 200, ms: 142 },
+    { method: 'GET',    path: '/v1/users/me',         status: 200, ms: 38 },
+    { method: 'PUT',    path: '/v1/cards/4291',       status: 200, ms: 110 },
+  ]
+  // show 4 most recent (rolls forward over time)
+  const visible = []
+  for (let i = 0; i < 4; i++) {
+    visible.push(traces[(tick + i) % traces.length])
+  }
+  return (
+    <div className="font-mono text-[11px] sm:text-[12px] space-y-1">
+      {visible.map((row, i) => {
+        const opacity = (i + 1) / 4
+        const methodColor =
+          row.method === 'GET' ? 'text-signal-blue'
+          : row.method === 'POST' ? 'text-accent'
+          : 'text-signal-amber'
+        return (
+          <div
+            key={`${tick}-${i}`}
+            className="flex items-center gap-2 sm:gap-3 animate-[traceFade_0.4s_ease-out]"
+            style={{ opacity }}
+          >
+            <span className={`mono-label text-[9px] sm:text-[10px] tracking-[0.14em] w-9 sm:w-10 shrink-0 ${methodColor}`}>
+              {row.method}
+            </span>
+            <span className="text-fog-200 truncate flex-1">{row.path}</span>
+            <span className={`tabular-nums text-[10px] sm:text-[11px] ${row.status === 200 || row.status === 201 ? 'text-signal-green' : 'text-signal-red'}`}>
+              {row.status}
+            </span>
+            <span className="mono-label text-fog-500 text-[9px] tracking-[0.12em] tabular-nums w-10 text-right">
+              {row.ms}ms
+            </span>
+          </div>
+        )
+      })}
+      <style jsx global>{`
+        @keyframes traceFade {
+          from { opacity: 0; transform: translateX(-4px); }
+          to { opacity: var(--final, 1); transform: translateX(0); }
+        }
+      `}</style>
+    </div>
+  )
+}
+
+// 02 — animated sparkline
+function SparklinePulse() {
+  const [points, setPoints] = useState(() => Array.from({ length: 20 }, () => 50))
+  useEffect(() => {
+    setPoints(() => {
+      let p = 50
+      return Array.from({ length: 20 }, () => {
+        p += (Math.random() - 0.45) * 14
+        p = Math.max(20, Math.min(80, p))
+        return p
+      })
+    })
+    const id = setInterval(() => {
+      setPoints((arr) => {
+        const last = arr[arr.length - 1]
+        let next = last + (Math.random() - 0.45) * 14
+        next = Math.max(20, Math.min(80, next))
+        return [...arr.slice(1), next]
+      })
+    }, 700)
+    return () => clearInterval(id)
+  }, [])
+  const min = Math.min(...points)
+  const max = Math.max(...points)
+  const range = max - min || 1
+  const path = points
+    .map((v, i) => `${(i / (points.length - 1)) * 100},${100 - ((v - min) / range) * 100}`)
+    .join(' ')
+  return (
+    <svg viewBox="0 0 100 50" preserveAspectRatio="none" className="w-full h-10 opacity-90">
+      <polyline
+        points={path.replace(/,(\d+(?:\.\d+)?) /g, ',$1 ').split(' ').map((p) => {
+          const [x, y] = p.split(',')
+          return `${x},${y / 2}`
+        }).join(' ')}
+        fill="none"
+        stroke="#2DE2C5"
+        strokeWidth="1.5"
+        strokeLinejoin="round"
+        vectorEffect="non-scaling-stroke"
+      />
+    </svg>
+  )
+}
+
+// 03 — back office window chrome with row indicator
+function WindowChrome() {
+  const [active, setActive] = useState(0)
+  useEffect(() => {
+    const id = setInterval(() => setActive((a) => (a + 1) % 4), 1100)
+    return () => clearInterval(id)
+  }, [])
+  return (
+    <div className="rounded-md border border-white/[0.06] bg-black/30 overflow-hidden">
+      <div className="flex items-center gap-1 px-2 py-1.5 border-b border-white/[0.05]">
+        <span className="w-1.5 h-1.5 rounded-full bg-signal-red/60" />
+        <span className="w-1.5 h-1.5 rounded-full bg-signal-amber/60" />
+        <span className="w-1.5 h-1.5 rounded-full bg-signal-green/60" />
+        <span className="ml-2 mono-label text-fog-600 text-[8px] tracking-[0.16em]">backoffice</span>
+      </div>
+      <div className="p-2 space-y-1">
+        {[0, 1, 2, 3].map((i) => (
+          <div
+            key={i}
+            className={`h-1.5 rounded transition-all duration-500 ${
+              i === active
+                ? 'bg-accent/70 w-full'
+                : 'bg-white/[0.05] w-3/4'
+            }`}
+          />
+        ))}
+      </div>
+    </div>
+  )
+}
+
+// 04 — payment chip with amount
+function PaymentChip() {
+  const [amount, setAmount] = useState(1240)
+  useEffect(() => {
+    const id = setInterval(() => {
+      setAmount(Math.floor(800 + Math.random() * 4500))
+    }, 1300)
+    return () => clearInterval(id)
+  }, [])
+  return (
+    <div className="flex items-center gap-3">
+      <div className="w-8 h-6 rounded border border-accent/40 bg-gradient-to-br from-accent/30 to-accent/5 flex items-center justify-center shrink-0">
+        <div className="w-5 h-3 grid grid-cols-3 gap-px">
+          {Array.from({ length: 9 }).map((_, i) => (
+            <div key={i} className="bg-accent/40 rounded-[1px]" />
+          ))}
+        </div>
+      </div>
+      <div className="font-mono">
+        <p className="text-accent text-[14px] sm:text-[15px] font-medium tabular-nums">
+          $ {amount.toLocaleString()}
+        </p>
+        <p className="mono-label text-fog-600 text-[9px] tracking-[0.14em]">approved</p>
+      </div>
+    </div>
+  )
+}
+
+// 05 — mini card with masked number
+function MiniCard() {
+  return (
+    <div
+      className="relative w-full h-12 rounded-md overflow-hidden p-2"
+      style={{
+        background: 'linear-gradient(135deg, #0d1620 0%, #18242f 100%)',
+        border: '1px solid rgba(45,226,197,0.18)',
+      }}
+    >
+      <div className="absolute top-1 right-1.5 mono-label text-accent text-[8px] tracking-[0.16em]">
+        i2c
+      </div>
+      <div className="absolute bottom-1.5 left-2 right-2 flex items-center justify-between">
+        <p className="font-mono text-fog-200 text-[10px] tracking-[0.16em] tabular-nums">
+          •••• •••• •••• 4291
+        </p>
+        <span className="status-dot run" />
+      </div>
+    </div>
+  )
+}
+
+// 06 — cloud nodes (Salesforce)
+function CloudNodes() {
+  const [tick, setTick] = useState(0)
+  useEffect(() => {
+    const id = setInterval(() => setTick((t) => (t + 1) % 4), 600)
+    return () => clearInterval(id)
+  }, [])
+  const nodes = [
+    { x: 20, y: 30 },
+    { x: 60, y: 20 },
+    { x: 90, y: 50 },
+    { x: 50, y: 60 },
+    { x: 15, y: 70 },
+  ]
+  return (
+    <svg viewBox="0 0 110 80" className="w-full h-12">
+      {nodes.map((a, i) =>
+        nodes.slice(i + 1).map((b, j) => (
+          <line
+            key={`${i}-${j}`}
+            x1={a.x}
+            y1={a.y}
+            x2={b.x}
+            y2={b.y}
+            stroke="#2DE2C5"
+            strokeOpacity="0.18"
+            strokeWidth="0.4"
+          />
+        )),
+      )}
+      {nodes.map((n, i) => (
+        <circle
+          key={i}
+          cx={n.x}
+          cy={n.y}
+          r={i === tick % nodes.length ? 3 : 1.8}
+          fill="#2DE2C5"
+          opacity={i === tick % nodes.length ? 1 : 0.5}
+        />
+      ))}
+    </svg>
+  )
+}
+
+// 07 — message bubbles cycling
+function MessageBubbles() {
+  const [tick, setTick] = useState(0)
+  useEffect(() => {
+    const id = setInterval(() => setTick((t) => t + 1), 900)
+    return () => clearInterval(id)
+  }, [])
+  const messages = ['support reply', 'auth otp', 'tx alert', 'doc ready']
+  return (
+    <div className="space-y-1">
+      {[0, 1, 2].map((i) => {
+        const idx = (tick + i) % messages.length
+        const isLeft = (tick + i) % 2 === 0
+        const opacity = (i + 1) / 3
+        return (
+          <div key={`${tick}-${i}`} className={`flex ${isLeft ? '' : 'justify-end'}`} style={{ opacity }}>
+            <span
+              className={`text-[9px] sm:text-[10px] px-2 py-0.5 rounded ${
+                isLeft
+                  ? 'bg-white/[0.04] text-fog-300 border border-white/[0.05]'
+                  : 'bg-accent/15 text-accent border border-accent/25'
+              }`}
+            >
+              {messages[idx]}
+            </span>
+          </div>
+        )
+      })}
+    </div>
+  )
+}
+
+// 08 — key + binary stream
+function KeyStream() {
+  const [seed, setSeed] = useState(0)
+  useEffect(() => {
+    const id = setInterval(() => setSeed((s) => s + 1), 240)
+    return () => clearInterval(id)
+  }, [])
+  // deterministic-looking hex per seed step
+  const hex = '0123456789abcdef'
+  const line = Array.from({ length: 24 }, (_, i) => hex[(seed + i * 7) % 16]).join('')
+  return (
+    <div className="flex items-center gap-3">
+      <div
+        className="w-8 h-8 rounded border border-accent/30 bg-accent/10 flex items-center justify-center shrink-0"
+        style={{ animation: 'tpkPulse 2.4s ease-in-out infinite' }}
+      >
+        <Lock size={13} className="text-accent" />
+      </div>
+      <div className="flex-1 min-w-0">
+        <p className="font-mono text-accent text-[10px] tracking-[0.05em] truncate">
+          {line}
+        </p>
+        <p className="mono-label text-fog-600 text-[9px] tracking-[0.14em] mt-0.5">
+          tpk · in-transit
+        </p>
+      </div>
+    </div>
+  )
+}
+
+// 09 — full-width PCI compliance check bar
+function PciCheckBar() {
+  const items = ['network', 'data', 'access', 'monitoring', 'policy', 'vulnerabilities']
+  const [active, setActive] = useState(0)
+  useEffect(() => {
+    const id = setInterval(() => setActive((a) => (a + 1) % items.length), 800)
+    return () => clearInterval(id)
+  }, [])
+  return (
+    <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
+      {items.map((label, i) => {
+        const done = i <= active
+        return (
+          <div key={label} className="flex items-center gap-1.5">
+            <span
+              className={`w-3.5 h-3.5 rounded-full border flex items-center justify-center text-[8px] transition-all ${
+                done
+                  ? 'border-signal-green bg-signal-green/20 text-signal-green'
+                  : 'border-white/15 text-fog-600'
+              }`}
+            >
+              {done ? '✓' : ''}
+            </span>
+            <span
+              className={`mono-label text-[9px] sm:text-[10px] tracking-[0.16em] ${
+                done ? 'text-fog-200' : 'text-fog-600'
+              }`}
+            >
+              {label}
+            </span>
+            {i < items.length - 1 && (
+              <span className={`hidden sm:inline-block w-3 h-px ${done ? 'bg-signal-green/40' : 'bg-white/10'}`} />
+            )}
+          </div>
+        )
+      })}
+    </div>
   )
 }
 
@@ -329,7 +811,7 @@ function Integration({ f }) {
           viewport={{ once: true, margin: '-60px' }}
           transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
           className="relative w-full order-1 lg:order-1"
-          style={{ height: 'clamp(380px, 56vh, 560px)' }}
+          style={{ height: 'clamp(440px, 70vh, 680px)' }}
         >
           <BankParticles />
           {/* corner crosshairs */}
@@ -508,25 +990,46 @@ function Salesforce({ f }) {
 function Dashboards({ f }) {
   return (
     <SectionShell id="dashboards">
-      <SectionHeader
-        eyebrow={f.dashboards.eyebrow}
-        title={f.dashboards.title}
-        accent={f.dashboards.titleAccent}
-        body={f.dashboards.body}
-        max="max-w-3xl"
-      />
-      <motion.div
-        initial={{ opacity: 0, y: 18 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: '-80px' }}
-        transition={{ duration: 0.85 }}
-        className="mt-10"
-      >
-        <TradingWall />
-      </motion.div>
-      <p className="mt-10 text-fog-400 text-[14px] leading-relaxed text-pretty max-w-2xl">
-        {f.dashboards.closing}
-      </p>
+      <div className="grid lg:grid-cols-[1fr_1.15fr] gap-10 lg:gap-14 items-center">
+        {/* LEFT — copy */}
+        <div className="min-w-0">
+          <SectionHeader
+            eyebrow={f.dashboards.eyebrow}
+            title={f.dashboards.title}
+            accent={f.dashboards.titleAccent}
+            body={f.dashboards.body}
+            max="max-w-md"
+          />
+          <p className="text-fog-500 text-[13.5px] sm:text-[14px] leading-relaxed text-pretty mt-6 pt-5 border-t border-white/[0.06] italic max-w-md">
+            {f.dashboards.closing}
+          </p>
+          <div className="mt-6 hidden lg:flex items-center gap-2 text-fog-500">
+            <Hand size={11} className="text-accent" />
+            <p className="mono-label text-[9px] tracking-[0.2em]">
+              hover · scatter · auto-cycle
+            </p>
+          </div>
+        </div>
+
+        {/* RIGHT — particle reformation visual */}
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-60px' }}
+          transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
+          className="relative w-full"
+          style={{ height: 'clamp(420px, 60vh, 600px)' }}
+        >
+          <DataReform />
+          {/* corner crosshairs */}
+          <div aria-hidden className="absolute inset-0 pointer-events-none">
+            <div className="absolute top-0 left-0 w-3 h-3 border-t border-l border-accent/40" />
+            <div className="absolute top-0 right-0 w-3 h-3 border-t border-r border-accent/40" />
+            <div className="absolute bottom-0 left-0 w-3 h-3 border-b border-l border-accent/40" />
+            <div className="absolute bottom-0 right-0 w-3 h-3 border-b border-r border-accent/40" />
+          </div>
+        </motion.div>
+      </div>
     </SectionShell>
   )
 }

@@ -534,7 +534,7 @@ export default function BankParticles() {
       <Canvas
         dpr={[1, 1.6]}
         gl={{ antialias: true, alpha: true, powerPreference: 'high-performance' }}
-        camera={{ position: [0, 0.1, 6.4], fov: 42 }}
+        camera={{ position: [0, 0.0, 7.6], fov: 38 }}
         style={{ width: '100%', height: '100%', display: 'block' }}
       >
         <ambientLight intensity={0.5} />
