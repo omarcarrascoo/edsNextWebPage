@@ -10,37 +10,46 @@ const VIOLET = new THREE.Color('#9D8DF1')
 const AMBER = new THREE.Color('#F5B544')
 const WHITE = new THREE.Color('#F0F6FB')
 const ORANGE = new THREE.Color('#FF8B3D')
+const DIM = new THREE.Color('#1a242e')
 
 const TONES = [ACCENT, BLUE, VIOLET, AMBER, ACCENT, BLUE, VIOLET, AMBER, ACCENT, BLUE]
 
-// Rocket geometry constants — designed so the whole craft fits roughly in y ∈ [-2, 2.4]
+// Rocket geometry constants
 const STAGE_COUNT = 10
 const STAGE_H = 0.32
 const BODY_R = 0.45
-const BODY_BOTTOM = -1.6 // y where stage 9 (bottom) ends
-const BODY_TOP = BODY_BOTTOM + STAGE_COUNT * STAGE_H // = 1.6
+const BODY_BOTTOM = -1.6
+const BODY_TOP = BODY_BOTTOM + STAGE_COUNT * STAGE_H
 const NOSE_H = 0.7
-const NOSE_TOP = BODY_TOP + NOSE_H
 const FIN_W = 0.55
 const FIN_H = 0.55
 const ENGINE_R = 0.35
 const ENGINE_DEPTH = 0.18
 
+// stage tags for each particle — used to look up activation
+// 0..9 = body stages (0 = top, 9 = bottom)
+// 10 = nose, 11 = fins, 12 = engine bell, 13 = exhaust, 14 = porthole
+const PIECE_NOSE = 10
+const PIECE_FINS = 11
+const PIECE_BELL = 12
+const PIECE_EXHAUST = 13
+const PIECE_PORTHOLE = 14
+
 // =============================================================================
-// Sample N points uniformly on the rocket surface, return positions+colors+homes
+// Sample particles. Each gets a (home, color, piece) so we can fade by activation.
 // =============================================================================
 function buildRocket() {
   const positions = []
   const colors = []
+  const pieces = []
 
-  // helper: push a point
-  const push = (x, y, z, c) => {
+  const push = (x, y, z, c, piece) => {
     positions.push(x, y, z)
     colors.push(c.r, c.g, c.b)
+    pieces.push(piece)
   }
 
-  // BODY — 10 stages, each a thin cylindrical band, sampled densely
-  // stage 0 is on top, stage 9 at the bottom (matches layer order)
+  // BODY — 10 stages. piece = stage index (0=top, 9=bottom)
   const POINTS_PER_STAGE = 320
   for (let s = 0; s < STAGE_COUNT; s++) {
     const yTop = BODY_TOP - s * STAGE_H
@@ -49,26 +58,20 @@ function buildRocket() {
     for (let i = 0; i < POINTS_PER_STAGE; i++) {
       const theta = Math.random() * Math.PI * 2
       const y = yBot + Math.random() * STAGE_H
-      // small radial jitter for soft cloud look
       const r = BODY_R + (Math.random() - 0.5) * 0.02
-      const x = Math.cos(theta) * r
-      const z = Math.sin(theta) * r
-      // slight color variance — mix in a bit of white at random
-      const mix = Math.random() < 0.06 ? 1 : 0
-      const c = tone.clone().lerp(WHITE, mix * 0.4)
-      push(x, y, z, c)
+      const c = tone.clone().lerp(WHITE, Math.random() < 0.06 ? 0.4 : 0)
+      push(Math.cos(theta) * r, y, Math.sin(theta) * r, c, s)
     }
-    // ring at stage boundary — brighter, to mark the seam
-    const RING_POINTS = 80
-    for (let i = 0; i < RING_POINTS; i++) {
-      const theta = (i / RING_POINTS) * Math.PI * 2
-      const y = yBot
+    // ring at stage seam
+    const RING = 80
+    for (let i = 0; i < RING; i++) {
+      const theta = (i / RING) * Math.PI * 2
       const r = BODY_R + 0.012
-      push(Math.cos(theta) * r, y, Math.sin(theta) * r, tone.clone().lerp(WHITE, 0.5))
+      push(Math.cos(theta) * r, yBot, Math.sin(theta) * r, tone.clone().lerp(WHITE, 0.5), s)
     }
   }
 
-  // PORTHOLE — small bright ring on the second-from-top stage, front-facing
+  // PORTHOLE — front of stage 1 (second from top)
   {
     const cy = BODY_TOP - 1.5 * STAGE_H
     const tone = TONES[1].clone().lerp(WHITE, 0.6)
@@ -77,39 +80,32 @@ function buildRocket() {
       const ang = (i / RING) * Math.PI * 2
       const localY = Math.sin(ang) * 0.07
       const localX = Math.cos(ang) * 0.07
-      // place on the front of the body (z ≈ +R), curved onto the cylinder
       const theta = Math.atan2(localX, BODY_R)
       const x = Math.cos(theta) * (BODY_R + 0.018)
       const z = Math.sin(theta) * (BODY_R + 0.018)
-      push(x, cy + localY, z, tone)
+      push(x, cy + localY, z, tone, PIECE_PORTHOLE)
     }
   }
 
-  // NOSE CONE — radius linearly tapers from BODY_R to 0 over NOSE_H
+  // NOSE
   const NOSE_POINTS = 600
   for (let i = 0; i < NOSE_POINTS; i++) {
-    const t = Math.random() // 0 at base, 1 at tip
+    const t = Math.random()
     const y = BODY_TOP + t * NOSE_H
     const r = BODY_R * (1 - t) + (Math.random() - 0.5) * 0.015
     const theta = Math.random() * Math.PI * 2
-    const x = Math.cos(theta) * r
-    const z = Math.sin(theta) * r
-    // color: top-stage tone fading toward white at the tip
     const c = TONES[0].clone().lerp(WHITE, t * 0.7)
-    push(x, y, z, c)
+    push(Math.cos(theta) * r, y, Math.sin(theta) * r, c, PIECE_NOSE)
   }
 
-  // FINS — 4 triangular fins at the bottom, around the body
+  // FINS
   const FIN_POINTS = 220
+  const finTone = TONES[STAGE_COUNT - 1]
   for (let f = 0; f < 4; f++) {
     const finTheta = (f / 4) * Math.PI * 2
     const cosT = Math.cos(finTheta)
     const sinT = Math.sin(finTheta)
-    const tone = TONES[STAGE_COUNT - 1] // bottom-stage color
     for (let i = 0; i < FIN_POINTS; i++) {
-      // triangle in the (radial, y) plane, rotated to finTheta
-      // vertices: (R, y0), (R, y0+FIN_H), (R+FIN_W, y0)
-      // pick uniform point in triangle via sqrt trick
       const u = Math.random()
       const v = Math.random()
       const s = Math.sqrt(u)
@@ -118,16 +114,15 @@ function buildRocket() {
       const localY = BODY_BOTTOM + (s - t) * FIN_H
       const x = cosT * localR
       const z = sinT * localR
-      // small thickness — tiny perpendicular offset
       const perp = (Math.random() - 0.5) * 0.04
       const px = x + (-sinT) * perp
       const pz = z + cosT * perp
-      const c = tone.clone().lerp(WHITE, Math.random() < 0.05 ? 0.4 : 0)
-      push(px, localY, pz, c)
+      const c = finTone.clone().lerp(WHITE, Math.random() < 0.05 ? 0.4 : 0)
+      push(px, localY, pz, c, PIECE_FINS)
     }
   }
 
-  // ENGINE BELL — flared cylinder under the body
+  // ENGINE BELL
   const ENGINE_POINTS = 220
   for (let i = 0; i < ENGINE_POINTS; i++) {
     const t = Math.random()
@@ -139,69 +134,109 @@ function buildRocket() {
       y,
       Math.sin(theta) * r,
       TONES[STAGE_COUNT - 1].clone().lerp(WHITE, 0.3),
+      PIECE_BELL,
     )
   }
 
-  // EXHAUST GLOW — small cluster below the engine, hot colors
+  // EXHAUST
   const EXHAUST_POINTS = 240
   for (let i = 0; i < EXHAUST_POINTS; i++) {
     const t = Math.random()
     const y = BODY_BOTTOM - ENGINE_DEPTH - t * 0.55
     const r = ENGINE_R * (1 - t * 0.6) + (Math.random() - 0.5) * 0.08
     const theta = Math.random() * Math.PI * 2
-    // hotter at top of plume, fades to amber/orange at tail
     const c = AMBER.clone().lerp(ORANGE, t).lerp(WHITE, 1 - t * 0.5)
-    push(Math.cos(theta) * r, y, Math.sin(theta) * r, c)
+    push(Math.cos(theta) * r, y, Math.sin(theta) * r, c, PIECE_EXHAUST)
   }
 
   const count = positions.length / 3
   const positionArr = new Float32Array(positions)
-  const colorArr = new Float32Array(colors)
-  const homeArr = new Float32Array(positionArr) // copy
-  // mark which ones are exhaust (last EXHAUST_POINTS) — they idle-flicker
-  const flagArr = new Uint8Array(count) // 0=body, 1=exhaust
-  for (let i = count - EXHAUST_POINTS; i < count; i++) flagArr[i] = 1
+  const colorArr = new Float32Array(colors)        // base "lit" colors
+  const homeArr = new Float32Array(positionArr)
+  const pieceArr = new Uint8Array(pieces)
+  return { positions: positionArr, homes: homeArr, baseColors: colorArr, pieces: pieceArr, count }
+}
 
-  return { positions: positionArr, homes: homeArr, colors: colorArr, flags: flagArr, count }
+// Determines whether a piece is currently "lit" given activeStages (0..10).
+// Returns 0..1 — partial values for smooth transitions during the activation animation.
+function pieceLitTarget(piece, activeStages) {
+  // Body stages: stage s lit iff (STAGE_COUNT - s) <= activeStages
+  // i.e., bottom stage (9) lights up when activeStages >= 1
+  if (piece <= 9) {
+    const minActivation = STAGE_COUNT - piece // stage 9 needs 1, stage 0 needs 10
+    return activeStages >= minActivation ? 1 : 0
+  }
+  if (piece === PIECE_BELL || piece === PIECE_EXHAUST) {
+    // bell + exhaust come with the foundation (pair I, activeStages >= 2)
+    return activeStages >= 1 ? 1 : 0
+  }
+  if (piece === PIECE_FINS) {
+    // fins arrive with pair II
+    return activeStages >= 4 ? 1 : 0
+  }
+  if (piece === PIECE_PORTHOLE) {
+    // porthole with pair III
+    return activeStages >= 6 ? 1 : 0
+  }
+  if (piece === PIECE_NOSE) {
+    // nose comes last, with pair V
+    return activeStages >= 10 ? 1 : 0
+  }
+  return 1
 }
 
 // =============================================================================
-// Particle field — physics loop driven by cursor proximity
+// Particle field — physics + activation tween
 // =============================================================================
-function ParticleField({ cursorRef, interactedRef, autoSpinRef }) {
-  const pointsRef = useRef(null)
+function ParticleField({ activeStagesRef, interactedRef, autoSpinRef }) {
   const groupRef = useRef(null)
   const { camera } = useThree()
 
-  const { positions, homes, colors, flags, count } = useMemo(() => buildRocket(), [])
+  const { positions, homes, baseColors, pieces, count } = useMemo(() => buildRocket(), [])
   const velocities = useMemo(() => new Float32Array(count * 3), [count])
+
+  // pulse tracking — when a stage crosses to lit, fire a shockwave at its Y
+  const lastLitRef = useRef(0)
+  const pulseRef = useRef({ y: 0, t: 0 }) // t = remaining seconds, 0 = inactive
+  // current display color (what's actually drawn) — interpolated between DIM and baseColors
+  const displayColors = useMemo(() => {
+    // start fully dim
+    const arr = new Float32Array(count * 3)
+    for (let i = 0; i < count; i++) {
+      arr[i * 3] = DIM.r
+      arr[i * 3 + 1] = DIM.g
+      arr[i * 3 + 2] = DIM.b
+    }
+    return arr
+  }, [count])
+  // per-particle activation level (0=dim, 1=lit) — animated toward target
+  const activations = useMemo(() => new Float32Array(count), [count])
+
   const cursorWorld = useRef(new THREE.Vector3())
   const tmpDir = useRef(new THREE.Vector3())
 
   const geometry = useMemo(() => {
     const g = new THREE.BufferGeometry()
     g.setAttribute('position', new THREE.BufferAttribute(positions, 3))
-    g.setAttribute('color', new THREE.BufferAttribute(colors, 3))
+    g.setAttribute('color', new THREE.BufferAttribute(displayColors, 3))
     return g
-  }, [positions, colors])
+  }, [positions, displayColors])
 
   useEffect(() => () => geometry.dispose(), [geometry])
 
-  // tunables — punchy explosion, slow reform
+  // physics tunables
   const RADIUS = 0.7
   const RADIUS_SQ = RADIUS * RADIUS
   const REPULSE = 0.18
   const SPRING = 0.012
   const DAMPING = 0.93
   const EXHAUST_NOISE = 0.012
+  const ACTIVATION_LERP = 0.04 // ~0.5s ease for stage assembly fade-in
 
   useFrame((state, dt) => {
-    // 1) project cursor (NDC) to a plane at z=0 in WORLD space (after group rotation)
-    // To make cursor interact properly with the rotated rocket, we'll convert cursor
-    // to world space, then transform into the group's local space before scattering.
+    // 1) cursor projection
     const mouse = state.mouse
     if (mouse.x === 0 && mouse.y === 0) {
-      // mouse not yet over canvas — keep cursorWorld far away
       cursorWorld.current.set(9999, 9999, 9999)
     } else {
       cursorWorld.current.set(mouse.x, mouse.y, 0.5)
@@ -211,28 +246,64 @@ function ParticleField({ cursorRef, interactedRef, autoSpinRef }) {
       cursorWorld.current.copy(camera.position).add(dir.multiplyScalar(dist))
     }
 
-    // group auto-spin (gentle yaw drift) — only if not interacted
+    // 2) auto spin
     if (groupRef.current) {
       if (autoSpinRef.current && !interactedRef.current) {
         groupRef.current.rotation.y += 0.0028
       }
-      // smooth toward target rotation set externally (drag handler)
     }
 
-    // transform cursor world → group's local space (so the explosion follows the cursor
-    // visually even when the rocket is rotated)
+    // local cursor for this group's space
     const localCursor = tmpDir.current.copy(cursorWorld.current)
-    if (groupRef.current) {
-      groupRef.current.worldToLocal(localCursor)
-    }
+    if (groupRef.current) groupRef.current.worldToLocal(localCursor)
 
     const pos = geometry.attributes.position.array
+    const col = geometry.attributes.color.array
     const cx = localCursor.x, cy = localCursor.y, cz = localCursor.z
+
+    const activeStages = activeStagesRef.current ?? 0
+
+    // ---- PULSE DETECTION ----
+    // Trigger a shockwave when a new stage just got lit (integer crossing).
+    const litFloor = Math.floor(activeStages)
+    if (litFloor > lastLitRef.current && litFloor <= STAGE_COUNT) {
+      // The newly-lit body stage index = STAGE_COUNT - litFloor (since stage 9 lights at activeStages=1)
+      const newStageIdx = STAGE_COUNT - litFloor
+      const yTop = BODY_TOP - newStageIdx * STAGE_H
+      const yCenter = yTop - STAGE_H / 2
+      pulseRef.current = { y: yCenter, t: 0.6 }
+      lastLitRef.current = litFloor
+    } else if (litFloor < lastLitRef.current) {
+      // user scrolled back — just sync without triggering
+      lastLitRef.current = litFloor
+    }
+
+    // decay pulse timer
+    if (pulseRef.current.t > 0) {
+      pulseRef.current.t = Math.max(0, pulseRef.current.t - dt)
+    }
+    const pulseT = pulseRef.current.t
+    const pulseY = pulseRef.current.y
+    const pulseStrength = pulseT > 0 ? pulseT / 0.6 : 0 // 1 → 0 over 0.6s
+    const pulseRadius = 1.2 - pulseStrength * 0.7        // grows outward 0.5 → 1.2
+    const pulseRadiusSq = pulseRadius * pulseRadius
+    const pulseBandSq = 0.18 * 0.18                      // band thickness around the wavefront
 
     for (let i = 0; i < count; i++) {
       const ix = i * 3, iy = i * 3 + 1, iz = i * 3 + 2
+      const piece = pieces[i]
 
-      // cursor repulsion
+      // ---- ACTIVATION ANIMATION ----
+      const target = pieceLitTarget(piece, activeStages)
+      activations[i] += (target - activations[i]) * ACTIVATION_LERP
+      const a = activations[i]
+      // lerp color: DIM at a=0 → baseColor at a=1
+      col[ix] = DIM.r + (baseColors[ix] - DIM.r) * a
+      col[iy] = DIM.g + (baseColors[iy] - DIM.g) * a
+      col[iz] = DIM.b + (baseColors[iz] - DIM.b) * a
+
+      // ---- PHYSICS ----
+      // cursor repulsion (always active — even dim particles can be scattered)
       const dx = pos[ix] - cx
       const dy = pos[iy] - cy
       const dz = pos[iz] - cz
@@ -245,9 +316,25 @@ function ParticleField({ cursorRef, interactedRef, autoSpinRef }) {
         velocities[ix] += (dx / d) * f
         velocities[iy] += (dy / d) * f
         velocities[iz] += (dz / d) * f
-        // small tangential kick for swirl
         velocities[ix] += (Math.random() - 0.5) * 0.02 * falloff
         velocities[iz] += (Math.random() - 0.5) * 0.02 * falloff
+      }
+
+      // ---- STAGE PULSE — radial shockwave from a stage's center ----
+      if (pulseStrength > 0) {
+        const pdx = pos[ix] - 0          // pulse origin X = 0 (center axis)
+        const pdy = pos[iy] - pulseY
+        const pdz = pos[iz] - 0
+        const pdSq = pdx * pdx + pdy * pdy + pdz * pdz
+        const dFromWavefront = pdSq - pulseRadiusSq
+        if (dFromWavefront * dFromWavefront < pulseBandSq * 1000) {
+          // particle is in the wavefront band → push radially outward
+          const pd = Math.sqrt(pdSq) + 0.0001
+          const k = pulseStrength * 0.06
+          velocities[ix] += (pdx / pd) * k
+          velocities[iy] += (pdy / pd) * k * 0.4    // dampen vertical kick
+          velocities[iz] += (pdz / pd) * k
+        }
       }
 
       // spring toward home
@@ -255,30 +342,29 @@ function ParticleField({ cursorRef, interactedRef, autoSpinRef }) {
       velocities[iy] += (homes[iy] - pos[iy]) * SPRING
       velocities[iz] += (homes[iz] - pos[iz]) * SPRING
 
-      // damping
       velocities[ix] *= DAMPING
       velocities[iy] *= DAMPING
       velocities[iz] *= DAMPING
 
-      // exhaust idle flicker — small random jitter
-      if (flags[i] === 1) {
+      // exhaust idle flicker — only when lit
+      if (piece === PIECE_EXHAUST && a > 0.6) {
         velocities[ix] += (Math.random() - 0.5) * EXHAUST_NOISE
-        velocities[iy] -= 0.002 // slight downward drift
+        velocities[iy] -= 0.002
         velocities[iz] += (Math.random() - 0.5) * EXHAUST_NOISE
       }
 
-      // integrate
       pos[ix] += velocities[ix]
       pos[iy] += velocities[iy]
       pos[iz] += velocities[iz]
     }
 
     geometry.attributes.position.needsUpdate = true
+    geometry.attributes.color.needsUpdate = true
   })
 
   return (
     <group ref={groupRef}>
-      <points ref={pointsRef} geometry={geometry}>
+      <points geometry={geometry}>
         <pointsMaterial
           size={0.028}
           vertexColors
@@ -296,10 +382,13 @@ function ParticleField({ cursorRef, interactedRef, autoSpinRef }) {
 // =============================================================================
 // Public component
 // =============================================================================
-export default function RocketParticles({ scrollProgressRef }) {
+export default function RocketParticles({ activeStagesRef }) {
   const interactedRef = useRef(false)
   const autoSpinRef = useRef(true)
   const containerRef = useRef(null)
+  // fallback ref if parent didn't pass one — defaults to 10 (fully assembled)
+  const fallbackRef = useRef(10)
+  const stagesRef = activeStagesRef ?? fallbackRef
   const [reduced, setReduced] = useState(false)
 
   useEffect(() => {
@@ -311,8 +400,10 @@ export default function RocketParticles({ scrollProgressRef }) {
     return () => mq.removeEventListener?.('change', onChange)
   }, [])
 
-  // mark "interacted" the moment the cursor enters the canvas (any movement counts
-  // as user contact for the destruction interaction)
+  useEffect(() => {
+    autoSpinRef.current = !reduced
+  }, [reduced])
+
   useEffect(() => {
     const el = containerRef.current
     if (!el) return
@@ -339,8 +430,9 @@ export default function RocketParticles({ scrollProgressRef }) {
       >
         <ambientLight intensity={0.5} />
         <ParticleField
+          activeStagesRef={stagesRef}
           interactedRef={interactedRef}
-          autoSpinRef={{ current: !reduced }}
+          autoSpinRef={autoSpinRef}
         />
       </Canvas>
     </div>

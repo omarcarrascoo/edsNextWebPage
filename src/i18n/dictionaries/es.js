@@ -100,7 +100,50 @@ const es = {
   services: {
     eyebrow: 'Capacidades',
     title: 'Servicios principales',
-    subtitle: 'Diez frentes que cubrimos cuando construimos la infraestructura digital de una empresa.',
+    subtitle: 'Diez frentes, cinco etapas. Así se ensambla la maquinaria de tu operación.',
+    assemblyLabel: 'rocket.assembly',
+    pairs: [
+      {
+        code: 'I',
+        title: 'La base',
+        caption: 'Donde la idea deja de ser maqueta.',
+        body: 'Antes de subir cualquier interfaz, el cohete necesita estructura: backend confiable y seguridad por diseño. Sin esto, todo lo de arriba se cae.',
+        slugs: ['backend', 'security'],
+        stage: 'BASE · ESTRUCTURA',
+      },
+      {
+        code: 'II',
+        title: 'Las interfaces',
+        caption: 'La superficie por donde entra el negocio.',
+        body: 'Web y móvil son los puntos de contacto. Ahí ocurre todo: clientes, equipos, operaciones diarias. Conectados al mismo núcleo, no como islas.',
+        slugs: ['web-apps', 'mobile'],
+        stage: 'INTERFACES · CONTACTO',
+      },
+      {
+        code: 'III',
+        title: 'La inteligencia',
+        caption: 'Lo que decide y lo que mide.',
+        body: 'IA con criterio para automatizar tareas concretas. Dashboards que sí dicen algo. Para que el negocio piense, no solo registre.',
+        slugs: ['ai', 'dashboards'],
+        stage: 'COGNICIÓN · DECISIÓN',
+      },
+      {
+        code: 'IV',
+        title: 'La operación',
+        caption: 'Donde el negocio realmente se mueve.',
+        body: 'Ventas, inventario, logística, rutas, entregas. La capa que toca el mundo físico. Conectada a la inteligencia que la coordina.',
+        slugs: ['ecommerce', 'logistics'],
+        stage: 'OPERACIÓN · CAMPO',
+      },
+      {
+        code: 'V',
+        title: 'El alcance',
+        caption: 'Hacia el exterior, con responsabilidad.',
+        body: 'Pagos seguros, mensajería en tiempo real. Las capas críticas que conectan tu sistema con el dinero, los clientes y el resto del mundo.',
+        slugs: ['fintech', 'messaging'],
+        stage: 'ALCANCE · CRÍTICO',
+      },
+    ],
     items: [
       {
         slug: 'web-apps',

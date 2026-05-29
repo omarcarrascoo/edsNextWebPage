@@ -100,7 +100,50 @@ const en = {
   services: {
     eyebrow: 'Capabilities',
     title: 'Core services',
-    subtitle: 'Ten fronts we cover when we build the digital infrastructure of a company.',
+    subtitle: 'Ten fronts, five stages. This is how the machinery of your operation gets assembled.',
+    assemblyLabel: 'rocket.assembly',
+    pairs: [
+      {
+        code: 'I',
+        title: 'The base',
+        caption: 'Where the idea stops being a mockup.',
+        body: 'Before any interface goes up, the rocket needs structure: reliable backend and security by design. Without this, everything above collapses.',
+        slugs: ['backend', 'security'],
+        stage: 'BASE · STRUCTURE',
+      },
+      {
+        code: 'II',
+        title: 'The interfaces',
+        caption: 'The surface where the business shows up.',
+        body: 'Web and mobile are the contact points. That is where everything happens: customers, teams, daily operations. Connected to the same core, not as islands.',
+        slugs: ['web-apps', 'mobile'],
+        stage: 'INTERFACES · CONTACT',
+      },
+      {
+        code: 'III',
+        title: 'The intelligence',
+        caption: 'What decides and what measures.',
+        body: 'AI with judgement to automate concrete tasks. Dashboards that actually say something. So the business thinks, not just records.',
+        slugs: ['ai', 'dashboards'],
+        stage: 'COGNITION · DECISION',
+      },
+      {
+        code: 'IV',
+        title: 'The operation',
+        caption: 'Where the business actually moves.',
+        body: 'Sales, inventory, logistics, routes, deliveries. The layer that touches the physical world. Connected to the intelligence that coordinates it.',
+        slugs: ['ecommerce', 'logistics'],
+        stage: 'OPERATION · FIELD',
+      },
+      {
+        code: 'V',
+        title: 'The reach',
+        caption: 'Outward, with responsibility.',
+        body: 'Secure payments, realtime messaging. The critical layers that connect your system to money, customers, and the rest of the world.',
+        slugs: ['fintech', 'messaging'],
+        stage: 'REACH · CRITICAL',
+      },
+    ],
     items: [
       {
         slug: 'web-apps',

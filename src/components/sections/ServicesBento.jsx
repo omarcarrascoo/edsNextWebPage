@@ -1,13 +1,19 @@
 'use client'
 
+import dynamic from 'next/dynamic'
 import { motion } from 'framer-motion'
 import { useEffect, useRef, useState } from 'react'
 import {
   AppWindow, Bot, Smartphone, Database, BarChart3, ShoppingBag,
-  Landmark, Shield, MessagesSquare, Truck, ArrowUpRight, ArrowRight,
+  Landmark, Shield, MessagesSquare, Truck, Rocket, ArrowRight,
 } from 'lucide-react'
 import { useT } from '@/i18n/LanguageProvider'
 import { useScrollStory } from '@/components/graph/StoryConstellation'
+
+const RocketParticles = dynamic(() => import('@/components/graph/RocketParticles'), {
+  ssr: false,
+  loading: () => null,
+})
 
 const iconBySlug = {
   'web-apps': AppWindow,
@@ -22,291 +28,94 @@ const iconBySlug = {
   logistics: Truck,
 }
 
-// Mini visuals — same library as before, just trimmed for clarity
-function MiniVisual({ slug }) {
-  if (slug === 'web-apps') {
-    return (
-      <div className="rounded-lg border border-white/10 bg-ink-900/70 overflow-hidden w-full">
-        <div className="flex items-center gap-1.5 px-3 py-2 border-b border-white/[0.06]">
-          <span className="w-2 h-2 rounded-full bg-fog-500/40" />
-          <span className="w-2 h-2 rounded-full bg-fog-500/40" />
-          <span className="w-2 h-2 rounded-full bg-fog-500/40" />
-          <span className="ml-2 mono-label text-[9px]">app.empresa.com</span>
-        </div>
-        <div className="grid grid-cols-[80px_1fr]">
-          <div className="border-r border-white/[0.05] p-2.5 space-y-1.5">
-            {['Dashboard', 'Ventas', 'Clientes', 'Inventario'].map((s, i) => (
-              <div key={s} className={`h-2 rounded ${i === 0 ? 'bg-accent/40' : 'bg-white/[0.06]'}`} />
-            ))}
-          </div>
-          <div className="p-3 space-y-2">
-            <div className="flex gap-2">
-              <div className="flex-1 h-12 rounded bg-gradient-to-br from-accent/15 to-accent/5 border border-accent/20" />
-              <div className="flex-1 h-12 rounded bg-white/[0.04] border border-white/[0.06]" />
-            </div>
-            <div className="h-10 rounded bg-white/[0.03] border border-white/[0.06]" />
-          </div>
+// Each pair index → activeStages target. Pair 0 = 2 stages lit, pair 4 = 10.
+const STAGES_BY_PAIR = [2, 4, 6, 8, 10]
+
+function ServiceMini({ slug, items }) {
+  const item = items.find((it) => it.slug === slug)
+  const Icon = iconBySlug[slug] || AppWindow
+  if (!item) return null
+  return (
+    <div className="rounded-xl border border-white/[0.08] bg-[rgba(8,12,18,0.6)] backdrop-blur-md p-4 sm:p-5">
+      <div className="flex items-start gap-3 mb-2.5">
+        <span className="inline-flex w-8 h-8 rounded-lg bg-accent/10 border border-accent/25 items-center justify-center text-accent shrink-0">
+          <Icon size={15} />
+        </span>
+        <div className="min-w-0 flex-1">
+          <p className="text-fog-50 text-[14px] sm:text-[15px] font-medium leading-tight">
+            {item.name}
+          </p>
+          <p className="mono-label text-fog-500 text-[10px] tracking-[0.14em] mt-1 truncate">
+            {slug}
+          </p>
         </div>
       </div>
-    )
-  }
-
-  if (slug === 'ai') {
-    return (
-      <div className="space-y-2 w-full">
-        {[
-          { l: 'INPUT', v: 'documento.pdf · 14p', c: 'text-fog-300' },
-          { l: 'AI', v: 'extract → classify → summarize', c: 'text-accent' },
-          { l: 'RULES', v: 'if amount > 50k → review', c: 'text-signal-blue' },
-          { l: 'OUTPUT', v: 'ticket #4291 · slack', c: 'text-signal-green' },
-        ].map((line) => (
-          <div key={line.l} className="flex items-center gap-2.5 text-[12px] font-mono">
-            <span className="mono-label w-14 text-fog-500 text-[10px]">{line.l}</span>
-            <span className={line.c}>{line.v}</span>
-          </div>
-        ))}
-      </div>
-    )
-  }
-
-  if (slug === 'fintech') {
-    return (
-      <div className="space-y-1 font-mono text-[11px] w-full">
-        {[
-          { t: 'POST', p: '/api/transfer', s: '200', c: 'text-signal-green' },
-          { t: 'AUTH', p: 'token verified', s: 'ok', c: 'text-accent' },
-          { t: 'AUDIT', p: 'logged · idempotent', s: '✓', c: 'text-signal-blue' },
-          { t: 'POST', p: '/api/card/charge', s: '201', c: 'text-signal-green' },
-        ].map((row, i) => (
-          <div key={i} className="flex items-center gap-2 py-1.5 border-b border-white/[0.04] last:border-0">
-            <span className={`mono-label text-[10px] w-12 ${row.c}`}>{row.t}</span>
-            <span className="text-fog-200 flex-1 truncate">{row.p}</span>
-            <span className="mono-label text-fog-400 text-[10px]">{row.s}</span>
-          </div>
-        ))}
-      </div>
-    )
-  }
-
-  if (slug === 'dashboards') {
-    return (
-      <div className="flex items-end gap-1.5 h-24 w-full">
-        {[40, 65, 50, 78, 60, 90, 72, 85, 58, 92, 70].map((h, i) => (
-          <div
-            key={i}
-            className="flex-1 rounded-t bg-gradient-to-t from-accent/30 to-accent/70"
-            style={{ height: `${h}%`, minHeight: 4 }}
-          />
-        ))}
-      </div>
-    )
-  }
-
-  if (slug === 'security') {
-    return (
-      <div className="grid grid-cols-3 gap-1.5 w-full">
-        {Array.from({ length: 9 }).map((_, i) => (
-          <div
-            key={i}
-            className={`h-10 rounded border ${
-              i === 4 ? 'bg-accent/20 border-accent/40' : 'bg-white/[0.02] border-white/[0.05]'
-            } flex items-center justify-center`}
-          >
-            <span className={`mono-label text-[10px] ${i === 4 ? 'text-accent' : 'text-fog-500'}`}>
-              {i === 4 ? '✓' : '·'}
-            </span>
-          </div>
-        ))}
-      </div>
-    )
-  }
-
-  if (slug === 'messaging') {
-    return (
-      <div className="space-y-2 w-full">
-        {[
-          { who: 'Cliente', m: 'Necesito el reporte de…', a: 'left' },
-          { who: 'Bot', m: 'Generándolo ahora.', a: 'right' },
-          { who: 'Cliente', m: 'Perfecto, gracias.', a: 'left' },
-        ].map((b, i) => (
-          <div key={i} className={`flex ${b.a === 'right' ? 'justify-end' : ''}`}>
-            <div
-              className={`rounded-lg px-3 py-1.5 text-[11px] max-w-[75%] ${
-                b.a === 'right'
-                  ? 'bg-accent/15 border border-accent/25 text-accent'
-                  : 'bg-white/[0.04] border border-white/[0.06] text-fog-200'
-              }`}
+      <p className="text-fog-300 text-[12.5px] sm:text-[13px] leading-relaxed text-pretty">
+        {item.tagline}
+      </p>
+      {item.bullets?.length > 0 && (
+        <div className="mt-3 flex flex-wrap gap-1">
+          {item.bullets.slice(0, 3).map((b) => (
+            <span
+              key={b}
+              className="mono-label text-[9px] tracking-[0.08em] px-2 py-0.5 rounded-full border border-white/[0.07] bg-white/[0.02] text-fog-400"
             >
-              {b.m}
-            </div>
-          </div>
-        ))}
-      </div>
-    )
-  }
-
-  if (slug === 'mobile') {
-    return (
-      <div className="flex justify-center w-full">
-        <div className="w-[90px] h-[150px] rounded-xl border-2 border-white/15 bg-ink-900 p-2 relative">
-          <div className="w-7 h-1 rounded bg-white/20 mx-auto mb-2" />
-          <div className="space-y-1.5">
-            <div className="h-4 rounded bg-gradient-to-r from-accent/40 to-accent/10" />
-            <div className="grid grid-cols-2 gap-1.5">
-              <div className="h-9 rounded bg-white/[0.05]" />
-              <div className="h-9 rounded bg-white/[0.05]" />
-              <div className="h-9 rounded bg-accent/15 border border-accent/30" />
-              <div className="h-9 rounded bg-white/[0.05]" />
-            </div>
-            <div className="h-4 rounded bg-white/[0.04]" />
-          </div>
+              {b}
+            </span>
+          ))}
         </div>
-      </div>
-    )
-  }
-
-  if (slug === 'backend') {
-    return (
-      <div className="grid grid-cols-3 gap-2 w-full">
-        {['API', 'DB', 'Cache', 'Queue', 'Auth', 'Storage'].map((n, i) => (
-          <div key={n} className="rounded border border-white/10 bg-white/[0.02] p-2.5 text-center">
-            <p className="mono-label text-[10px] text-accent">{n}</p>
-            <div className="mt-1.5 h-0.5 rounded bg-accent/40" style={{ width: `${50 + i * 7}%`, marginInline: 'auto' }} />
-          </div>
-        ))}
-      </div>
-    )
-  }
-
-  if (slug === 'ecommerce') {
-    return (
-      <div className="flex items-center justify-between gap-2 w-full">
-        <div className="flex-1 rounded-lg border border-white/10 bg-white/[0.02] p-2.5">
-          <p className="mono-label text-[10px] text-fog-500">SKU 2294</p>
-          <p className="text-fog-50 text-[13px] font-medium mt-0.5">Producto demo</p>
-          <p className="text-accent text-[12px] font-mono mt-1">$1,240.00</p>
-        </div>
-        <div className="text-fog-500 text-2xl">→</div>
-        <div className="flex-1 rounded-lg border border-accent/30 bg-accent/10 p-2.5">
-          <p className="mono-label text-[10px] text-accent">CHECKOUT</p>
-          <p className="text-fog-50 text-[13px] font-medium mt-0.5">Procesado</p>
-          <p className="text-signal-green text-[12px] font-mono mt-1">+1 venta</p>
-        </div>
-      </div>
-    )
-  }
-
-  if (slug === 'logistics') {
-    return (
-      <div className="relative h-20 w-full">
-        <svg viewBox="0 0 200 60" className="w-full h-full">
-          <path d="M10,50 Q40,10 80,30 T150,15 L190,25" stroke="rgba(45,226,197,0.6)" strokeWidth="1.5" fill="none" strokeDasharray="4 3" />
-          <circle cx="10" cy="50" r="3" fill="#2DE2C5" />
-          <circle cx="80" cy="30" r="2.5" fill="#38BDF8" />
-          <circle cx="150" cy="15" r="2.5" fill="#38BDF8" />
-          <circle cx="190" cy="25" r="3" fill="#22D39A" />
-        </svg>
-        <div className="absolute bottom-0 left-0 right-0 flex justify-between mono-label text-[10px]">
-          <span className="text-accent">Origen</span>
-          <span className="text-signal-green">Destino</span>
-        </div>
-      </div>
-    )
-  }
-
-  return null
+      )}
+    </div>
+  )
 }
 
-function ServicePanel({ item, index, total }) {
-  const Icon = iconBySlug[item.slug] || AppWindow
-  const num = String(index + 1).padStart(2, '0')
-  const totalStr = String(total).padStart(2, '0')
-
+function PairPanel({ pair, items, index, total }) {
   return (
     <article
-      className="shrink-0 w-[100vw] h-screen flex items-center justify-center px-6 sm:px-12 pt-20 pb-24 sm:pt-28 sm:pb-20"
+      className="shrink-0 w-[100vw] h-screen flex items-center px-6 sm:px-12 lg:px-20 pt-32 pb-24"
     >
-      <div className="grid lg:grid-cols-[1.05fr_1fr] gap-10 items-center max-w-6xl w-full">
-        {/* LEFT — editorial copy */}
+      <div className="grid lg:grid-cols-[1.1fr_1fr] gap-10 lg:gap-16 items-center max-w-[1400px] w-full">
+        {/* LEFT — copy */}
         <div className="relative">
           <div className="flex items-center gap-3 mb-7">
-            <span className="mono-label text-fog-500 text-[10px]">// CORE · {num} / {totalStr}</span>
-            <span className="flex-1 h-px bg-white/[0.07]" />
-          </div>
-
-          <div className="flex items-baseline gap-5 mb-4">
             <span
-              className="font-display font-semibold leading-none"
-              style={{
-                fontSize: 'clamp(80px, 14vw, 180px)',
-                letterSpacing: '-0.05em',
-                background: 'linear-gradient(180deg, rgba(244,247,250,0.42) 0%, rgba(45,226,197,0.20) 100%)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                backgroundClip: 'text',
-                textShadow: '0 0 30px rgba(45,226,197,0.12)',
-              }}
+              className="font-display font-semibold leading-none text-accent"
+              style={{ fontSize: 'clamp(46px, 7vw, 100px)', letterSpacing: '-0.04em' }}
             >
-              {num}
+              {pair.code}
             </span>
-            <span className="inline-flex w-12 h-12 rounded-xl bg-accent/10 border border-accent/30 items-center justify-center text-accent shrink-0 self-center">
-              <Icon size={22} />
-            </span>
-          </div>
-
-          <h3 className="display-md text-balance text-fog-50 mb-3">
-            {item.name}
-          </h3>
-          <p className="text-fog-300 text-[16px] leading-relaxed mb-6 max-w-xl text-pretty">
-            {item.tagline}
-          </p>
-          <p className="text-fog-400 text-[14px] leading-relaxed max-w-xl text-pretty">
-            {item.description}
-          </p>
-
-          {item.bullets?.length > 0 && (
-            <div className="mt-7 flex flex-wrap gap-1.5">
-              {item.bullets.map((b) => (
-                <span
-                  key={b}
-                  className="mono-label text-[10px] tracking-[0.08em] px-2.5 py-1 rounded-full border border-white/[0.07] bg-white/[0.015] text-fog-300"
-                >
-                  {b}
-                </span>
-              ))}
-            </div>
-          )}
-        </div>
-
-        {/* RIGHT — visual panel */}
-        <div className="relative">
-          <div
-            aria-hidden
-            className="absolute -inset-8 -z-10 rounded-3xl"
-            style={{
-              background:
-                'radial-gradient(ellipse 60% 60% at 50% 50%, rgba(45,226,197,0.08), transparent 60%)',
-            }}
-          />
-          <div className="glass-panel gradient-border rounded-2xl p-6 sm:p-7">
-            <div className="flex items-center justify-between mb-5">
-              <p className="mono-label text-fog-400 text-[10px]">capability.preview</p>
-              <span className="inline-flex items-center gap-1.5 mono-label text-accent text-[10px]">
-                <span className="status-dot active" />
-                LIVE
-              </span>
-            </div>
-            <div className="min-h-[150px] flex items-center">
-              <MiniVisual slug={item.slug} />
-            </div>
-            <div className="mt-5 pt-4 border-t glass-divider flex items-center justify-between">
-              <p className="mono-label text-fog-500 text-[10px]">module · {item.slug}</p>
-              <p className="mono-label text-signal-green flex items-center gap-1.5 text-[10px]">
-                <span className="status-dot live" />
-                READY
+            <div className="flex-1">
+              <p className="mono-label text-fog-500 text-[10px] tracking-[0.22em] mb-1">
+                {String(index + 1).padStart(2, '0')} / {String(total).padStart(2, '0')}
+              </p>
+              <p className="mono-label text-accent text-[10px] tracking-[0.22em]">
+                {pair.stage}
               </p>
             </div>
           </div>
+
+          <h3
+            className="font-display font-semibold text-fog-50 tracking-[-0.03em] leading-[0.98] text-balance break-words"
+            style={{ fontSize: 'clamp(36px, 6vw, 92px)' }}
+          >
+            {pair.title}
+          </h3>
+          <p
+            className="editorial text-fog-300 mt-4 text-pretty"
+            style={{ fontSize: 'clamp(18px, 2vw, 28px)', lineHeight: 1.3 }}
+          >
+            {pair.caption}
+          </p>
+          <p className="text-fog-400 text-[14px] sm:text-[15px] leading-relaxed text-pretty mt-6 max-w-xl">
+            {pair.body}
+          </p>
+        </div>
+
+        {/* RIGHT — the two services in this pair */}
+        <div className="grid gap-3">
+          {pair.slugs.map((slug) => (
+            <ServiceMini key={slug} slug={slug} items={items} />
+          ))}
         </div>
       </div>
     </article>
@@ -319,60 +128,70 @@ export default function ServicesBento() {
   const wrapperRef = useRef(null)
   const trackRef = useRef(null)
   const headerRef = useRef(null)
-  const [activeIdx, setActiveIdx] = useState(0)
-  const items = t.services.items
-  const count = items.length
+  const activeStagesRef = useRef(0)
+  const [activePairIdx, setActivePairIdx] = useState(0)
+  const [pinActive, setPinActive] = useState(false)
 
-  // Outer wrapper height = (count + 0.5) * 100vh, so user scrolls through all services
-  // while the inner track translates horizontally.
+  const pairs = t.services.pairs || []
+  const items = t.services.items || []
+  const count = pairs.length
+
+  // Outer wrapper scroll: (count + 0.5) viewports tall to give room for entry
+  // and one final dwell on the assembled rocket.
   const wrapperVh = count + 0.5
 
   useEffect(() => {
     if (!wrapperRef.current) return
     let raf = 0
+
     const loop = () => {
       const wrap = wrapperRef.current
       if (!wrap) return
       const rect = wrap.getBoundingClientRect()
       const vh = window.innerHeight
-      const total = rect.height - vh   // distance the user scrolls inside the pin
-      const scrolled = -rect.top       // how much past the top
+      const total = rect.height - vh
+      const scrolled = -rect.top
       let progress = total > 0 ? scrolled / total : 0
       progress = Math.max(0, Math.min(1, progress))
       const active = rect.top < vh && rect.bottom > 0
+      setPinActive(active)
 
-      // Move the inner track horizontally
+      // horizontal track translate — span (count - 1) viewports
       if (trackRef.current) {
-        const dx = -progress * (count - 1) * 100  // vw
+        const dx = -progress * (count - 1) * 100
         trackRef.current.style.transform = `translate3d(${dx}vw, 0, 0)`
       }
 
-      // On mobile, fade the section header out as the horizontal track starts moving
-      if (headerRef.current) {
-        const isMobile = window.innerWidth < 1024
-        if (isMobile && active) {
-          // Fade window: 0..0.06 of progress => 1..0
-          const fade = Math.max(0, Math.min(1, 1 - progress / 0.06))
-          headerRef.current.style.opacity = String(fade)
-          headerRef.current.style.transform = `translateY(${(1 - fade) * -8}px)`
-        } else {
-          headerRef.current.style.opacity = '1'
-          headerRef.current.style.transform = 'translateY(0px)'
-        }
+      // continuous pair index 0..(count-1)
+      const continuous = progress * (count - 1)
+      const idx = Math.round(continuous)
+      setActivePairIdx(idx)
+
+      // smooth stages target — interpolate between adjacent pair targets
+      const floorIdx = Math.max(0, Math.min(count - 1, Math.floor(continuous)))
+      const ceilIdx = Math.min(count - 1, floorIdx + 1)
+      const frac = continuous - floorIdx
+      const stagesFloor = STAGES_BY_PAIR[floorIdx] ?? 0
+      const stagesCeil = STAGES_BY_PAIR[ceilIdx] ?? stagesFloor
+      const stagesTarget = stagesFloor + (stagesCeil - stagesFloor) * frac
+
+      // Smooth approach so the rocket animates rather than snapping
+      const cur = activeStagesRef.current ?? 0
+      activeStagesRef.current = cur + (stagesTarget - cur) * 0.1
+
+      // fade section header out as horizontal track starts moving
+      if (headerRef.current && active) {
+        const fade = Math.max(0, Math.min(1, 1 - progress / 0.06))
+        headerRef.current.style.opacity = String(fade)
+        headerRef.current.style.transform = `translateY(${(1 - fade) * -8}px)`
+      } else if (headerRef.current) {
+        headerRef.current.style.opacity = '1'
+        headerRef.current.style.transform = 'translateY(0px)'
       }
 
-      // Push pin state to story scene
       if (story.setServicesPin) {
-        story.setServicesPin({
-          active,
-          progress,
-          total: count,
-        })
+        story.setServicesPin({ active, progress, total: count })
       }
-
-      // Active index for nav dots
-      const idx = Math.round(progress * (count - 1))
-      setActiveIdx(idx)
 
       raf = requestAnimationFrame(loop)
     }
@@ -385,74 +204,138 @@ export default function ServicesBento() {
       id="services"
       ref={wrapperRef}
       className="relative"
-      style={{ height: `${wrapperVh * 100}vh` }}
+      style={{ height: `${wrapperVh * 100}vh`, background: '#05080C' }}
     >
-      {/* Sticky viewport */}
+      {/* Sticky viewport — rocket layer + horizontal track + HUD */}
       <div className="sticky top-0 h-screen overflow-hidden">
-        {/* Top bar */}
+        {/* ROCKET BACKGROUND — fullbleed, lives behind everything else.
+            Anchored to the right side so the panels' copy gets breathing room
+            on the left while the rocket dominates the right two thirds. */}
+        <div
+          aria-hidden={false}
+          className="absolute inset-0 pointer-events-auto"
+        >
+          <RocketParticles activeStagesRef={activeStagesRef} />
+        </div>
+
+        {/* gradient overlays — tame the rocket on the LEFT so copy reads,
+            keep the right open so users can interact with particles */}
+        <div
+          aria-hidden
+          className="absolute inset-0 pointer-events-none z-[1]"
+          style={{
+            background:
+              'linear-gradient(to right, rgba(5,8,12,0.92) 0%, rgba(5,8,12,0.65) 25%, rgba(5,8,12,0.0) 55%, rgba(5,8,12,0.0) 100%)',
+          }}
+        />
+        <div
+          aria-hidden
+          className="absolute inset-0 pointer-events-none z-[1]"
+          style={{
+            background:
+              'linear-gradient(to bottom, rgba(5,8,12,0.55) 0%, rgba(5,8,12,0.0) 18%, rgba(5,8,12,0.0) 75%, rgba(5,8,12,0.7) 100%)',
+          }}
+        />
+
+        {/* TOP — section header, fades out as you scroll past entry */}
         <div
           ref={headerRef}
-          className="absolute top-0 left-0 right-0 z-20 px-6 sm:px-12 pt-5 sm:pt-8 pointer-events-none will-change-[opacity,transform]"
+          className="absolute top-0 left-0 right-0 z-20 px-6 sm:px-12 lg:px-20 pt-8 sm:pt-10 pointer-events-none will-change-[opacity,transform]"
         >
-          <div className="flex items-end justify-between gap-6">
+          <div className="flex items-end justify-between gap-6 max-w-[1400px]">
             <div>
-              <div className="eyebrow mb-2 sm:mb-3">
+              <div className="flex items-center gap-3 mb-3">
+                <p className="mono-label text-fog-500 text-[10px] tracking-[0.22em]">
+                  {'// SERVICES · 04 · assemble()'}
+                </p>
+                <span className="hidden sm:inline-flex items-center gap-2">
+                  <Rocket size={11} className="text-accent" />
+                  <span className="mono-label text-accent text-[10px] tracking-[0.22em]">
+                    {t.services.assemblyLabel}
+                  </span>
+                </span>
+              </div>
+              <div className="eyebrow mb-3">
                 <span className="eyebrow-dot" />
                 {t.services.eyebrow}
               </div>
-              <h2 className="font-display font-semibold tracking-tight text-fog-50 text-balance text-[clamp(20px,3.6vw,38px)] leading-[1.05]">
+              <h2
+                className="font-display font-semibold tracking-[-0.025em] leading-[1.02] text-fog-50 text-balance break-words max-w-3xl"
+                style={{ fontSize: 'clamp(26px, 4vw, 56px)' }}
+              >
                 {t.services.title}
               </h2>
+              <p className="text-fog-400 text-[13px] sm:text-[14px] leading-relaxed mt-2 max-w-xl text-pretty">
+                {t.services.subtitle}
+              </p>
             </div>
-            <p className="hidden md:block mono-label text-fog-500 text-[10px] max-w-xs text-right">
-              {t.services.subtitle}
-            </p>
           </div>
         </div>
 
-        {/* Horizontal track */}
+        {/* HORIZONTAL TRACK — panels slide left as user scrolls */}
         <div
           ref={trackRef}
-          className="flex h-full will-change-transform"
+          className="flex h-full will-change-transform relative z-10"
           style={{ width: `${count * 100}vw`, transform: 'translate3d(0,0,0)' }}
         >
-          {items.map((item, i) => (
-            <ServicePanel key={item.slug} item={item} index={i} total={count} />
+          {pairs.map((pair, i) => (
+            <PairPanel
+              key={pair.code}
+              pair={pair}
+              items={items}
+              index={i}
+              total={count}
+            />
           ))}
         </div>
 
-        {/* Bottom progress rail */}
-        <div className="absolute bottom-6 left-0 right-0 z-20 px-6 sm:px-12 pointer-events-none">
-          <div className="flex items-center justify-between gap-6">
-            <div className="flex items-center gap-2">
-              <span className="mono-label text-fog-500 text-[10px]">
-                {String(activeIdx + 1).padStart(2, '0')}
+        {/* PROGRESS RAIL — bottom, with stage counter */}
+        <div className="absolute bottom-6 left-0 right-0 z-20 px-6 sm:px-12 lg:px-20 pointer-events-none">
+          <div className="flex items-center justify-between gap-6 flex-wrap">
+            <div className="flex items-center gap-3">
+              <span className="mono-label text-fog-500 text-[10px] tracking-[0.22em]">
+                {pairs[activePairIdx]?.code}
               </span>
               <div className="flex items-center gap-1.5">
-                {items.map((_, i) => (
+                {pairs.map((p, i) => (
                   <span
-                    key={i}
-                    className={`h-px transition-all duration-300 ${
-                      i === activeIdx
+                    key={p.code}
+                    className={`h-px transition-all duration-500 ${
+                      i === activePairIdx
                         ? 'w-8 bg-accent'
-                        : i < activeIdx
+                        : i < activePairIdx
                         ? 'w-4 bg-fog-300/40'
                         : 'w-4 bg-fog-500/20'
                     }`}
                   />
                 ))}
               </div>
-              <span className="mono-label text-fog-500 text-[10px]">
+              <span className="mono-label text-fog-500 text-[10px] tracking-[0.22em]">
                 {String(count).padStart(2, '0')}
               </span>
             </div>
-            <p className="mono-label text-fog-500 text-[10px] flex items-center gap-2">
-              <span>scroll</span>
-              <ArrowRight size={11} />
-              <span className="text-fog-300">{items[activeIdx]?.name}</span>
-            </p>
+
+            <div className="flex items-center gap-4">
+              <p className="mono-label text-accent text-[10px] tracking-[0.22em]">
+                {Math.min(STAGES_BY_PAIR[activePairIdx] ?? 0, 10)} / 10 stages
+              </p>
+              <p className="mono-label text-fog-500 text-[10px] flex items-center gap-2">
+                <span>scroll</span>
+                <ArrowRight size={11} />
+                <span className="text-fog-300 hidden sm:inline">{pairs[activePairIdx]?.title}</span>
+              </p>
+            </div>
           </div>
         </div>
+
+        {/* hover hint — only visible during pin */}
+        {pinActive && (
+          <div className="absolute top-1/2 right-8 -translate-y-1/2 z-20 pointer-events-none hidden lg:block">
+            <p className="mono-label text-fog-500 text-[9px] tracking-[0.2em] [writing-mode:vertical-rl]">
+              hover · particles scatter
+            </p>
+          </div>
+        )}
       </div>
     </section>
   )

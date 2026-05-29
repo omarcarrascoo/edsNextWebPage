@@ -69,16 +69,18 @@ function FlatCard({ layer, index }) {
 export default function ValueSection() {
   const t = useT()
   const sectionRef = useRef(null)
-  const scrollProgressRef = useRef(0)
+  const activeStagesRef = useRef(0)
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ['start end', 'end start'],
   })
 
-  // mirror MotionValue into a plain ref so the three.js useFrame loop can read it
+  // map scroll (0..1) → activeStages (0..10), with the assembly happening
+  // in the middle 50% of the section's scroll arc (not at the very edges)
   useMotionValueEvent(scrollYProgress, 'change', (v) => {
-    scrollProgressRef.current = v
+    const t = Math.max(0, Math.min(1, (v - 0.2) / 0.5))
+    activeStagesRef.current = t * 10
   })
 
   const layers = t.value.layers || []
@@ -217,7 +219,7 @@ export default function ValueSection() {
               className="hidden lg:block relative w-full"
               style={{ height: '620px' }}
             >
-              <RocketParticles scrollProgressRef={scrollProgressRef} />
+              <RocketParticles activeStagesRef={activeStagesRef} />
               {/* corner crosshairs — quiet HUD framing */}
               <div aria-hidden className="absolute inset-0 pointer-events-none">
                 <div className="absolute top-0 left-0 w-3 h-3 border-t border-l border-accent/40" />
