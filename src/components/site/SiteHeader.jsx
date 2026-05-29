@@ -8,8 +8,10 @@ import { useT } from '@/i18n/LanguageProvider'
 
 // fintech is the only service with its own page (for now). Others link
 // back to the homepage anchor until their dedicated routes are built.
+const LIVE_SERVICES = new Set(['fintech', 'mobile'])
 const SERVICE_HREF = (slug) =>
-  slug === 'fintech' ? '/services/fintech' : '/#services'
+  LIVE_SERVICES.has(slug) ? `/services/${slug}` : '/#services'
+const isLive = (slug) => LIVE_SERVICES.has(slug)
 
 const links = [
   { id: 'system',  key: 'work' },
@@ -114,7 +116,7 @@ export default function SiteHeader() {
                             <p className="text-fog-50 text-[13.5px] font-medium leading-tight truncate">
                               {it.name}
                             </p>
-                            {it.slug === 'fintech' && (
+                            {isLive(it.slug) && (
                               <span className="mono-label text-[9px] tracking-[0.14em] px-1.5 py-0.5 rounded-full bg-accent/10 border border-accent/30 text-accent">
                                 LIVE
                               </span>
@@ -197,7 +199,7 @@ export default function SiteHeader() {
                         {it.meta}
                       </p>
                     </div>
-                    {it.slug === 'fintech' && (
+                    {isLive(it.slug) && (
                       <span className="mono-label text-[9px] tracking-[0.14em] px-1.5 py-0.5 rounded-full bg-accent/10 border border-accent/30 text-accent shrink-0">
                         LIVE
                       </span>

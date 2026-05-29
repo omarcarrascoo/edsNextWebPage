@@ -754,6 +754,295 @@ const en = {
       ctaSecondary: 'Back to home',
     },
   },
+
+  mobile: {
+    meta: {
+      title: 'iOS & Android mobile app development',
+      description:
+        'We build iOS and Android mobile apps connected to backend, dashboards, APIs, payments, notifications, biometrics, ecommerce, fintech, logistics, and internal operations.',
+    },
+    breadcrumb: { services: 'Services', current: 'Mobile apps' },
+
+    hero: {
+      eyebrow: '// MOBILE · 01 · ship()',
+      titleA: 'Mobile apps',
+      titleB: 'where your customer',
+      titleC: 'already lives.',
+      titleAccent: 'On the phone.',
+      subtitle:
+        "We build iOS and Android apps connected to backend, dashboards, payments, notifications, and your real business flows. We don't ship pretty demos that nobody uses afterward.",
+      hudPlatform: 'iOS · Android',
+      hudInteract: 'hover · scatter',
+      ctaPrimary: 'Talk about your app',
+      ctaSecondary: 'See capabilities',
+    },
+
+    problem: {
+      eyebrow: '// 02 · diagnose()',
+      title: 'Having an app does nothing',
+      titleAccent: 'unless it solves a real process.',
+      body:
+        'Many companies want an app because "we should have an app." That is not strategy. That is digital anxiety with a budget.',
+      reasons: [
+        { tag: 'CLIENT',  text: 'Get closer to customers' },
+        { tag: 'FRICT',   text: 'Reduce friction in a process' },
+        { tag: 'SALES',   text: 'Increase sales' },
+        { tag: 'OPS',     text: 'Improve internal operations' },
+        { tag: 'DATA',    text: 'Capture critical data' },
+        { tag: 'AUTO',    text: 'Automate repetitive tasks' },
+        { tag: 'LIVE',    text: 'Realtime tracking' },
+        { tag: 'CONNECT', text: 'Connect users to services' },
+      ],
+      closing:
+        'At Era Digital Solutions we design apps from the problem, not from the screen. First we understand what the app must achieve. Then we build the experience, the backend, and the system that holds it up.',
+    },
+
+    value: {
+      eyebrow: '// 03 · build()',
+      title: 'An app is not just an interface on a phone.',
+      titleAccent: "It's the gateway to your digital ecosystem.",
+      body:
+        'That is why we build apps that connect to backend, APIs, dashboards, payment systems, ecommerce, inventory, CRMs, messaging, analytics, and AI automation.',
+      closing:
+        "The goal is not shipping an app. It is building a tool your customer, team, or community actually wants to use because it makes their life easier.",
+      capabilities: [
+        { code: '01', tag: 'AUTH',     title: 'Auth · biometrics',           meta: 'Tokens · sessions · roles' },
+        { code: '02', tag: 'PUSH',     title: 'Push notifications',           meta: 'Alerts · reminders · events' },
+        { code: '03', tag: 'PAYMENTS', title: 'Integrated payments',          meta: 'Flows · states · providers' },
+        { code: '04', tag: 'API',      title: 'Connected backend',            meta: 'REST · GraphQL · cloud' },
+        { code: '05', tag: 'UX',       title: 'Mobile-first experience',      meta: 'Flows · states · accessibility' },
+        { code: '06', tag: 'SEC',      title: 'Security by design',           meta: 'OWASP Mobile · encryption · permissions' },
+        { code: '07', tag: 'BI',       title: 'Analytics · events',            meta: 'Usage · retention · conversion' },
+        { code: '08', tag: 'AI',       title: 'Contextual AI',                  meta: 'Assistants · summaries · classification' },
+      ],
+    },
+
+    types: {
+      eyebrow: '// 04 · types()',
+      title: 'Apps that get used,',
+      titleAccent: 'not apps that only get downloaded.',
+      body:
+        'We design mobile apps for different audiences and operations. Five categories that cover most of the cases that come through our door.',
+      categories: [
+        {
+          code: '01',
+          title: 'Customer apps',
+          tagline: 'Shopping, booking, queries, loyalty.',
+          examples: ['Ecommerce', 'Booking', 'Memberships', 'Services', 'Community', 'Education'],
+        },
+        {
+          code: '02',
+          title: 'Internal apps',
+          tagline: 'For teams, sales, operators, and field workers.',
+          examples: ['Sales', 'Inventory', 'Reports', 'Approvals', 'Tasks', 'Comms'],
+        },
+        {
+          code: '03',
+          title: 'Fintech apps',
+          tagline: 'Accounts, cards, transfers, secure messaging.',
+          examples: ['Biometric login', 'Statements', 'History', 'Card activation', 'Transfers', 'Alerts'],
+        },
+        {
+          code: '04',
+          title: 'Logistics apps',
+          tagline: 'Drivers, routes, packages, proof of delivery.',
+          examples: ['Route assignment', 'Delivery states', 'Scanning', 'Geolocation', 'Reports', 'Comms'],
+        },
+        {
+          code: '05',
+          title: 'Apps with dashboard + AI',
+          tagline: 'Mobile frontend + control center + intelligent assistance.',
+          examples: ['App + back office', 'Recommendations', 'Summaries', 'Classification', 'Assistants', 'Live reports'],
+        },
+      ],
+    },
+
+    fintechCallout: {
+      eyebrow: '// 05 · trust()',
+      title: 'In fintech, a pretty screen without security',
+      titleAccent: 'is basically a piñata full of problems.',
+      body:
+        'That is why we build mobile apps for financial flows with biometric auth, secure token handling, permission validation, encrypted API communication, environment separation, and OWASP Mobile best practices from the first commit.',
+      pillars: [
+        { title: 'Secure login · biometrics',     meta: 'Face ID · Touch ID · MFA' },
+        { title: 'Tokens · sessions',              meta: 'SecureStore · refresh · expiration' },
+        { title: 'Encryption · sensitive data',    meta: 'In-transit · at-rest · zero-knowledge' },
+        { title: 'OWASP Mobile · hardening',       meta: 'API · permissions · jailbreak detection' },
+      ],
+    },
+
+    approach: {
+      eyebrow: '// 06 · think()',
+      title: 'A good app does not start in the code.',
+      titleAccent: "It starts by understanding the user's habit.",
+      body:
+        "The phone is personal space. An app competes against messages, social, banks, maps, and the average existential anxiety of checking notifications every three minutes. So we design around three questions:",
+      questions: [
+        {
+          n: '01',
+          q: 'Why would someone open this app?',
+          a: 'If there is no clear reason, the app is born dead. Pretty, probably. But dead.',
+        },
+        {
+          n: '02',
+          q: 'What does it solve faster than any other channel?',
+          a: 'Buying, checking, registering, paying, booking, communicating — but faster than web or phone.',
+        },
+        {
+          n: '03',
+          q: 'What does the company behind it need to see?',
+          a: 'Users, sales, deliveries, payments, errors, progress. An app without a dashboard is driving at night with the headlights off.',
+        },
+      ],
+    },
+
+    architecture: {
+      eyebrow: '// 07 · architect()',
+      title: 'We do not just build the app.',
+      titleAccent: 'We build the ecosystem that makes it work.',
+      body:
+        'A serious mobile app rarely lives alone. It needs backend, data, auth, integrations, dashboards, and monitoring. This is the typical architecture.',
+      layers: [
+        { code: 'L1', name: 'iOS · Android app',          meta: 'React Native · Expo · TypeScript' },
+        { code: 'L2', name: 'Auth · sessions',             meta: 'Biometrics · tokens · roles' },
+        { code: 'L3', name: 'API · Backend',                meta: 'Node.js · NestJS · LoopBack' },
+        { code: 'L4', name: 'Database · storage',           meta: 'Postgres · MySQL · Mongo · S3' },
+        { code: 'L5', name: 'External integrations',        meta: 'Payments · CRMs · providers' },
+        { code: 'L6', name: 'Dashboard · reports · AI',     meta: 'Back office · analytics · automation' },
+      ],
+    },
+
+    stack: {
+      eyebrow: '// 08 · stack()',
+      title: 'Modern stack.',
+      titleAccent: 'Without picking tech to show off.',
+      body:
+        'We pick the stack so the product can be maintained, grow, and adapt without becoming a mythological creature nobody wants to touch six months later.',
+      groups: [
+        {
+          label: 'Mobile',
+          items: ['React Native', 'Expo', 'TypeScript', 'SecureStore', 'Push notifications', 'Deep linking', 'Biometrics'],
+        },
+        {
+          label: 'Backend',
+          items: ['Node.js', 'NestJS', 'LoopBack', 'REST · GraphQL', 'API Gateway', 'Microservices'],
+        },
+        {
+          label: 'Data · Cloud',
+          items: ['PostgreSQL', 'MySQL', 'MongoDB', 'AWS', 'Docker', 'Serverless', 'S3'],
+        },
+      ],
+    },
+
+    useCases: {
+      eyebrow: '// 09 · cases()',
+      title: 'What we can build with you',
+      items: [
+        { num: '01', title: 'Customer app',           meta: 'Shop · book · pay · account' },
+        { num: '02', title: 'Sales rep app',           meta: 'Sales · clients · inventory · reports' },
+        { num: '03', title: 'Driver app',              meta: 'Routes · deliveries · scan · proof' },
+        { num: '04', title: 'Fintech app',             meta: 'Accounts · cards · transfers · secure' },
+        { num: '05', title: 'Education app',           meta: 'Courses · progress · content · community' },
+        { num: '06', title: 'Community app',           meta: 'Members · events · booking · posts' },
+        { num: '07', title: 'Ecommerce app',            meta: 'Catalog · cart · payments · orders' },
+        { num: '08', title: 'Inventory app',            meta: 'Scan · stock · movements · dashboards' },
+        { num: '09', title: 'Habit / tracking app',     meta: 'Logging · progress · reports · analysis' },
+        { num: '10', title: 'Internal enterprise app',  meta: 'Approvals · requests · tasks' },
+      ],
+    },
+
+    differentiators: {
+      eyebrow: '// 10 · why()',
+      title: 'Why build your app with Era Digital Solutions',
+      items: [
+        { title: 'We think product',           body: 'Before the screen, we understand the problem, the user, the flow, and the business goal.' },
+        { title: 'Frontend + backend',          body: 'We build the app, the API, the database, the dashboard, integrations, and infrastructure.' },
+        { title: 'Sensitive flows',             body: 'Experience with payments, auth, personal data, cards, and critical operations.' },
+        { title: 'We integrate what you have',  body: 'CRMs, ERPs, payments, internal systems, dashboards, and external platforms.' },
+        { title: 'Designed to grow',            body: 'Architecture that evolves: more users, more modules, more data without rewriting.' },
+        { title: 'We care about UX',             body: "A slow, confusing app with unnecessary steps gets uninstalled without ceremony." },
+      ],
+    },
+
+    process: {
+      eyebrow: '// 11 · build()',
+      title: 'How we build a mobile app',
+      steps: [
+        { num: '01', title: 'Diagnostic',     body: 'Business, users, goal, current processes, and systems to connect.' },
+        { num: '02', title: 'Scope · MVP',     body: 'Key functionality, flows, roles, integrations, and initial version.' },
+        { num: '03', title: 'UX · UI',          body: 'Navigation, screens, states, forms, errors, and actions.' },
+        { num: '04', title: 'Architecture',    body: 'Backend, APIs, DB, auth, security, notifications, dashboards.' },
+        { num: '05', title: 'Development',     body: 'iOS · Android + backend + integrations on a maintainable base.' },
+        { num: '06', title: 'Testing',          body: 'Critical flows, errors, sessions, permissions, devices.' },
+        { num: '07', title: 'Launch',           body: 'Publication, configuration, deployment, documentation.' },
+        { num: '08', title: 'Evolution',        body: 'Metrics, feedback, improvements, new capabilities.' },
+      ],
+    },
+
+    midCta: {
+      title: 'Got an app idea or an operation that should live on the phone?',
+      body: 'We can help you turn it into a clear, useful mobile app connected to your business.',
+      cta: 'Design your mobile app',
+    },
+
+    aiCallout: {
+      eyebrow: '// 12 · intelligence()',
+      title: 'Apps with AI used right',
+      titleAccent: 'feel invisible.',
+      body:
+        'We embed AI inside mobile apps when it helps reduce friction, improve decisions, or create a more useful experience — not because it looks cool in the pitch.',
+      closing:
+        'Misused AI looks like a clown with an API key. Used well it just makes the app respond better.',
+      uses: [
+        'Contextual assistants',
+        'Personalized recommendations',
+        'Document analysis',
+        'Auto summaries',
+        'Request classification',
+        'Smart chat',
+        'Report generation',
+        'Behavior analysis',
+      ],
+    },
+
+    faq: {
+      eyebrow: '// 13 · faq()',
+      title: 'Frequently asked questions',
+      items: [
+        { q: 'Do you build apps for iOS and Android?',
+          a: 'Yes. We build iOS and Android apps using React Native and Expo, allowing a solid base for both platforms without duplicating effort.' },
+        { q: 'Can the app have an admin panel?',
+          a: 'Yes. We build dashboards or back office to manage users, sales, orders, inventory, reports, notifications, states, and metrics.' },
+        { q: 'Can you connect the app to my existing system?',
+          a: 'Yes. We integrate with existing APIs, CRMs, ERPs, payment providers, internal systems, databases, and external services.' },
+        { q: 'Can you add payments?',
+          a: 'Yes. We integrate payment flows, history, confirmations, transaction states, and external provider connections as needed.' },
+        { q: 'Can you add push notifications?',
+          a: 'Yes. We implement push for reminders, orders, messages, alerts, promotions, states, or important events.' },
+        { q: 'Can you add biometrics?',
+          a: 'Yes. We integrate biometric auth with Face ID or fingerprint when the device supports it.' },
+        { q: 'Can you build fintech apps?',
+          a: 'Yes. We build mobile apps for financial flows: accounts, cards, transaction history, statements, transfers, secure auth, and messaging.' },
+        { q: 'Can you publish to App Store and Google Play?',
+          a: 'Yes. We support preparation, configuration, and publication, depending on the project scope and the client accounts.' },
+        { q: 'Can you build a first MVP version?',
+          a: 'Yes. We define an initial version with the most important functions to validate fast, ship sooner, and evolve with real data.' },
+        { q: 'How long does it take to build an app?',
+          a: 'Depends on scope, integrations, design, backend, security, and features. A simple app does not require the same effort as a fintech with auth, payments, dashboard, and infrastructure. Mysteriously, the physics of software still apply.' },
+      ],
+    },
+
+    finalCta: {
+      eyebrow: '// 14 · ship()',
+      title: "Let's build a mobile app",
+      titleAccent: 'your customer actually wants to open.',
+      body:
+        'If you need an app for customers, teams, sales, ecommerce, fintech, education, logistics, or community, we can design, develop, and connect it to your digital ecosystem.',
+      cta: 'Book a mobile consultation',
+      ctaSecondary: 'Back to home',
+    },
+  },
+
   footer: {
     tagline: "Digital infrastructure studio. We build software, AI and systems for companies that don't want to run on manual mode anymore.",
     sectionsTitle: 'Services',
