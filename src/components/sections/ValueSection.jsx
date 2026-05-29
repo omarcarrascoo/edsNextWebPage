@@ -6,7 +6,7 @@ import { useRef } from 'react'
 import { Layers, Hand } from 'lucide-react'
 import { useT } from '@/i18n/LanguageProvider'
 
-const GlassStack = dynamic(() => import('@/components/graph/GlassStack'), {
+const RocketParticles = dynamic(() => import('@/components/graph/RocketParticles'), {
   ssr: false,
   loading: () => null,
 })
@@ -44,20 +44,20 @@ function FlatCard({ layer, index }) {
         className="absolute left-0 top-2 bottom-2 w-[2px] rounded-full opacity-70 group-hover:opacity-100 transition-opacity"
         style={{ background: tone.dot, boxShadow: `0 0 12px ${tone.dot}` }}
       />
-      <div className="flex items-center gap-3 sm:gap-4 px-4 py-4 sm:px-6 sm:py-[18px]">
-        <span className="mono-label text-fog-500 text-[11px] tracking-[0.18em] w-7 shrink-0">
+      <div className="flex items-center gap-2.5 sm:gap-4 px-3.5 py-3.5 sm:px-6 sm:py-[18px] min-w-0">
+        <span className="mono-label text-fog-500 text-[10px] sm:text-[11px] tracking-[0.16em] w-6 sm:w-7 shrink-0">
           {layer.code}
         </span>
         <span
-          className={`mono-label text-[10px] tracking-[0.22em] w-[78px] sm:w-[92px] shrink-0 ${tone.label}`}
+          className={`mono-label text-[9px] sm:text-[10px] tracking-[0.18em] sm:tracking-[0.22em] w-[64px] sm:w-[92px] shrink-0 ${tone.label}`}
         >
           {layer.tag}
         </span>
         <div className="flex-1 min-w-0">
-          <p className="text-fog-50 text-[14px] sm:text-[15px] font-medium leading-tight truncate">
+          <p className="text-fog-50 text-[13px] sm:text-[15px] font-medium leading-tight truncate">
             {layer.title}
           </p>
-          <p className="mono-label text-fog-500 text-[10px] tracking-[0.14em] mt-1 truncate">
+          <p className="mono-label text-fog-500 text-[9px] sm:text-[10px] tracking-[0.12em] sm:tracking-[0.14em] mt-1 truncate">
             {layer.meta}
           </p>
         </div>
@@ -87,7 +87,7 @@ export default function ValueSection() {
     <section
       id="value"
       ref={sectionRef}
-      className="section relative"
+      className="section relative overflow-hidden"
       style={{ background: '#05080C' }}
     >
       {/* subtle grid texture, capped */}
@@ -126,7 +126,7 @@ export default function ValueSection() {
           </div>
         </motion.div>
 
-        <div className="grid lg:grid-cols-[1fr_1.05fr] gap-12 lg:gap-16 items-start">
+        <div className="grid lg:grid-cols-[1fr_1.05fr] gap-10 lg:gap-16 items-start min-w-0">
           {/* LEFT — narrative */}
           <div>
             <motion.div
@@ -145,8 +145,8 @@ export default function ValueSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-80px' }}
               transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
-              className="font-display font-semibold tracking-[-0.035em] leading-[0.96] text-balance"
-              style={{ fontSize: 'clamp(36px, 5.4vw, 84px)' }}
+              className="font-display font-semibold tracking-[-0.03em] leading-[0.98] text-balance break-words"
+              style={{ fontSize: 'clamp(30px, 5.4vw, 84px)' }}
             >
               <span className="text-fog-50 block">{t.value.titleA}</span>
               <span className="text-fog-200 block">{t.value.titleB}</span>
@@ -157,8 +157,8 @@ export default function ValueSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-80px' }}
               transition={{ duration: 0.7, delay: 0.15 }}
-              className="editorial text-fog-300 mt-5 text-balance"
-              style={{ fontSize: 'clamp(20px, 2vw, 28px)', lineHeight: 1.25 }}
+              className="editorial text-fog-300 mt-5 text-pretty break-words"
+              style={{ fontSize: 'clamp(18px, 2vw, 28px)', lineHeight: 1.3 }}
             >
               {t.value.titleC}
             </motion.p>
@@ -191,7 +191,7 @@ export default function ValueSection() {
             >
               <Hand size={12} className="text-accent" />
               <p className="mono-label text-[10px] tracking-[0.2em]">
-                drag · rotate · scroll · expands
+                hover · particles scatter · reform
               </p>
             </motion.div>
           </div>
@@ -217,7 +217,7 @@ export default function ValueSection() {
               className="hidden lg:block relative w-full"
               style={{ height: '620px' }}
             >
-              <GlassStack layers={layers} scrollProgressRef={scrollProgressRef} />
+              <RocketParticles scrollProgressRef={scrollProgressRef} />
               {/* corner crosshairs — quiet HUD framing */}
               <div aria-hidden className="absolute inset-0 pointer-events-none">
                 <div className="absolute top-0 left-0 w-3 h-3 border-t border-l border-accent/40" />
@@ -244,18 +244,18 @@ export default function ValueSection() {
           transition={{ duration: 0.85, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
           className="mt-20 lg:mt-24 pt-8 border-t border-white/[0.06]"
         >
-          <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-5">
-            <div className="flex items-center gap-3">
-              <span className="status-dot active" />
-              <p className="mono-label text-fog-500 text-[10px] tracking-[0.22em]">
+          <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-5 min-w-0">
+            <div className="flex items-center gap-3 min-w-0">
+              <span className="status-dot active shrink-0" />
+              <p className="mono-label text-fog-500 text-[10px] tracking-[0.18em] sm:tracking-[0.22em] truncate">
                 {t.value.stackLabel} · {t.value.stackMeta}
               </p>
             </div>
             <p
-              className="font-display font-semibold text-fog-50 tracking-[-0.02em] text-balance"
+              className="font-display font-semibold text-fog-50 tracking-[-0.02em] text-pretty break-words sm:text-right"
               style={{
-                fontSize: 'clamp(20px, 2.4vw, 34px)',
-                lineHeight: 1.15,
+                fontSize: 'clamp(18px, 2.4vw, 34px)',
+                lineHeight: 1.2,
               }}
             >
               {t.value.closing}
