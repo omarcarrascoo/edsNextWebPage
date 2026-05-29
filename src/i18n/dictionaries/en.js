@@ -238,18 +238,26 @@ const en = {
     ],
   },
   systemMap: {
-    eyebrow: 'How we connect everything',
-    title: "We don't design pages. We design systems.",
+    eyebrow: 'Connections',
+    titleA: 'Apart, they are tasks.',
+    titleB: 'Connected, it is a system.',
     subtitle:
-      'A serious platform connects users, data, AI and operations into a single flow. This is what we build when we work with you.',
+      'The difference between a business that grows and one that only works harder is whether its data moves on its own.',
+    body:
+      'A customer buys, and the inventory knows. A payment goes through, and the report already shows it. An AI agent makes a decision, and it goes on record. No emails, no spreadsheets, no reminders.',
+    bodyClose:
+      "That is what we design when we build a system: the routes the data travels, the order things run in, and the trace each step leaves behind.",
+    accent: 'One datum. One journey. One record.',
+    hudFlow: 'flow',
+    hudDrag: 'drag · rotate',
     nodes: [
-      { label: 'Customers', meta: 'Web · Mobile · Whatsapp' },
+      { label: 'Customers',   meta: 'Web · Mobile · Whatsapp' },
       { label: 'Application', meta: 'Web app · Mobile app' },
       { label: 'API Gateway', meta: 'REST · GraphQL · Auth' },
-      { label: 'Database', meta: 'Postgres · Mongo · Cache' },
-      { label: 'AI Layer', meta: 'Agents · Workflows · LLMs' },
-      { label: 'Dashboards', meta: 'Metrics · Reports' },
-      { label: 'Automation', meta: 'Events · Integrations' },
+      { label: 'Database',    meta: 'Postgres · Mongo · Cache' },
+      { label: 'AI Layer',    meta: 'Agents · Workflows · LLMs' },
+      { label: 'Dashboards',  meta: 'Metrics · Reports' },
+      { label: 'Automation',  meta: 'Events · Integrations' },
     ],
   },
   ai: {

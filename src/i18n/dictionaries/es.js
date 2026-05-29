@@ -238,18 +238,26 @@ const es = {
     ],
   },
   systemMap: {
-    eyebrow: 'Cómo conectamos todo',
-    title: 'No diseñamos páginas. Diseñamos sistemas.',
+    eyebrow: 'Conexiones',
+    titleA: 'Aislado, son tareas.',
+    titleB: 'Conectado, es un sistema.',
     subtitle:
-      'Una plataforma seria conecta usuarios, datos, IA y operaciones en un solo flujo. Esto es lo que construimos cuando trabajamos contigo.',
+      'La diferencia entre un negocio que crece y uno que solo trabaja más está en si sus datos se mueven solos.',
+    body:
+      'Un cliente compra, y el inventario lo sabe. Un pago se procesa, y el reporte ya lo refleja. Un agente de IA toma una decisión, y queda registrada. Sin correos, sin Excel, sin recordatorios.',
+    bodyClose:
+      'Eso es lo que diseñamos cuando construimos un sistema: las vías por donde viajan los datos, el orden en que se ejecutan las cosas, y la trazabilidad de cada paso.',
+    accent: 'Un dato. Un viaje. Un registro.',
+    hudFlow: 'flow',
+    hudDrag: 'drag · rotate',
     nodes: [
-      { label: 'Clientes', meta: 'Web · Móvil · Whatsapp' },
-      { label: 'Aplicación', meta: 'Web App · App Móvil' },
+      { label: 'Clientes',    meta: 'Web · Móvil · Whatsapp' },
+      { label: 'Aplicación',  meta: 'Web App · App Móvil' },
       { label: 'API Gateway', meta: 'REST · GraphQL · Auth' },
-      { label: 'Database', meta: 'Postgres · Mongo · Cache' },
-      { label: 'AI Layer', meta: 'Agentes · Workflows · LLMs' },
-      { label: 'Dashboards', meta: 'Métricas · Reportes' },
-      { label: 'Automation', meta: 'Eventos · Integraciones' },
+      { label: 'Database',    meta: 'Postgres · Mongo · Cache' },
+      { label: 'AI Layer',    meta: 'Agentes · Workflows · LLMs' },
+      { label: 'Dashboards',  meta: 'Métricas · Reportes' },
+      { label: 'Automation',  meta: 'Eventos · Integraciones' },
     ],
   },
   ai: {
