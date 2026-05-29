@@ -16,10 +16,14 @@ import {
 // TickerNumber — number that drifts up/down on a interval, sparkline trails it
 // =============================================================================
 export function TickerNumber({ label, base = 1000, volatility = 0.04, prefix = '', suffix = '', sparkline = true }) {
+  // Hydration-safe: server + client first paint both render the static `base`
+  // value. We only start animating after mount so the markup matches.
+  const [mounted, setMounted] = useState(false)
   const [value, setValue] = useState(base)
   const [history, setHistory] = useState(() => Array.from({ length: 24 }, () => base))
 
   useEffect(() => {
+    setMounted(true)
     const id = setInterval(() => {
       setValue((v) => {
         const drift = (Math.random() - 0.5) * 2 * volatility * base
@@ -32,14 +36,19 @@ export function TickerNumber({ label, base = 1000, volatility = 0.04, prefix = '
     return () => clearInterval(id)
   }, [base, volatility])
 
-  const delta = value - base
+  // While the component hasn't mounted yet (SSR + first client render),
+  // render the deterministic base value so server HTML matches client HTML.
+  const displayValue = mounted ? value : base
+  const displayHistory = mounted ? history : Array.from({ length: 24 }, () => base)
+
+  const delta = displayValue - base
   const up = delta >= 0
 
-  const min = Math.min(...history)
-  const max = Math.max(...history)
+  const min = Math.min(...displayHistory)
+  const max = Math.max(...displayHistory)
   const range = max - min || 1
-  const points = history
-    .map((v, i) => `${(i / (history.length - 1)) * 100},${100 - ((v - min) / range) * 100}`)
+  const points = displayHistory
+    .map((v, i) => `${(i / (displayHistory.length - 1)) * 100},${100 - ((v - min) / range) * 100}`)
     .join(' ')
 
   return (
@@ -48,9 +57,9 @@ export function TickerNumber({ label, base = 1000, volatility = 0.04, prefix = '
       <div className="flex items-baseline gap-2">
         <p className="font-mono text-fog-50 text-[20px] font-medium tabular-nums">
           {prefix}
-          {Math.abs(value) > 1000
-            ? value.toLocaleString('en-US', { maximumFractionDigits: 0 })
-            : value.toFixed(2)}
+          {Math.abs(displayValue) > 1000
+            ? displayValue.toLocaleString('en-US', { maximumFractionDigits: 0 })
+            : displayValue.toFixed(2)}
           {suffix}
         </p>
         <span
@@ -602,6 +611,781 @@ export function BackOfficeMock({ tabs = [] }) {
           })}
         </div>
       </div>
+    </div>
+  )
+}
+
+// =============================================================================
+// TradingWall — asymmetric grid of distinct mini-visualizations.
+// Each tile uses a different visual language: candlestick, world map, gauge,
+// bars, sparkline pulse. Animated independently so the wall feels alive.
+// =============================================================================
+export function TradingWall() {
+  return (
+    <div className="grid grid-cols-1 md:grid-cols-12 md:grid-rows-[auto_auto] gap-3">
+      {/* big candlestick */}
+      <div className="md:col-span-7 md:row-span-2">
+        <CandlestickChart />
+      </div>
+      {/* gauge */}
+      <div className="md:col-span-5">
+        <LatencyGauge />
+      </div>
+      {/* world heat */}
+      <div className="md:col-span-3">
+        <WorldHeat />
+      </div>
+      {/* error pulse */}
+      <div className="md:col-span-2">
+        <ErrorPulse />
+      </div>
+    </div>
+  )
+}
+
+function CandlestickChart() {
+  // Hydration-safe: start with a deterministic flat array. We populate the
+  // randomized bars only on mount (client only) so server/client HTML match.
+  const FLAT_BAR = { open: 80, close: 80, high: 80, low: 80 }
+  const [bars, setBars] = useState(() => Array.from({ length: 30 }, () => FLAT_BAR))
+
+  useEffect(() => {
+    // seed initial randomized bars after mount
+    setBars(() => {
+      const arr = []
+      let prev = 80
+      for (let i = 0; i < 30; i++) {
+        const open = prev
+        const close = open + (Math.random() - 0.5) * 12
+        const high = Math.max(open, close) + Math.random() * 5
+        const low = Math.min(open, close) - Math.random() * 5
+        arr.push({ open, close, high, low })
+        prev = close
+      }
+      return arr
+    })
+    const id = setInterval(() => {
+      setBars((b) => {
+        const last = b[b.length - 1]
+        const open = last.close
+        const close = open + (Math.random() - 0.5) * 12
+        const high = Math.max(open, close) + Math.random() * 5
+        const low = Math.min(open, close) - Math.random() * 5
+        return [...b.slice(1), { open, close, high, low }]
+      })
+    }, 1100)
+    return () => clearInterval(id)
+  }, [])
+
+  const min = Math.min(...bars.map((b) => b.low))
+  const max = Math.max(...bars.map((b) => b.high))
+  const range = max - min || 1
+
+  return (
+    <div className="rounded-xl border border-white/[0.07] bg-[rgba(8,12,18,0.6)] backdrop-blur-sm overflow-hidden h-full">
+      <div className="flex items-center justify-between px-4 py-2.5 border-b border-white/[0.06]">
+        <div className="flex items-center gap-2">
+          <span className="status-dot run" />
+          <p className="mono-label text-fog-400 text-[10px] tracking-[0.22em]">tx.volume · 24h</p>
+        </div>
+        <p className="mono-label text-signal-green text-[10px] tracking-[0.18em] tabular-nums">
+          $ {(bars[bars.length - 1].close * 50000).toLocaleString('en-US', { maximumFractionDigits: 0 })}
+        </p>
+      </div>
+      <div className="p-4 h-[260px] sm:h-[280px] flex items-end gap-1">
+        <svg viewBox="0 0 600 200" preserveAspectRatio="none" className="w-full h-full">
+          {bars.map((bar, i) => {
+            const x = (i / bars.length) * 600
+            const w = 600 / bars.length - 2
+            const yHigh = 200 - ((bar.high - min) / range) * 200
+            const yLow = 200 - ((bar.low - min) / range) * 200
+            const yOpen = 200 - ((bar.open - min) / range) * 200
+            const yClose = 200 - ((bar.close - min) / range) * 200
+            const up = bar.close >= bar.open
+            const color = up ? '#2DE2C5' : '#F5B544'
+            return (
+              <g key={i}>
+                <line x1={x + w / 2} y1={yHigh} x2={x + w / 2} y2={yLow} stroke={color} strokeWidth="0.8" opacity="0.6" />
+                <rect
+                  x={x}
+                  y={Math.min(yOpen, yClose)}
+                  width={w}
+                  height={Math.max(2, Math.abs(yOpen - yClose))}
+                  fill={color}
+                  opacity="0.85"
+                />
+              </g>
+            )
+          })}
+        </svg>
+      </div>
+      <div className="px-4 py-2 border-t border-white/[0.06] flex items-center justify-between mono-label text-fog-500 text-[9px] tracking-[0.18em]">
+        <span>candles · 30 · 5min</span>
+        <span className="text-signal-green flex items-center gap-1.5">
+          <TrendingUp size={10} /> +2.4%
+        </span>
+      </div>
+    </div>
+  )
+}
+
+function LatencyGauge() {
+  const [val, setVal] = useState(142)
+  useEffect(() => {
+    const id = setInterval(() => {
+      setVal((v) => Math.max(40, Math.min(280, v + (Math.random() - 0.5) * 40)))
+    }, 700)
+    return () => clearInterval(id)
+  }, [])
+
+  // arc settings — 270° arc starting at 135°
+  const min = 0, max = 300
+  const pct = (val - min) / (max - min)
+  const angle = 135 + pct * 270
+  const safeColor = val < 200 ? '#2DE2C5' : val < 250 ? '#F5B544' : '#F26B6B'
+
+  // arc path
+  const radius = 60
+  const cx = 80, cy = 80
+  const startA = (135 * Math.PI) / 180
+  const endA = (angle * Math.PI) / 180
+  const largeArc = pct > 0.5 ? 1 : 0
+  const sx = cx + radius * Math.cos(startA)
+  const sy = cy + radius * Math.sin(startA)
+  const ex = cx + radius * Math.cos(endA)
+  const ey = cy + radius * Math.sin(endA)
+  const arcPath = `M ${sx} ${sy} A ${radius} ${radius} 0 ${largeArc} 1 ${ex} ${ey}`
+
+  return (
+    <div className="rounded-xl border border-white/[0.07] bg-[rgba(8,12,18,0.6)] backdrop-blur-sm overflow-hidden h-full">
+      <div className="flex items-center justify-between px-4 py-2.5 border-b border-white/[0.06]">
+        <div className="flex items-center gap-2">
+          <Activity size={11} className="text-accent" />
+          <p className="mono-label text-fog-400 text-[10px] tracking-[0.22em]">latency · p95</p>
+        </div>
+        <p className="mono-label text-fog-500 text-[10px] tracking-[0.18em]">target &lt; 200ms</p>
+      </div>
+      <div className="p-4 flex items-center gap-4">
+        <svg viewBox="0 0 160 130" className="w-32 h-32 shrink-0">
+          {/* track */}
+          <path
+            d={`M ${cx + radius * Math.cos(startA)} ${cy + radius * Math.sin(startA)} A ${radius} ${radius} 0 1 1 ${cx + radius * Math.cos((45 * Math.PI) / 180)} ${cy + radius * Math.sin((45 * Math.PI) / 180)}`}
+            fill="none"
+            stroke="rgba(255,255,255,0.08)"
+            strokeWidth="6"
+            strokeLinecap="round"
+          />
+          {/* fill */}
+          <path d={arcPath} fill="none" stroke={safeColor} strokeWidth="6" strokeLinecap="round" />
+          {/* center value */}
+          <text
+            x="80"
+            y="78"
+            textAnchor="middle"
+            fill={safeColor}
+            fontFamily="var(--font-mono), monospace"
+            fontSize="22"
+            fontWeight="500"
+          >
+            {Math.round(val)}
+          </text>
+          <text
+            x="80"
+            y="96"
+            textAnchor="middle"
+            fill="#7C8A9C"
+            fontFamily="var(--font-mono), monospace"
+            fontSize="10"
+            letterSpacing="2"
+          >
+            MS
+          </text>
+        </svg>
+        <div className="flex flex-col gap-1.5 text-[11px] flex-1">
+          <RangeRow label="p50" value="78ms" />
+          <RangeRow label="p90" value="124ms" />
+          <RangeRow label="p95" value={`${Math.round(val)}ms`} active />
+          <RangeRow label="p99" value="384ms" />
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function RangeRow({ label, value, active }) {
+  return (
+    <div className={`flex items-center justify-between px-2 py-1 rounded ${active ? 'bg-accent/10 border border-accent/20' : ''}`}>
+      <span className={`mono-label text-[10px] tracking-[0.16em] ${active ? 'text-accent' : 'text-fog-500'}`}>
+        {label}
+      </span>
+      <span className={`font-mono tabular-nums ${active ? 'text-accent' : 'text-fog-300'}`}>
+        {value}
+      </span>
+    </div>
+  )
+}
+
+function WorldHeat() {
+  // 12 city dots with pulsing intensity
+  const cities = [
+    { x: 18, y: 38, name: 'NYC' },
+    { x: 28, y: 32, name: 'LON' },
+    { x: 35, y: 42, name: 'MAD' },
+    { x: 50, y: 48, name: 'CAI' },
+    { x: 70, y: 38, name: 'TYO' },
+    { x: 22, y: 60, name: 'MEX' },
+    { x: 42, y: 78, name: 'BUE' },
+    { x: 62, y: 60, name: 'SGP' },
+    { x: 80, y: 70, name: 'SYD' },
+    { x: 56, y: 30, name: 'BLN' },
+    { x: 20, y: 48, name: 'BOG' },
+    { x: 68, y: 50, name: 'BOM' },
+  ]
+  const [tick, setTick] = useState(0)
+  useEffect(() => {
+    const id = setInterval(() => setTick((t) => t + 1), 800)
+    return () => clearInterval(id)
+  }, [])
+
+  return (
+    <div className="rounded-xl border border-white/[0.07] bg-[rgba(8,12,18,0.6)] backdrop-blur-sm overflow-hidden h-full">
+      <div className="flex items-center justify-between px-4 py-2.5 border-b border-white/[0.06]">
+        <p className="mono-label text-fog-400 text-[10px] tracking-[0.22em]">geo.live</p>
+        <p className="mono-label text-accent text-[10px] tracking-[0.18em] tabular-nums">12 / 124</p>
+      </div>
+      <div className="p-3 h-[220px] sm:h-[260px] relative">
+        <svg viewBox="0 0 100 100" className="w-full h-full">
+          {/* abstract grid lat/long lines */}
+          <defs>
+            <pattern id="latLong" width="10" height="10" patternUnits="userSpaceOnUse">
+              <path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="0.3" />
+            </pattern>
+          </defs>
+          <rect width="100" height="100" fill="url(#latLong)" />
+          {/* dotted continent silhouettes — abstract */}
+          <ellipse cx="22" cy="42" rx="14" ry="22" fill="rgba(45,226,197,0.04)" />
+          <ellipse cx="50" cy="38" rx="10" ry="18" fill="rgba(45,226,197,0.04)" />
+          <ellipse cx="68" cy="42" rx="14" ry="14" fill="rgba(45,226,197,0.04)" />
+          <ellipse cx="40" cy="72" rx="10" ry="14" fill="rgba(45,226,197,0.04)" />
+          <ellipse cx="78" cy="70" rx="6" ry="6" fill="rgba(45,226,197,0.04)" />
+
+          {/* pulsing cities */}
+          {cities.map((c, i) => {
+            const phase = (tick + i * 2) % 8
+            const r = 1.4 + Math.sin(phase) * 0.4
+            const ringR = 2 + ((tick + i) % 6) * 0.8
+            const ringOp = Math.max(0, 0.6 - ((tick + i) % 6) * 0.1)
+            return (
+              <g key={c.name}>
+                <circle cx={c.x} cy={c.y} r={ringR} fill="none" stroke="#2DE2C5" strokeOpacity={ringOp} strokeWidth="0.3" />
+                <circle cx={c.x} cy={c.y} r={r} fill="#2DE2C5" />
+              </g>
+            )
+          })}
+        </svg>
+      </div>
+    </div>
+  )
+}
+
+function ErrorPulse() {
+  // Hydration-safe: start with deterministic zeros, randomize after mount.
+  const [errors, setErrors] = useState(() => Array.from({ length: 14 }, () => 0))
+  useEffect(() => {
+    setErrors(() => Array.from({ length: 14 }, () => Math.random() * 0.4))
+    const id = setInterval(() => {
+      setErrors((arr) => [...arr.slice(1), Math.random() * (Math.random() < 0.15 ? 1 : 0.3)])
+    }, 600)
+    return () => clearInterval(id)
+  }, [])
+  const max = Math.max(...errors, 0.1)
+  return (
+    <div className="rounded-xl border border-white/[0.07] bg-[rgba(8,12,18,0.6)] backdrop-blur-sm overflow-hidden h-full">
+      <div className="flex items-center justify-between px-4 py-2.5 border-b border-white/[0.06]">
+        <p className="mono-label text-fog-400 text-[10px] tracking-[0.22em]">errors</p>
+        <p className="mono-label text-fog-500 text-[10px] tracking-[0.18em] tabular-nums">/min</p>
+      </div>
+      <div className="p-3 h-[220px] sm:h-[260px] flex flex-col">
+        <div className="flex items-end gap-[3px] flex-1">
+          {errors.map((e, i) => {
+            const h = (e / max) * 100
+            const high = e > 0.6
+            return (
+              <div
+                key={i}
+                className="flex-1 rounded-sm transition-all duration-300"
+                style={{
+                  height: `${h}%`,
+                  minHeight: 2,
+                  background: high ? '#F26B6B' : '#2DE2C5',
+                  opacity: 0.4 + (i / errors.length) * 0.6,
+                }}
+              />
+            )
+          })}
+        </div>
+        <p className="mono-label text-fog-500 text-[9px] tracking-[0.18em] mt-3">last 14 · 60s window</p>
+      </div>
+    </div>
+  )
+}
+
+// =============================================================================
+// OperatorConsole — terminal-style command interface with auto-typed queries
+// and streaming responses. Replaces BackOfficeMock with something more dramatic.
+// =============================================================================
+export function OperatorConsole({ tabs = [] }) {
+  const queries = [
+    { cmd: '> SELECT * FROM users WHERE status = "PENDING" LIMIT 4;', tab: 'users' },
+    { cmd: '> UPDATE cards SET status = "RENEWED" WHERE id = 8814;', tab: 'cards' },
+    { cmd: '> EXEC reconcile_transactions("2026-05-29");', tab: 'transactions' },
+    { cmd: '> AUDIT.export(period: 24h, format: csv);', tab: 'audit' },
+  ]
+  const [step, setStep] = useState(0)
+  const [typed, setTyped] = useState('')
+  const [showResult, setShowResult] = useState(false)
+
+  useEffect(() => {
+    const q = queries[step % queries.length]
+    let i = 0
+    setTyped('')
+    setShowResult(false)
+    const typer = setInterval(() => {
+      i++
+      setTyped(q.cmd.slice(0, i))
+      if (i >= q.cmd.length) {
+        clearInterval(typer)
+        setTimeout(() => setShowResult(true), 220)
+      }
+    }, 28)
+    const advance = setTimeout(() => {
+      setStep((s) => s + 1)
+    }, 4200)
+    return () => { clearInterval(typer); clearTimeout(advance) }
+  }, [step])
+
+  const currentTab = tabs[step % tabs.length] || tabs[0]
+
+  return (
+    <div
+      className="rounded-xl border border-white/[0.07] bg-[#070b0f] backdrop-blur-sm overflow-hidden relative"
+      style={{
+        backgroundImage:
+          'repeating-linear-gradient(0deg, rgba(45,226,197,0.025) 0px, rgba(45,226,197,0.025) 1px, transparent 1px, transparent 3px)',
+      }}
+    >
+      {/* CRT scanline overlay */}
+      <div
+        aria-hidden
+        className="absolute inset-0 pointer-events-none opacity-30"
+        style={{
+          background:
+            'linear-gradient(transparent 50%, rgba(0,0,0,0.4) 50%)',
+          backgroundSize: '100% 4px',
+        }}
+      />
+
+      {/* terminal header */}
+      <div className="relative flex items-center gap-2 px-4 py-2.5 border-b border-accent/20 bg-black/40">
+        <span className="w-2.5 h-2.5 rounded-full bg-signal-red/70" />
+        <span className="w-2.5 h-2.5 rounded-full bg-signal-amber/70" />
+        <span className="w-2.5 h-2.5 rounded-full bg-signal-green/70" />
+        <p className="ml-3 mono-label text-accent text-[10px] tracking-[0.22em]">
+          OPERATOR · backoffice@era · {currentTab?.label?.toLowerCase()}
+        </p>
+        <div className="ml-auto flex items-center gap-2">
+          <span className="status-dot run" />
+          <p className="mono-label text-signal-green text-[9px] tracking-[0.18em]">SECURE TUNNEL</p>
+        </div>
+      </div>
+
+      {/* terminal body */}
+      <div className="relative p-5 font-mono text-[12.5px] min-h-[340px]">
+        <div className="text-accent">
+          {typed}
+          <span className="inline-block w-[0.6em] h-[1em] align-middle bg-accent ml-0.5 animate-pulse" />
+        </div>
+
+        {showResult && currentTab && (
+          <div className="mt-4 animate-[opFade_0.3s_ease-out]">
+            <p className="text-fog-500 mb-2">
+              [ok] returning {currentTab.count} rows · 142ms
+            </p>
+            <div className="grid grid-cols-[1fr_1.2fr_80px_90px] gap-3 mono-label text-fog-600 text-[9px] tracking-[0.18em] pb-1.5 border-b border-accent/10">
+              <span>NAME / ID</span>
+              <span>DETAIL</span>
+              <span>STATUS</span>
+              <span className="text-right">DATE</span>
+            </div>
+            <div className="space-y-0.5 mt-1">
+              {currentTab.rows.map((row, i) => {
+                const status = row.col3
+                const statusColor =
+                  status === 'ACTIVE' || status === 'OK' || status === 'RENEWED'
+                    ? 'text-signal-green'
+                    : status === 'PENDING'
+                    ? 'text-signal-amber'
+                    : 'text-signal-red'
+                return (
+                  <div
+                    key={i}
+                    className="grid grid-cols-[1fr_1.2fr_80px_90px] gap-3 py-1.5 text-[12px] animate-[opFade_0.3s_ease-out]"
+                    style={{ animationDelay: `${i * 80}ms`, animationFillMode: 'both' }}
+                  >
+                    <span className="text-accent truncate">{row.col1}</span>
+                    <span className="text-fog-200 truncate">{row.col2}</span>
+                    <span className={`${statusColor} truncate`}>{row.col3}</span>
+                    <span className="text-fog-500 text-right tabular-nums truncate">{row.col4}</span>
+                  </div>
+                )
+              })}
+            </div>
+            <p className="mt-3 text-fog-500 text-[10px]">
+              audit_log: action_id=#{step.toString(16).padStart(4, '0')} · user=admin · ip=10.0.x.x · ok
+            </p>
+          </div>
+        )}
+      </div>
+
+      {/* footer */}
+      <div className="relative flex items-center justify-between px-4 py-2 border-t border-accent/20 bg-black/40 mono-label text-accent text-[9px] tracking-[0.18em]">
+        <span>step · {(step % queries.length) + 1} / {queries.length}</span>
+        <span>RBAC · admin · MFA · ok</span>
+      </div>
+    </div>
+  )
+}
+
+// =============================================================================
+// Vault — concentric rings rotating with stage labels (auth, encryption, audit)
+// scroll-driven activation. Distinct visual language for security section.
+// =============================================================================
+export function Vault({ scrollProgressRef, pillars = [] }) {
+  const [tick, setTick] = useState(0)
+  const [progress, setProgress] = useState(0)
+  useEffect(() => {
+    let raf = 0
+    let last = performance.now()
+    const tickFn = (now) => {
+      const dt = (now - last) / 1000
+      last = now
+      setTick((t) => t + dt)
+      if (scrollProgressRef?.current != null) {
+        setProgress(scrollProgressRef.current)
+      }
+      raf = requestAnimationFrame(tickFn)
+    }
+    raf = requestAnimationFrame(tickFn)
+    return () => cancelAnimationFrame(raf)
+  }, [scrollProgressRef])
+
+  // 4 concentric rings; each rotates at a different speed; activated as scroll progresses
+  const rings = [
+    { r: 110, w: 1.5, speed: 8,  label: 'AUTH',       activate: 0.1 },
+    { r: 88,  w: 1.5, speed: -12, label: 'PERMS',     activate: 0.25 },
+    { r: 66,  w: 1.5, speed: 16, label: 'ENCRYPTION', activate: 0.45 },
+    { r: 44,  w: 1.5, speed: -22, label: 'AUDIT',     activate: 0.7 },
+  ]
+
+  return (
+    <div className="relative w-full">
+      <div className="aspect-square max-w-[480px] mx-auto relative">
+        {/* center vault status */}
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+          <div className="text-center">
+            <Lock size={28} className="text-accent mx-auto mb-2" style={{ filter: `drop-shadow(0 0 ${8 + progress * 12}px rgba(45,226,197,${0.3 + progress * 0.5}))` }} />
+            <p className="mono-label text-accent text-[10px] tracking-[0.22em]">SECURED</p>
+            <p className="mono-label text-fog-500 text-[9px] tracking-[0.18em] mt-1 tabular-nums">
+              {Math.round(progress * 100)}%
+            </p>
+          </div>
+        </div>
+
+        <svg viewBox="0 0 320 320" className="w-full h-full">
+          <defs>
+            <filter id="vaultGlow" x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur stdDeviation="2.5" result="blur" />
+              <feMerge>
+                <feMergeNode in="blur" />
+                <feMergeNode in="SourceGraphic" />
+              </feMerge>
+            </filter>
+          </defs>
+
+          {rings.map((ring, idx) => {
+            const active = progress >= ring.activate
+            const angle = (tick * ring.speed) % 360
+            const opacity = active ? 1 : 0.2
+            const dash = active ? '20 6' : '4 8'
+            return (
+              <g key={ring.label} transform={`translate(160 160) rotate(${angle})`} opacity={opacity}>
+                <circle r={ring.r} fill="none" stroke="#2DE2C5" strokeWidth={ring.w} strokeDasharray={dash} filter={active ? 'url(#vaultGlow)' : undefined} />
+                {/* tick marks */}
+                {Array.from({ length: 12 }).map((_, i) => {
+                  const a = (i / 12) * Math.PI * 2
+                  const x1 = Math.cos(a) * (ring.r - 4)
+                  const y1 = Math.sin(a) * (ring.r - 4)
+                  const x2 = Math.cos(a) * (ring.r + 4)
+                  const y2 = Math.sin(a) * (ring.r + 4)
+                  return (
+                    <line key={i} x1={x1} y1={y1} x2={x2} y2={y2} stroke="#2DE2C5" strokeWidth="0.6" opacity={active ? 0.5 : 0.15} />
+                  )
+                })}
+              </g>
+            )
+          })}
+
+          {/* ring labels — DON'T rotate */}
+          {rings.map((ring, idx) => {
+            const active = progress >= ring.activate
+            return (
+              <text
+                key={`label-${ring.label}`}
+                x="160"
+                y={160 - ring.r - 8}
+                textAnchor="middle"
+                fontFamily="var(--font-mono), monospace"
+                fontSize="9"
+                fontWeight="500"
+                letterSpacing="2"
+                fill={active ? '#2DE2C5' : 'rgba(124,138,156,0.4)'}
+              >
+                {ring.label}
+              </text>
+            )
+          })}
+        </svg>
+      </div>
+    </div>
+  )
+}
+
+// =============================================================================
+// CompliancePipeline — checklist that builds itself line-by-line, CI/CD style
+// =============================================================================
+export function CompliancePipeline({ items = [] }) {
+  const [completed, setCompleted] = useState(0)
+  // Stable per-step ms timings — generated once on mount so they don't churn
+  // on every re-render (and don't run on the server).
+  const [msStable, setMsStable] = useState(() => items.map(() => 100))
+  useEffect(() => {
+    setMsStable(items.map(() => Math.floor(80 + Math.random() * 40)))
+  }, [items.length])
+
+  useEffect(() => {
+    if (completed >= items.length) {
+      const reset = setTimeout(() => setCompleted(0), 2000)
+      return () => clearTimeout(reset)
+    }
+    const id = setTimeout(() => setCompleted((c) => c + 1), 380)
+    return () => clearTimeout(id)
+  }, [completed, items.length])
+
+  return (
+    <div className="rounded-xl border border-white/[0.07] bg-[#070b0f] overflow-hidden">
+      <div className="flex items-center justify-between px-4 py-2.5 border-b border-white/[0.06]">
+        <div className="flex items-center gap-2">
+          <ShieldCheck size={11} className="text-accent" />
+          <p className="mono-label text-fog-400 text-[10px] tracking-[0.22em]">compliance.run</p>
+        </div>
+        <p className="mono-label text-signal-green text-[10px] tracking-[0.18em] tabular-nums">
+          {completed} / {items.length}
+        </p>
+      </div>
+      <div className="p-4 font-mono text-[12.5px] min-h-[420px]">
+        {items.map((it, i) => {
+          const state = i < completed ? 'done' : i === completed ? 'running' : 'pending'
+          return (
+            <div
+              key={i}
+              className="flex items-center gap-3 py-1.5 border-b border-white/[0.04] last:border-0"
+            >
+              <span className="w-7 mono-label text-fog-600 text-[10px] tracking-[0.16em] tabular-nums">
+                {String(i + 1).padStart(2, '0')}
+              </span>
+              <span className="w-5 shrink-0">
+                {state === 'done' && <span className="text-signal-green">✓</span>}
+                {state === 'running' && (
+                  <span className="inline-block w-2.5 h-2.5 rounded-full bg-signal-amber animate-pulse" />
+                )}
+                {state === 'pending' && <span className="text-fog-600">·</span>}
+              </span>
+              <span
+                className={`flex-1 truncate ${
+                  state === 'done' ? 'text-fog-300' :
+                  state === 'running' ? 'text-fog-50' :
+                  'text-fog-600'
+                }`}
+              >
+                {it}
+              </span>
+              <span
+                className={`mono-label text-[9px] tracking-[0.16em] tabular-nums ${
+                  state === 'done' ? 'text-signal-green' :
+                  state === 'running' ? 'text-signal-amber' :
+                  'text-fog-600'
+                }`}
+              >
+                {state === 'done' ? `${msStable[i] ?? 100}ms` :
+                 state === 'running' ? '...' : '—'}
+              </span>
+            </div>
+          )
+        })}
+      </div>
+      <div className="flex items-center justify-between px-4 py-2 border-t border-white/[0.06] mono-label text-fog-500 text-[9px] tracking-[0.18em]">
+        <span>pipeline · pci-aware · loop</span>
+        <span className="text-signal-green">PASS</span>
+      </div>
+    </div>
+  )
+}
+
+// =============================================================================
+// BuildPipeline — CI-style step runner for the process section
+// =============================================================================
+export function BuildPipeline({ steps = [] }) {
+  const [running, setRunning] = useState(0)
+  useEffect(() => {
+    if (running >= steps.length) {
+      const reset = setTimeout(() => setRunning(0), 1800)
+      return () => clearTimeout(reset)
+    }
+    const id = setTimeout(() => setRunning((r) => r + 1), 700)
+    return () => clearTimeout(id)
+  }, [running, steps.length])
+
+  return (
+    <div className="rounded-xl border border-white/[0.07] bg-[#070b0f] overflow-hidden">
+      <div className="flex items-center gap-2 px-4 py-2.5 border-b border-white/[0.06]">
+        <span className="status-dot run" />
+        <p className="mono-label text-accent text-[10px] tracking-[0.22em]">build.fintech</p>
+        <p className="ml-auto mono-label text-fog-500 text-[10px] tracking-[0.18em] tabular-nums">
+          {Math.min(running, steps.length)} / {steps.length}
+        </p>
+      </div>
+      <div className="grid lg:grid-cols-3 gap-px bg-white/[0.04]">
+        {steps.map((step, i) => {
+          const state = i < running ? 'done' : i === running ? 'running' : 'pending'
+          return (
+            <div
+              key={step.num}
+              className="bg-[#070b0f] p-5 relative"
+            >
+              <div className="flex items-center justify-between mb-3">
+                <p
+                  className="font-mono text-[10px] tracking-[0.18em] tabular-nums"
+                  style={{
+                    color: state === 'done' ? '#2DE2C5' :
+                           state === 'running' ? '#F5B544' :
+                           '#3a4a5a',
+                  }}
+                >
+                  STAGE {step.num}
+                </p>
+                <span>
+                  {state === 'done' && <span className="text-signal-green text-[14px]">✓</span>}
+                  {state === 'running' && <span className="inline-block w-2 h-2 rounded-full bg-signal-amber animate-pulse" />}
+                  {state === 'pending' && <span className="inline-block w-2 h-2 rounded-full bg-white/10" />}
+                </span>
+              </div>
+              <p
+                className={`text-[15px] font-medium leading-tight ${
+                  state === 'pending' ? 'text-fog-500' : 'text-fog-50'
+                }`}
+              >
+                {step.title}
+              </p>
+              <p
+                className={`text-[12.5px] leading-relaxed mt-2 text-pretty ${
+                  state === 'pending' ? 'text-fog-600' : 'text-fog-400'
+                }`}
+              >
+                {step.body}
+              </p>
+              <div className="mt-3 h-px overflow-hidden bg-white/[0.04] rounded-full">
+                <div
+                  className="h-full transition-all duration-700"
+                  style={{
+                    width: state === 'done' ? '100%' : state === 'running' ? '60%' : '0%',
+                    background: state === 'done' ? '#2DE2C5' : '#F5B544',
+                  }}
+                />
+              </div>
+            </div>
+          )
+        })}
+      </div>
+    </div>
+  )
+}
+
+// =============================================================================
+// EditorialMosaic — magazine-style asymmetric grid for use cases
+// =============================================================================
+export function EditorialMosaic({ items = [] }) {
+  // pattern: rows of [big, small] alternating sides, with full-width hero items
+  // We'll do a deterministic 3-column layout with span variations
+  const spans = [
+    'lg:col-span-7 lg:row-span-2',  // 0 - hero
+    'lg:col-span-5',                 // 1
+    'lg:col-span-5',                 // 2
+    'lg:col-span-4',                 // 3
+    'lg:col-span-4',                 // 4
+    'lg:col-span-4',                 // 5
+    'lg:col-span-7',                 // 6 - wide
+    'lg:col-span-5',                 // 7
+    'lg:col-span-6',                 // 8
+    'lg:col-span-6',                 // 9
+  ]
+  return (
+    <div className="grid grid-cols-1 lg:grid-cols-12 gap-3">
+      {items.map((it, i) => {
+        const span = spans[i] || 'lg:col-span-4'
+        const isHero = i === 0
+        return (
+          <article
+            key={it.num}
+            className={`group ${span} rounded-xl border border-white/[0.07] bg-white/[0.015] hover:bg-white/[0.04] hover:border-accent/20 transition-all overflow-hidden relative`}
+            style={{ minHeight: isHero ? 280 : 160 }}
+          >
+            <div
+              aria-hidden
+              className="absolute inset-0 pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity"
+              style={{
+                background:
+                  'radial-gradient(ellipse 50% 60% at 30% 20%, rgba(45,226,197,0.08), transparent 60%)',
+              }}
+            />
+            <div className="relative h-full p-6 sm:p-8 flex flex-col justify-between">
+              <div>
+                <p
+                  className="font-display font-light text-fog-600 leading-none"
+                  style={{ fontSize: isHero ? 'clamp(60px, 9vw, 140px)' : 'clamp(36px, 5vw, 64px)', letterSpacing: '-0.05em' }}
+                >
+                  {it.num}
+                </p>
+              </div>
+              <div className="mt-auto">
+                <p
+                  className={`font-display font-semibold text-fog-50 tracking-[-0.02em] leading-[1.05] ${
+                    isHero ? 'text-[22px] sm:text-[28px]' : 'text-[16px] sm:text-[18px]'
+                  }`}
+                >
+                  {it.title}
+                </p>
+                <p className="mono-label text-fog-500 text-[10px] tracking-[0.14em] mt-2 truncate">
+                  {it.meta}
+                </p>
+              </div>
+              <ArrowUpRight
+                size={isHero ? 18 : 13}
+                className="absolute top-5 right-5 text-fog-600 group-hover:text-accent transition-colors"
+              />
+            </div>
+          </article>
+        )
+      })}
     </div>
   )
 }

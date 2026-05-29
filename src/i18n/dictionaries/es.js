@@ -585,11 +585,21 @@ const es = {
         'Documentación técnica',
         'Preparación técnica para auditorías',
       ],
-      sayThis: 'Diseñamos infraestructura orientada a PCI compliance.',
-      notThis: 'Somos PCI compliant.',
-      sayLabel: 'Decimos:',
-      notLabel: 'No decimos:',
-      explanation: 'La primera es seria. La segunda es certificación formal pública.',
+      explainerTitle: 'Qué es PCI compliance',
+      explainerLead:
+        'PCI DSS (Payment Card Industry Data Security Standard) es el estándar global de seguridad para cualquier sistema que procesa, transmite o almacena datos de tarjetas de pago.',
+      explainerBody:
+        'Lo definen las redes de tarjetas (Visa, Mastercard, American Express, Discover y JCB) a través del PCI Security Standards Council. Aplica a bancos, fintechs, ecommerce, procesadores y cualquier empresa que toque datos de tarjeta — sin importar el volumen.',
+      explainerPillars: [
+        { code: '01', title: 'Red segura',          meta: 'Firewalls, segmentación, configuración hardenizada' },
+        { code: '02', title: 'Datos protegidos',    meta: 'Encriptación en tránsito y en reposo, no almacenar PAN sin cifrar' },
+        { code: '03', title: 'Vulnerabilidades',     meta: 'Antivirus, parches, desarrollo seguro' },
+        { code: '04', title: 'Control de acceso',   meta: 'Permisos por rol, autenticación fuerte, acceso físico restringido' },
+        { code: '05', title: 'Monitoreo',            meta: 'Logs, trazabilidad, pruebas regulares de seguridad' },
+        { code: '06', title: 'Política',             meta: 'Documentación, procesos, cultura de seguridad' },
+      ],
+      explainerCloser:
+        'Diseñamos infraestructura que respeta estos principios desde el primer commit: segmentación de red, encriptación aplicada, control de accesos, trazabilidad y manejo cuidadoso de datos sensibles. La certificación formal la otorga un QSA (Qualified Security Assessor) tras una auditoría — nosotros construimos para que esa auditoría sea posible.',
     },
 
     architecture: {

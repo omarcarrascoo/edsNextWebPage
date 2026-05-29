@@ -1,19 +1,27 @@
 'use client'
 
-import { useEffect, useState } from 'react'
-import { motion } from 'framer-motion'
+import { useEffect, useRef, useState } from 'react'
+import dynamic from 'next/dynamic'
+import { motion, useScroll, useMotionValueEvent } from 'framer-motion'
 import {
   ArrowRight, ArrowUpRight, Plus, Minus, ChevronRight, ShieldCheck,
   TrendingUp, Wallet, CreditCard, Network, Database, Cpu, FileCheck,
-  Boxes, Workflow, MessageSquare, Lock, Activity,
+  Boxes, Workflow, MessageSquare, Lock, Activity, Hand,
 } from 'lucide-react'
 import SiteHeader from '@/components/site/SiteHeader'
 import SiteFooter from '@/components/site/SiteFooter'
 import { useT } from '@/i18n/LanguageProvider'
 import {
-  TickerNumber, TradingTerminal, CreditCard3D, FlowDiagram,
-  TPKEncryption, BackOfficeMock, ArchitectureStack,
+  TickerNumber, TradingTerminal, CreditCard3D,
+  TPKEncryption, ArchitectureStack,
+  TradingWall, OperatorConsole, Vault, CompliancePipeline,
+  BuildPipeline, EditorialMosaic,
 } from '@/components/graph/FintechGraphics'
+
+const BankParticles = dynamic(
+  () => import('@/components/graph/BankParticles'),
+  { ssr: false, loading: () => null },
+)
 
 const capabilityIcons = {
   '01': Network,
@@ -84,15 +92,20 @@ function Eyebrow({ children }) {
 function SectionHeader({ eyebrow, title, accent, body, align = 'left', max = 'max-w-3xl' }) {
   const alignClass = align === 'center' ? 'text-center mx-auto' : 'text-left'
   return (
-    <div className={`${alignClass} ${max}`}>
+    <div className={`${alignClass} ${max} min-w-0`}>
       {eyebrow && <Eyebrow>{eyebrow}</Eyebrow>}
       <motion.h2
         initial={{ opacity: 0, y: 18 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: '-80px' }}
         transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
-        className="font-display font-semibold tracking-[-0.03em] leading-[0.98] text-balance break-words"
-        style={{ fontSize: 'clamp(28px, 4.4vw, 60px)' }}
+        className="font-display font-semibold tracking-[-0.02em] leading-[1.06] text-pretty"
+        style={{
+          fontSize: 'clamp(22px, 4.4vw, 60px)',
+          hyphens: 'auto',
+          overflowWrap: 'anywhere',
+          wordBreak: 'normal',
+        }}
       >
         <span className="text-fog-50 block">{title}</span>
         {accent && (
@@ -306,38 +319,62 @@ function Capabilities({ f }) {
 // 04 · INTEGRATION
 // =============================================================================
 function Integration({ f }) {
-  const edges = [
-    { from: 'client', to: 'app' },
-    { from: 'app', to: 'gateway' },
-    { from: 'gateway', to: 'core' },
-    { from: 'gateway', to: 'processor' },
-    { from: 'gateway', to: 'i2c' },
-    { from: 'salesforce', to: 'gateway' },
-    { from: 'core', to: 'audit' },
-    { from: 'processor', to: 'audit' },
-    { from: 'i2c', to: 'audit' },
-  ]
   return (
     <SectionShell id="integration">
-      <SectionHeader
-        eyebrow={f.integration.eyebrow}
-        title={f.integration.title}
-        accent={f.integration.titleAccent}
-        body={f.integration.body}
-        max="max-w-4xl"
-      />
-      <motion.div
-        initial={{ opacity: 0, y: 18 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: '-80px' }}
-        transition={{ duration: 0.85 }}
-        className="mt-10"
-      >
-        <FlowDiagram nodes={f.integration.nodes} edges={edges} />
-      </motion.div>
-      <p className="mt-10 editorial text-fog-400 text-[15px] sm:text-[16px] leading-relaxed text-pretty max-w-2xl italic">
-        {f.integration.witty}
-      </p>
+      <div className="grid lg:grid-cols-[1.1fr_1fr] gap-10 lg:gap-14 items-center">
+        {/* LEFT (lg+) — bank canvas */}
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-60px' }}
+          transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
+          className="relative w-full order-1 lg:order-1"
+          style={{ height: 'clamp(380px, 56vh, 560px)' }}
+        >
+          <BankParticles />
+          {/* corner crosshairs */}
+          <div aria-hidden className="absolute inset-0 pointer-events-none">
+            <div className="absolute top-0 left-0 w-3 h-3 border-t border-l border-accent/40" />
+            <div className="absolute top-0 right-0 w-3 h-3 border-t border-r border-accent/40" />
+            <div className="absolute bottom-0 left-0 w-3 h-3 border-b border-l border-accent/40" />
+            <div className="absolute bottom-0 right-0 w-3 h-3 border-b border-r border-accent/40" />
+          </div>
+          {/* HUD label */}
+          <div className="absolute bottom-3 left-3 pointer-events-none">
+            <p className="mono-label text-accent text-[10px] tracking-[0.22em]">
+              bank.façade
+            </p>
+            <p className="mono-label text-fog-500 text-[9px] tracking-[0.18em] mt-1">
+              particles · interactive
+            </p>
+          </div>
+          {/* mobile hint over the canvas */}
+          <div className="absolute top-3 right-3 pointer-events-none flex items-center gap-2 text-fog-500 lg:hidden">
+            <Hand size={11} className="text-accent" />
+            <p className="mono-label text-[9px] tracking-[0.2em]">hover · scatter</p>
+          </div>
+        </motion.div>
+
+        {/* RIGHT (lg+) — copy */}
+        <div className="min-w-0 order-2 lg:order-2">
+          <SectionHeader
+            eyebrow={f.integration.eyebrow}
+            title={f.integration.title}
+            accent={f.integration.titleAccent}
+            body={f.integration.body}
+            max="max-w-md"
+          />
+          <p className="editorial text-fog-500 text-[13px] sm:text-[14px] leading-relaxed text-pretty mt-6 italic max-w-md">
+            {f.integration.witty}
+          </p>
+          <div className="mt-6 hidden lg:flex items-center gap-2 text-fog-500">
+            <Hand size={11} className="text-accent" />
+            <p className="mono-label text-[9px] tracking-[0.2em]">
+              hover · scatter · reform
+            </p>
+          </div>
+        </div>
+      </div>
     </SectionShell>
   )
 }
@@ -483,25 +520,9 @@ function Dashboards({ f }) {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: '-80px' }}
         transition={{ duration: 0.85 }}
-        className="mt-10 grid sm:grid-cols-2 lg:grid-cols-3 gap-3"
+        className="mt-10"
       >
-        {f.dashboards.tickers.map((tk) => {
-          // pick a base from the value (numeric content)
-          const num = parseFloat(tk.value.replace(/[^0-9.-]/g, '')) || 100
-          const prefix = tk.value.includes('$') ? '$' : ''
-          const isMs = tk.value.includes('ms')
-          const isPct = tk.value.includes('%')
-          return (
-            <TickerNumber
-              key={tk.label}
-              label={tk.label}
-              base={isMs ? num : isPct ? num : num}
-              volatility={tk.up ? 0.04 : 0.06}
-              prefix={prefix}
-              suffix={isMs ? 'ms' : isPct ? '%' : ''}
-            />
-          )
-        })}
+        <TradingWall />
       </motion.div>
       <p className="mt-10 text-fog-400 text-[14px] leading-relaxed text-pretty max-w-2xl">
         {f.dashboards.closing}
@@ -535,7 +556,7 @@ function BackOffice({ f }) {
           viewport={{ once: true, margin: '-60px' }}
           transition={{ duration: 0.85 }}
         >
-          <BackOfficeMock tabs={f.backoffice.tabs} />
+          <OperatorConsole tabs={f.backoffice.tabs} />
         </motion.div>
       </div>
     </SectionShell>
@@ -546,51 +567,93 @@ function BackOffice({ f }) {
 // 10 · SECURITY
 // =============================================================================
 function Security({ f }) {
+  // Scroll progress for the vault — drives ring activation
+  const sectionRef = useRef(null)
+  const vaultProgress = useRef(0)
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ['start end', 'end start'],
+  })
+  useMotionValueEvent(scrollYProgress, 'change', (v) => {
+    // Map 0.15..0.75 → 0..1 so the vault opens through the section
+    vaultProgress.current = Math.max(0, Math.min(1, (v - 0.15) / 0.6))
+  })
+
   return (
-    <SectionShell id="security">
-      <SectionHeader
-        eyebrow={f.security.eyebrow}
-        title={f.security.title}
-        accent={f.security.titleAccent}
-        body={f.security.body}
-        max="max-w-3xl"
-      />
-      <div className="mt-12 grid lg:grid-cols-[1fr_1fr] gap-10 items-start">
+    <section
+      id="security"
+      ref={sectionRef}
+      className="relative py-24 sm:py-32 px-4 sm:px-8 lg:px-14 overflow-hidden"
+    >
+      <div className="container-shell relative">
+        <SectionHeader
+          eyebrow={f.security.eyebrow}
+          title={f.security.title}
+          accent={f.security.titleAccent}
+          body={f.security.body}
+          max="max-w-3xl"
+        />
+
+        {/* Vault is the centerpiece — pillars wrap around it */}
+        <div className="mt-16 grid lg:grid-cols-[1fr_1fr_1fr] gap-8 items-center">
+          {/* LEFT pillars */}
+          <div className="space-y-3 lg:order-1">
+            {f.security.pillars.slice(0, 3).map((p) => (
+              <PillarCard key={p.title} pillar={p} />
+            ))}
+          </div>
+
+          {/* CENTER vault */}
+          <div className="lg:order-2 relative">
+            <Vault scrollProgressRef={vaultProgress} />
+          </div>
+
+          {/* RIGHT pillars */}
+          <div className="space-y-3 lg:order-3">
+            {f.security.pillars.slice(3, 6).map((p) => (
+              <PillarCard key={p.title} pillar={p} />
+            ))}
+          </div>
+        </div>
+
+        {/* TPK band — different visual: side-by-side strip below the vault */}
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: '-60px' }}
           transition={{ duration: 0.85 }}
+          className="mt-16 grid lg:grid-cols-[1fr_1.5fr] gap-8 items-center"
         >
-          <p className="mono-label text-accent text-[10px] tracking-[0.22em] mb-3">
-            {f.security.tpkTitle}
-          </p>
-          <p className="text-fog-300 text-[14px] leading-relaxed mb-5">
-            {f.security.tpkBody}
-          </p>
+          <div>
+            <p className="mono-label text-accent text-[10px] tracking-[0.22em] mb-3">
+              {f.security.tpkTitle}
+            </p>
+            <p className="text-fog-300 text-[14px] leading-relaxed">
+              {f.security.tpkBody}
+            </p>
+          </div>
           <TPKEncryption />
         </motion.div>
-        <div className="grid sm:grid-cols-2 gap-3">
-          {f.security.pillars.map((p) => (
-            <div
-              key={p.title}
-              className="rounded-xl border border-white/[0.07] bg-white/[0.015] p-4 hover:bg-white/[0.04] transition-colors"
-            >
-              <div className="flex items-center gap-2 mb-2">
-                <ShieldCheck size={12} className="text-accent" />
-                <p className="text-fog-50 text-[14px] font-medium">{p.title}</p>
-              </div>
-              <p className="mono-label text-fog-500 text-[10px] tracking-[0.12em]">
-                {p.meta}
-              </p>
-            </div>
-          ))}
-        </div>
+
+        <p className="mt-14 text-fog-400 text-[14px] leading-relaxed text-pretty max-w-3xl pt-8 border-t border-white/[0.06]">
+          {f.security.closing}
+        </p>
       </div>
-      <p className="mt-12 text-fog-400 text-[14px] leading-relaxed text-pretty max-w-3xl pt-8 border-t border-white/[0.06]">
-        {f.security.closing}
+    </section>
+  )
+}
+
+function PillarCard({ pillar }) {
+  return (
+    <div className="rounded-xl border border-white/[0.07] bg-white/[0.015] p-4 hover:bg-white/[0.04] hover:border-accent/20 transition-colors">
+      <div className="flex items-center gap-2 mb-2">
+        <ShieldCheck size={12} className="text-accent" />
+        <p className="text-fog-50 text-[14px] font-medium">{pillar.title}</p>
+      </div>
+      <p className="mono-label text-fog-500 text-[10px] tracking-[0.12em]">
+        {pillar.meta}
       </p>
-    </SectionShell>
+    </div>
   )
 }
 
@@ -600,51 +663,66 @@ function Security({ f }) {
 function PCI({ f }) {
   return (
     <SectionShell id="pci">
-      <SectionHeader
-        eyebrow={f.pci.eyebrow}
-        title={f.pci.title}
-        accent={f.pci.titleAccent}
-        body={f.pci.body}
-        max="max-w-3xl"
-      />
-      <div className="mt-12 grid lg:grid-cols-[1fr_1fr] gap-10">
-        {/* capabilities list */}
-        <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-2">
-          {f.pci.capabilities.map((c) => (
-            <li
-              key={c}
-              className="flex items-center gap-2 text-fog-300 text-[13.5px]"
-            >
-              <FileCheck size={11} className="text-accent shrink-0" />
-              {c}
-            </li>
-          ))}
-        </ul>
-
-        {/* honesty box */}
-        <div className="rounded-xl border border-white/[0.07] bg-white/[0.015] p-5">
-          <div className="space-y-4">
-            <div>
-              <p className="mono-label text-signal-green text-[10px] tracking-[0.22em] mb-2">
-                {f.pci.sayLabel}
-              </p>
-              <p className="text-fog-50 text-[14px] leading-relaxed font-medium">
-                "{f.pci.sayThis}"
-              </p>
-            </div>
-            <div className="pt-4 border-t border-white/[0.06]">
-              <p className="mono-label text-signal-red text-[10px] tracking-[0.22em] mb-2">
-                {f.pci.notLabel}
-              </p>
-              <p className="text-fog-400 text-[14px] leading-relaxed line-through">
-                "{f.pci.notThis}"
-              </p>
-            </div>
-            <p className="text-fog-500 text-[12px] leading-relaxed pt-3 italic">
-              {f.pci.explanation}
+      <div className="grid lg:grid-cols-[1fr_1fr] gap-12 items-start">
+        <div className="space-y-8">
+          <SectionHeader
+            eyebrow={f.pci.eyebrow}
+            title={f.pci.title}
+            accent={f.pci.titleAccent}
+            body={f.pci.body}
+            max="max-w-md"
+          />
+          {/* Educational explainer — what is PCI compliance? (SEO + clarity) */}
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-60px' }}
+            transition={{ duration: 0.7 }}
+            className="rounded-xl border border-accent/15 bg-gradient-to-br from-accent/[0.04] to-transparent p-6 sm:p-7"
+          >
+            <p className="mono-label text-accent text-[10px] tracking-[0.22em] mb-4">
+              {f.pci.explainerTitle}
             </p>
-          </div>
+            <p className="text-fog-50 text-[15px] sm:text-[16px] leading-relaxed font-medium text-pretty">
+              {f.pci.explainerLead}
+            </p>
+            <p className="text-fog-400 text-[13.5px] sm:text-[14px] leading-relaxed text-pretty mt-3">
+              {f.pci.explainerBody}
+            </p>
+
+            {/* 6 PCI DSS pillars — compact grid for SEO + clarity */}
+            <div className="mt-6 grid sm:grid-cols-2 gap-2">
+              {f.pci.explainerPillars.map((p) => (
+                <div
+                  key={p.code}
+                  className="flex items-start gap-3 rounded-lg border border-white/[0.06] bg-white/[0.02] px-3 py-2.5"
+                >
+                  <span className="mono-label text-accent text-[10px] tracking-[0.16em] shrink-0 mt-0.5">
+                    {p.code}
+                  </span>
+                  <div className="min-w-0 flex-1">
+                    <p className="text-fog-100 text-[13px] font-medium leading-tight">{p.title}</p>
+                    <p className="mono-label text-fog-500 text-[10px] tracking-[0.1em] mt-0.5">{p.meta}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <p className="text-fog-300 text-[13.5px] sm:text-[14px] leading-relaxed text-pretty mt-6 pt-5 border-t border-white/[0.06]">
+              {f.pci.explainerCloser}
+            </p>
+          </motion.div>
         </div>
+
+        {/* CI/CD pipeline — runs the capabilities list as if it were a build */}
+        <motion.div
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-60px' }}
+          transition={{ duration: 0.85 }}
+        >
+          <CompliancePipeline items={f.pci.capabilities} />
+        </motion.div>
       </div>
     </SectionShell>
   )
@@ -687,33 +765,25 @@ function UseCases({ f }) {
     <SectionShell id="use-cases">
       <Eyebrow>{f.useCases.eyebrow}</Eyebrow>
       <h2
-        className="font-display font-semibold tracking-[-0.03em] leading-[1.0] text-fog-50 text-balance"
-        style={{ fontSize: 'clamp(28px, 4.4vw, 60px)' }}
+        className="font-display font-semibold tracking-[-0.02em] leading-[1.06] text-fog-50 text-pretty max-w-3xl"
+        style={{
+          fontSize: 'clamp(22px, 4.4vw, 60px)',
+          hyphens: 'auto',
+          overflowWrap: 'anywhere',
+          wordBreak: 'normal',
+        }}
       >
         {f.useCases.title}
       </h2>
-      <div className="mt-12 grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3">
-        {f.useCases.items.map((it, i) => (
-          <motion.div
-            key={it.num}
-            initial={{ opacity: 0, y: 8 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-40px' }}
-            transition={{ duration: 0.4, delay: Math.min(i * 0.03, 0.3) }}
-            className="rounded-xl border border-white/[0.07] bg-white/[0.015] p-4 hover:bg-white/[0.04] hover:border-accent/20 transition-all"
-          >
-            <p className="mono-label text-accent text-[10px] tracking-[0.22em] mb-2">
-              {it.num}
-            </p>
-            <p className="text-fog-50 text-[13.5px] font-medium leading-tight mb-2">
-              {it.title}
-            </p>
-            <p className="mono-label text-fog-500 text-[9px] tracking-[0.12em]">
-              {it.meta}
-            </p>
-          </motion.div>
-        ))}
-      </div>
+      <motion.div
+        initial={{ opacity: 0, y: 16 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: '-60px' }}
+        transition={{ duration: 0.85 }}
+        className="mt-12"
+      >
+        <EditorialMosaic items={f.useCases.items} />
+      </motion.div>
     </SectionShell>
   )
 }
@@ -726,8 +796,13 @@ function Differentiators({ f }) {
     <SectionShell id="why">
       <Eyebrow>{f.differentiators.eyebrow}</Eyebrow>
       <h2
-        className="font-display font-semibold tracking-[-0.03em] leading-[1.0] text-fog-50 text-balance"
-        style={{ fontSize: 'clamp(28px, 4.4vw, 60px)' }}
+        className="font-display font-semibold tracking-[-0.02em] leading-[1.06] text-fog-50 text-pretty"
+        style={{
+          fontSize: 'clamp(22px, 4.4vw, 60px)',
+          hyphens: 'auto',
+          overflowWrap: 'anywhere',
+          wordBreak: 'normal',
+        }}
       >
         {f.differentiators.title}
       </h2>
@@ -760,36 +835,25 @@ function Process({ f }) {
     <SectionShell id="process">
       <Eyebrow>{f.process.eyebrow}</Eyebrow>
       <h2
-        className="font-display font-semibold tracking-[-0.03em] leading-[1.0] text-fog-50 text-balance max-w-3xl"
-        style={{ fontSize: 'clamp(28px, 4.4vw, 60px)' }}
+        className="font-display font-semibold tracking-[-0.02em] leading-[1.06] text-fog-50 text-pretty max-w-3xl"
+        style={{
+          fontSize: 'clamp(22px, 4.4vw, 60px)',
+          hyphens: 'auto',
+          overflowWrap: 'anywhere',
+          wordBreak: 'normal',
+        }}
       >
         {f.process.title}
       </h2>
-      <div className="mt-12 grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
-        {f.process.steps.map((step, i) => (
-          <motion.div
-            key={step.num}
-            initial={{ opacity: 0, y: 12 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: '-40px' }}
-            transition={{ duration: 0.5, delay: Math.min(i * 0.05, 0.3) }}
-            className="rounded-xl border border-white/[0.07] bg-white/[0.015] p-5 relative"
-          >
-            <p
-              className="font-display text-fog-300 text-[44px] font-light leading-none"
-              style={{ letterSpacing: '-0.04em' }}
-            >
-              {step.num}
-            </p>
-            <p className="text-fog-50 text-[15px] font-medium mt-2 mb-1.5">
-              {step.title}
-            </p>
-            <p className="text-fog-400 text-[13px] leading-relaxed text-pretty">
-              {step.body}
-            </p>
-          </motion.div>
-        ))}
-      </div>
+      <motion.div
+        initial={{ opacity: 0, y: 16 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: '-60px' }}
+        transition={{ duration: 0.85 }}
+        className="mt-10"
+      >
+        <BuildPipeline steps={f.process.steps} />
+      </motion.div>
     </SectionShell>
   )
 }
@@ -839,8 +903,13 @@ function FAQ({ f }) {
     <SectionShell id="faq">
       <Eyebrow>{f.faq.eyebrow}</Eyebrow>
       <h2
-        className="font-display font-semibold tracking-[-0.03em] leading-[1.0] text-fog-50 text-balance"
-        style={{ fontSize: 'clamp(28px, 4.4vw, 60px)' }}
+        className="font-display font-semibold tracking-[-0.02em] leading-[1.06] text-fog-50 text-pretty"
+        style={{
+          fontSize: 'clamp(22px, 4.4vw, 60px)',
+          hyphens: 'auto',
+          overflowWrap: 'anywhere',
+          wordBreak: 'normal',
+        }}
       >
         {f.faq.title}
       </h2>

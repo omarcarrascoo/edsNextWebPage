@@ -585,11 +585,21 @@ const en = {
         'Technical documentation',
         'Audit-ready preparation',
       ],
-      sayThis: 'We design infrastructure oriented to PCI compliance.',
-      notThis: 'We are PCI compliant.',
-      sayLabel: 'We say:',
-      notLabel: 'We do not say:',
-      explanation: 'The first is honest. The second is a formal public certification.',
+      explainerTitle: 'What PCI compliance is',
+      explainerLead:
+        'PCI DSS (Payment Card Industry Data Security Standard) is the global security standard for any system that processes, transmits, or stores payment card data.',
+      explainerBody:
+        'Defined by the major card networks (Visa, Mastercard, American Express, Discover, and JCB) through the PCI Security Standards Council. It applies to banks, fintechs, ecommerce, processors, and any company that touches card data — regardless of volume.',
+      explainerPillars: [
+        { code: '01', title: 'Secure network',      meta: 'Firewalls, segmentation, hardened configuration' },
+        { code: '02', title: 'Protected data',      meta: 'Encryption in transit and at rest, no unencrypted PAN storage' },
+        { code: '03', title: 'Vulnerabilities',     meta: 'Antivirus, patching, secure development' },
+        { code: '04', title: 'Access control',      meta: 'Role-based permissions, strong authentication, physical access' },
+        { code: '05', title: 'Monitoring',          meta: 'Logs, traceability, regular security testing' },
+        { code: '06', title: 'Policy',              meta: 'Documentation, processes, security culture' },
+      ],
+      explainerCloser:
+        'We build infrastructure that respects these principles from the first commit: network segmentation, applied encryption, access control, traceability, and careful handling of sensitive data. Formal certification is granted by a QSA (Qualified Security Assessor) after an audit — we build so that audit becomes possible.',
     },
 
     architecture: {
