@@ -328,6 +328,384 @@ const es = {
       'Construimos software para vender, medir, automatizar y escalar.',
     ],
   },
+  servicesNav: {
+    label: 'Servicios',
+    description: 'Diez frentes que cubrimos para construir la infraestructura digital de tu empresa.',
+    items: [
+      { slug: 'fintech',    name: 'Fintech',                        meta: 'APIs · pagos · tarjetas · PCI' },
+      { slug: 'web-apps',   name: 'Aplicaciones web',               meta: 'SaaS · CRMs · portales' },
+      { slug: 'mobile',     name: 'Apps móviles',                   meta: 'iOS · Android · offline' },
+      { slug: 'ai',         name: 'Automatización con IA',          meta: 'Agentes · workflows · contexto' },
+      { slug: 'backend',    name: 'Backend e infraestructura',      meta: 'APIs · DBs · cloud' },
+      { slug: 'dashboards', name: 'Dashboards y BI',                meta: 'KPIs en vivo · reportes' },
+      { slug: 'ecommerce',  name: 'Ecommerce, POS e inventario',    meta: 'Ventas · stock · multi-sucursal' },
+      { slug: 'security',   name: 'Seguridad informática',          meta: 'Pentesting · hardening · auth' },
+      { slug: 'messaging',  name: 'Mensajería y tiempo real',       meta: 'Chats · push · eventos' },
+      { slug: 'logistics',  name: 'Paquetería y rutas',             meta: 'Tracking · operadores · reportes' },
+    ],
+  },
+  fintech: {
+    meta: {
+      title: 'Soluciones fintech e infraestructura bancaria',
+      description: 'Construimos la infraestructura que conecta bancos, procesadores de pago, i2c, Salesforce y dashboards financieros. APIs seguras, back office, integraciones y arquitectura orientada a PCI compliance.',
+    },
+    breadcrumb: { services: 'Servicios', current: 'Fintech' },
+
+    hero: {
+      eyebrow: '// FINTECH · 01 · connect()',
+      titleA: 'Bancos. Procesadores.',
+      titleB: 'Tarjetas. Datos.',
+      titleC: 'Una sola infraestructura.',
+      titleAccent: 'Conectada, segura, auditable.',
+      subtitle:
+        'Construimos la capa técnica que une core bancario, procesadores de pago, proveedores como i2c y Salesforce, dashboards financieros y back office en un solo ecosistema operativo.',
+      hudLive: 'live · 24/7',
+      hudPCI: 'PCI · aware',
+      hudLatency: 'latency',
+      hudVolume: 'volume',
+      ctaPrimary: 'Hablemos de tu infraestructura',
+      ctaSecondary: 'Ver capacidades',
+    },
+
+    problem: {
+      eyebrow: '// 02 · diagnose()',
+      title: 'El sistema financiero moderno no se cae por falta de herramientas.',
+      titleAccent: 'Se cae porque las piezas no se hablan.',
+      body:
+        'Una operación financiera vive entre core bancario, procesadores, CRMs, dashboards, apps móviles, sistemas de cumplimiento, transferencias, mensajería segura y datos sensibles cruzando capas. Cuando esas capas no están bien conectadas, el costo no es técnico — es operativo.',
+      symptoms: [
+        { tag: 'OPS',    text: 'Procesos manuales' },
+        { tag: 'DATA',   text: 'Información duplicada' },
+        { tag: 'TIME',   text: 'Reportes lentos' },
+        { tag: 'AUDIT',  text: 'Flujos imposibles de auditar' },
+        { tag: 'RISK',   text: 'Dependencia ciega de proveedores' },
+        { tag: 'BLIND',  text: 'Equipos operando sin visibilidad' },
+      ],
+      closing:
+        'No construimos pantallas para bancos. Construimos infraestructura para que las piezas críticas puedan hablarse, validarse y evolucionar sin riesgo.',
+    },
+
+    capabilities: {
+      eyebrow: '// 03 · build()',
+      title: 'Conectamos el ecosistema financiero',
+      titleAccent: 'para que sea claro, seguro y medible.',
+      items: [
+        { code: '01', tag: 'API',         title: 'APIs financieras',          meta: 'REST · GraphQL · auth' },
+        { code: '02', tag: 'BI',          title: 'Dashboards en tiempo real', meta: 'KPIs · alertas · drill-down' },
+        { code: '03', tag: 'BACKOFFICE',  title: 'Back office bancario',      meta: 'Roles · auditoría · soporte' },
+        { code: '04', tag: 'PAYMENTS',    title: 'Procesadores de pago',      meta: 'Internacional · estados · fees' },
+        { code: '05', tag: 'i2c',         title: 'Integración i2c',           meta: 'Tarjetas · activación · sync' },
+        { code: '06', tag: 'SALESFORCE',  title: 'Integración Salesforce',    meta: 'CRM · operación · flujos' },
+        { code: '07', tag: 'MESSAGING',   title: 'Mensajería segura',         meta: 'Trace · cifrado · inbox' },
+        { code: '08', tag: 'TPK',         title: 'Encriptación · TPK',        meta: 'Llaves · hash · in-transit' },
+        { code: '09', tag: 'PCI',         title: 'PCI compliance',            meta: 'Diseño · segmentación · logs' },
+      ],
+    },
+
+    integration: {
+      eyebrow: '// 04 · bridge()',
+      title: 'Integramos bancos, proveedores y sistemas externos',
+      titleAccent: 'sin convertir tu operación en un rompecabezas eterno.',
+      body:
+        'Las instituciones financieras hablan con muchos sistemas a la vez. Diseñamos la capa de integración para que esa conversación sea mantenible y segura.',
+      nodes: [
+        { id: 'client',    label: 'Cliente',         meta: 'Web · Móvil' },
+        { id: 'app',       label: 'Aplicación',      meta: 'iOS · Android · Web' },
+        { id: 'gateway',   label: 'API Gateway',     meta: 'Auth · routing · rate limit' },
+        { id: 'core',      label: 'Core bancario',   meta: 'Cuentas · saldos' },
+        { id: 'processor', label: 'Procesador',      meta: 'Pagos internacionales' },
+        { id: 'i2c',       label: 'i2c',             meta: 'Tarjetas · activación' },
+        { id: 'salesforce',label: 'Salesforce',      meta: 'CRM · casos' },
+        { id: 'audit',     label: 'Audit trail',     meta: 'Logs · trazabilidad' },
+      ],
+      witty:
+        'Porque sí, en pleno 2026 todavía hay empresas conciliando cosas críticas en Excel. La civilización aguanta mucho.',
+    },
+
+    payments: {
+      eyebrow: '// 05 · process()',
+      title: 'Pagos, transferencias y operaciones internacionales',
+      titleAccent: 'con trazabilidad completa.',
+      body:
+        'No basta con mandar una transacción. Hay que saber qué pasó, cuándo, quién la ejecutó, qué proveedor respondió, qué error ocurrió y cómo auditarla después.',
+      tickerOps: [
+        { code: 'TXN', op: 'WIRE.OUT',   amount: '$48,200.00', currency: 'USD', status: 'OK',     ms: '142' },
+        { code: 'TXN', op: 'CARD.AUTH',  amount: '$1,240.50',  currency: 'MXN', status: 'OK',     ms: '88' },
+        { code: 'TXN', op: 'WIRE.IN',    amount: '$12,500.00', currency: 'USD', status: 'OK',     ms: '210' },
+        { code: 'TXN', op: 'CARD.AUTH',  amount: '$78.30',     currency: 'EUR', status: 'DECLINE',ms: '64' },
+        { code: 'TXN', op: 'TRANSFER',   amount: '$5,000.00',  currency: 'USD', status: 'OK',     ms: '180' },
+        { code: 'TXN', op: 'REFUND',     amount: '$340.00',    currency: 'MXN', status: 'OK',     ms: '95' },
+        { code: 'TXN', op: 'CARD.AUTH',  amount: '$2,100.00',  currency: 'USD', status: 'OK',     ms: '76' },
+        { code: 'TXN', op: 'WIRE.OUT',   amount: '$98,750.00', currency: 'USD', status: 'PENDING',ms: '—' },
+      ],
+      capabilities: [
+        'Integración con procesadores de pago',
+        'Flujos de transferencias internacionales',
+        'Validación y normalización de datos',
+        'Manejo de estados transaccionales',
+        'Conciliación operativa',
+        'Manejo de errores y reintentos',
+        'APIs de consulta',
+        'Dashboards de monitoreo',
+      ],
+      closing:
+        'En sistemas financieros, lo que no se puede rastrear se vuelve un problema. Y los problemas tienen pésimo sentido del timing.',
+    },
+
+    i2c: {
+      eyebrow: '// 06 · cards()',
+      title: 'Tarjetas que conviven con tus productos digitales,',
+      titleAccent: 'no que te obligan a cirugía mayor cada cambio.',
+      body:
+        'Capas de integración para que i2c funcione como parte de tu operación: usuarios, cuentas, activación, renovación, sincronización, back office, app móvil.',
+      cardStates: ['ACTIVE', 'PENDING', 'RENEWED', 'BLOCKED'],
+      flows: [
+        'Consulta de tarjetas',
+        'Activación de tarjetas',
+        'Renovación de tarjetas',
+        'Sincronización de información',
+        'Tarjetas principales y suplementarias',
+        'Estados y consultas',
+        'Integración con apps móviles',
+        'Back office para operaciones',
+        'APIs intermedias',
+        'Manejo seguro de datos sensibles',
+      ],
+    },
+
+    salesforce: {
+      eyebrow: '// 07 · sync()',
+      title: 'Salesforce conectado a tu operación financiera,',
+      titleAccent: 'no solo a tu equipo comercial.',
+      body:
+        'Bien conectado, Salesforce deja de ser una base de datos cara con botones bonitos y se vuelve pieza operativa real.',
+      cases: [
+        { title: 'Sincronización de clientes',     meta: 'CRM ↔ core bancario' },
+        { title: 'Estados operativos',              meta: 'Updates en tiempo real' },
+        { title: 'Registro de solicitudes',         meta: 'Trazabilidad end-to-end' },
+        { title: 'Integración con back office',     meta: 'Acciones bidireccionales' },
+        { title: 'Conexión con dashboards',         meta: 'Métricas comerciales + ops' },
+        { title: 'Automatización de tareas',        meta: 'Workflows · triggers' },
+      ],
+    },
+
+    dashboards: {
+      eyebrow: '// 08 · observe()',
+      title: 'Datos financieros dispersos',
+      titleAccent: 'en paneles claros para decidir.',
+      body:
+        'Una operación financiera necesita visibilidad. No basta con que los procesos corran; los equipos necesitan entender qué está pasando.',
+      tickers: [
+        { label: 'Volumen 24h',     value: '$4.82M', delta: '+2.4%', up: true },
+        { label: 'TXN exitosas',    value: '12,481', delta: '+1.8%', up: true },
+        { label: 'TXN fallidas',    value: '184',    delta: '-12%',  up: false },
+        { label: 'Latencia P95',    value: '142ms',  delta: '-8ms',  up: false },
+        { label: 'Tarjetas activas',value: '38,204', delta: '+126',  up: true },
+        { label: 'Errores/min',     value: '0.7',    delta: '-0.2',  up: false },
+      ],
+      closing:
+        'Convertimos datos financieros dispersos en paneles claros para tomar decisiones, detectar problemas y operar con más control.',
+    },
+
+    backoffice: {
+      eyebrow: '// 09 · operate()',
+      title: 'Back office para que los equipos internos',
+      titleAccent: 'no dependan de procesos manuales.',
+      body:
+        'Muchas operaciones no fallan en el frontend. Fallan detrás: aprobaciones, cambios de estado, reportes, auditoría.',
+      tabs: [
+        {
+          id: 'users', label: 'Users', count: '12,481',
+          rows: [
+            { col1: 'María L.',   col2: 'maria@empresa.mx', col3: 'ACTIVE',  col4: '2026-05-12' },
+            { col1: 'Juan P.',    col2: 'juan@empresa.mx',  col3: 'ACTIVE',  col4: '2026-05-11' },
+            { col1: 'Ana G.',     col2: 'ana@empresa.mx',   col3: 'PENDING', col4: '2026-05-10' },
+            { col1: 'Diego R.',   col2: 'diego@empresa.mx', col3: 'BLOCKED', col4: '2026-05-08' },
+          ],
+        },
+        {
+          id: 'cards', label: 'Cards', count: '38,204',
+          rows: [
+            { col1: '•••• 4291', col2: 'Visa',       col3: 'ACTIVE',  col4: '12/28' },
+            { col1: '•••• 8814', col2: 'Mastercard', col3: 'RENEWED', col4: '03/29' },
+            { col1: '•••• 2207', col2: 'Visa',       col3: 'ACTIVE',  col4: '07/27' },
+            { col1: '•••• 5523', col2: 'Mastercard', col3: 'BLOCKED', col4: '11/26' },
+          ],
+        },
+        {
+          id: 'transactions', label: 'Transactions', count: '124k',
+          rows: [
+            { col1: 'TXN 0042x', col2: '$12,500', col3: 'OK',     col4: '142ms' },
+            { col1: 'TXN 0042y', col2: '$340',    col3: 'OK',     col4: '95ms' },
+            { col1: 'TXN 0042z', col2: '$78',     col3: 'DECLINE',col4: '64ms' },
+            { col1: 'TXN 00430', col2: '$5,000',  col3: 'OK',     col4: '180ms' },
+          ],
+        },
+      ],
+      closing:
+        'Un buen back office no solo muestra datos. Reduce fricción operativa, evita errores humanos y deja evidencia de lo que ocurre.',
+    },
+
+    security: {
+      eyebrow: '// 10 · secure()',
+      title: 'Seguridad desde la arquitectura,',
+      titleAccent: 'no como parche al final.',
+      body:
+        'En fintech, la seguridad no puede ser un parche al final del proyecto. Debe estar presente desde el diseño de datos, permisos, APIs, comunicación entre servicios, manejo de llaves, logs y exposición de información.',
+      tpkTitle: 'Manejo de llaves · TPK',
+      tpkBody:
+        'Tenemos experiencia con flujos donde el manejo seguro de llaves, datos sensibles y componentes como TPK forman parte de la arquitectura.',
+      pillars: [
+        { title: 'Manejo de datos sensibles',  meta: 'Cifrado · acceso · exposición mínima' },
+        { title: 'Auth · permisos',            meta: 'OAuth2 · RBAC · MFA' },
+        { title: 'Encriptación',                meta: 'In-transit · at-rest · key rotation' },
+        { title: 'Auditoría · logs',           meta: 'Cada acción · cada cambio' },
+        { title: 'Validación de entradas',     meta: 'Schemas · sanitización' },
+        { title: 'Hardening',                  meta: 'Servicios · ambientes · CI/CD' },
+      ],
+      closing:
+        'No tratamos la seguridad como decoración técnica. La usamos para definir cómo se mueve la información, quién puede verla y cómo se registra cada operación.',
+    },
+
+    pci: {
+      eyebrow: '// 11 · comply()',
+      title: 'Diseñamos infraestructura',
+      titleAccent: 'orientada a PCI compliance.',
+      body:
+        'Cuando un sistema toca pagos, tarjetas o datos sensibles, la arquitectura se construye con otra mentalidad: segmentación, control de accesos, exposición mínima, trazabilidad.',
+      capabilities: [
+        'Diseño de arquitectura segura',
+        'Segmentación de servicios',
+        'Reducción de exposición de datos sensibles',
+        'Flujos de autenticación robustos',
+        'Control de accesos',
+        'Logs y auditoría',
+        'Encriptación aplicada',
+        'Separación de ambientes',
+        'Documentación técnica',
+        'Preparación técnica para auditorías',
+      ],
+      sayThis: 'Diseñamos infraestructura orientada a PCI compliance.',
+      notThis: 'Somos PCI compliant.',
+      sayLabel: 'Decimos:',
+      notLabel: 'No decimos:',
+      explanation: 'La primera es seria. La segunda es certificación formal pública.',
+    },
+
+    architecture: {
+      eyebrow: '// 12 · architect()',
+      title: 'La capa que conecta producto, operación',
+      titleAccent: 'y proveedores financieros.',
+      body:
+        'Una solución fintech bien diseñada necesita más que frontend. Necesita una arquitectura que pueda sostener reglas de negocio, proveedores externos, usuarios, permisos, reportes, seguridad y crecimiento.',
+      layers: [
+        { code: 'L1', name: 'Mobile · Web App',     meta: 'Frontend · UX' },
+        { code: 'L2', name: 'API Gateway',           meta: 'Auth · routing · rate-limit' },
+        { code: 'L3', name: 'Business Logic',        meta: 'Microservicios · reglas' },
+        { code: 'L4', name: 'Banking Integrations',  meta: 'i2c · Salesforce · processors' },
+        { code: 'L5', name: 'Data · Audit Trail',    meta: 'DB · logs · trazabilidad' },
+        { code: 'L6', name: 'Dashboards · Back Office', meta: 'BI · operaciones internas' },
+      ],
+    },
+
+    useCases: {
+      eyebrow: '// 13 · cases()',
+      title: 'Lo que podemos construir',
+      items: [
+        { num: '01', title: 'Plataforma de transferencias',     meta: 'Crear · validar · monitorear · auditar' },
+        { num: '02', title: 'Procesador de pagos internacionales', meta: 'Multi-proveedor · estados · trazabilidad' },
+        { num: '03', title: 'Dashboard financiero ejecutivo',   meta: 'Volumen · costos · errores · tendencias' },
+        { num: '04', title: 'Back office bancario',             meta: 'Usuarios · cuentas · tarjetas · soporte' },
+        { num: '05', title: 'Integración con i2c',              meta: 'Tarjetas · activación · renovación' },
+        { num: '06', title: 'Integración con Salesforce',       meta: 'CRM · casos · sincronización' },
+        { num: '07', title: 'Centro de mensajes seguro',        meta: 'Comunicación · trazabilidad' },
+        { num: '08', title: 'Infraestructura para tarjetas',    meta: 'Activación · estados · administración' },
+        { num: '09', title: 'Auditoría y logs',                  meta: 'Eventos · cambios · acciones' },
+        { num: '10', title: 'APIs financieras',                  meta: 'Producto ↔ proveedores ↔ internos' },
+      ],
+    },
+
+    differentiators: {
+      eyebrow: '// 14 · why()',
+      title: 'Por qué con Era Digital Solutions',
+      items: [
+        { title: 'Entendemos sistemas críticos',  body: 'Reglas, estados, seguridad, proveedores, auditoría — y muchas formas creativas de que algo se rompa si se diseña mal.' },
+        { title: 'Construimos de punta a punta',  body: 'Desde la app móvil hasta el backend, las APIs, las integraciones, dashboards y back office.' },
+        { title: 'Seguridad desde el inicio',     body: 'Permisos, datos sensibles, trazabilidad, encriptación, exposición y cumplimiento técnico.' },
+        { title: 'Integramos proveedores reales', body: 'i2c, Salesforce, procesadores de pago, servicios financieros externos.' },
+        { title: 'Operación en datos',             body: 'No solo procesamos eventos. Los volvemos visibles en dashboards, reportes y métricas.' },
+        { title: 'Diseñamos para evolución',       body: 'La infraestructura debe crecer, cambiar proveedores y adaptarse sin rehacer todo.' },
+      ],
+    },
+
+    process: {
+      eyebrow: '// 15 · build()',
+      title: 'Cómo construimos infraestructura fintech',
+      steps: [
+        { num: '01', title: 'Diagnóstico',     body: 'Flujo financiero, sistemas, proveedores, reglas, riesgos y puntos de fricción.' },
+        { num: '02', title: 'Arquitectura',    body: 'Servicios, APIs, integraciones, permisos, seguridad, trazabilidad y dashboards.' },
+        { num: '03', title: 'Integraciones',   body: 'i2c, Salesforce, procesadores, sistemas internos o entidades bancarias.' },
+        { num: '04', title: 'Desarrollo',      body: 'Lógica, APIs, paneles, dashboards, back office, mensajería y experiencia.' },
+        { num: '05', title: 'Seguridad',       body: 'Permisos, exposición, manejo sensible, logs, encriptación y flujos críticos.' },
+        { num: '06', title: 'Lanzamiento',     body: 'Despliegue, monitoreo, documentación y base para crecer con nuevos módulos.' },
+      ],
+    },
+
+    midCta: {
+      title: '¿Tu operación financiera depende de demasiados sistemas desconectados?',
+      body: 'Podemos ayudarte a diseñar la capa que los conecte: APIs, dashboards, back office, proveedores, seguridad y automatización.',
+      cta: 'Diseñemos tu infraestructura fintech',
+    },
+
+    faq: {
+      eyebrow: '// 16 · faq()',
+      title: 'Preguntas frecuentes',
+      items: [
+        {
+          q: '¿Era Digital Solutions desarrolla software para bancos y fintechs?',
+          a: 'Sí. Creamos soluciones digitales para operaciones financieras, incluyendo APIs, back office, dashboards, integraciones, flujos de tarjetas, pagos, mensajería segura y sistemas internos.',
+        },
+        {
+          q: '¿Pueden integrarse con proveedores como i2c?',
+          a: 'Sí. Desarrollamos capas de integración para conectar proveedores de tarjetas como i2c con apps móviles, back office, APIs internas y flujos operativos.',
+        },
+        {
+          q: '¿Pueden conectarse con Salesforce?',
+          a: 'Sí. Integramos Salesforce con sistemas financieros, back office, dashboards y flujos operativos para sincronizar clientes, solicitudes, estados y datos relevantes.',
+        },
+        {
+          q: '¿Hacen dashboards financieros?',
+          a: 'Sí. Creamos dashboards para visualizar transacciones, pagos, tarjetas, usuarios, errores, conciliaciones, rendimiento operativo y métricas ejecutivas.',
+        },
+        {
+          q: '¿Pueden construir procesadores de pago internacionales?',
+          a: 'Podemos desarrollar infraestructura e integraciones para flujos de pago internacionales, incluyendo validaciones, estados, proveedores externos, trazabilidad, manejo de errores y dashboards de monitoreo.',
+        },
+        {
+          q: '¿Trabajan con PCI compliance?',
+          a: 'Diseñamos infraestructura orientada a PCI compliance y buenas prácticas de seguridad financiera. La certificación formal depende del alcance, auditoría y procesos internos correspondientes.',
+        },
+        {
+          q: '¿Manejan encriptación TPK?',
+          a: 'Tenemos experiencia con flujos financieros donde el manejo seguro de llaves, datos sensibles y componentes como TPK forman parte de la arquitectura.',
+        },
+        {
+          q: '¿Pueden construir un back office bancario?',
+          a: 'Sí. Construimos back offices para consultar usuarios, cuentas, tarjetas, transacciones, solicitudes, estados, mensajes, reportes y acciones operativas con roles y permisos.',
+        },
+      ],
+    },
+
+    finalCta: {
+      eyebrow: '// 17 · ship()',
+      title: 'Construyamos la infraestructura financiera',
+      titleAccent: 'que tu operación necesita para crecer.',
+      body:
+        'Si tu empresa necesita conectar bancos, proveedores, pagos, tarjetas, Salesforce, i2c, dashboards, back office y seguridad en un ecosistema claro, podemos ayudarte a diseñarlo y construirlo.',
+      cta: 'Agenda una consultoría fintech',
+      ctaSecondary: 'Volver al inicio',
+    },
+  },
   footer: {
     tagline: 'Estudio de infraestructura digital. Construimos software, IA y sistemas para empresas que ya no quieren operar en modo manual.',
     sectionsTitle: 'Servicios',
