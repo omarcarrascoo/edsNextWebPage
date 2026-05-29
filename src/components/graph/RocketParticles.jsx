@@ -37,8 +37,9 @@ const PIECE_PORTHOLE = 14
 
 // =============================================================================
 // Sample particles. Each gets a (home, color, piece) so we can fade by activation.
+// Exported so other rocket scenes (e.g. landing) can share the geometry.
 // =============================================================================
-function buildRocket() {
+export function buildRocket() {
   const positions = []
   const colors = []
   const pieces = []

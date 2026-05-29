@@ -72,7 +72,7 @@ function ServiceMini({ slug, items }) {
 function PairPanel({ pair, items, index, total }) {
   return (
     <article
-      className="shrink-0 w-[100vw] h-screen flex items-center px-6 sm:px-12 lg:px-20 pt-32 pb-24"
+      className="shrink-0 w-[100vw] h-screen flex items-center px-6 sm:px-12 lg:px-20 pt-48 sm:pt-32 pb-24"
     >
       <div className="grid lg:grid-cols-[1.1fr_1fr] gap-10 lg:gap-16 items-center max-w-[1400px] w-full">
         {/* LEFT — copy */}
@@ -240,11 +240,11 @@ export default function ServicesBento() {
         {/* TOP — section header, fades out as you scroll past entry */}
         <div
           ref={headerRef}
-          className="absolute top-0 left-0 right-0 z-20 px-6 sm:px-12 lg:px-20 pt-8 sm:pt-10 pointer-events-none will-change-[opacity,transform]"
+          className="absolute top-0 left-0 right-0 z-20 px-6 sm:px-12 lg:px-20 pt-6 sm:pt-10 pointer-events-none will-change-[opacity,transform]"
         >
           <div className="flex items-end justify-between gap-6 max-w-[1400px]">
             <div>
-              <div className="flex items-center gap-3 mb-3">
+              <div className="flex items-center gap-3 mb-2 sm:mb-3">
                 <p className="mono-label text-fog-500 text-[10px] tracking-[0.22em]">
                   {'// SERVICES · 04 · assemble()'}
                 </p>
@@ -255,17 +255,17 @@ export default function ServicesBento() {
                   </span>
                 </span>
               </div>
-              <div className="eyebrow mb-3">
+              <div className="eyebrow mb-2 sm:mb-3">
                 <span className="eyebrow-dot" />
                 {t.services.eyebrow}
               </div>
               <h2
                 className="font-display font-semibold tracking-[-0.025em] leading-[1.02] text-fog-50 text-balance break-words max-w-3xl"
-                style={{ fontSize: 'clamp(26px, 4vw, 56px)' }}
+                style={{ fontSize: 'clamp(20px, 4vw, 56px)' }}
               >
                 {t.services.title}
               </h2>
-              <p className="text-fog-400 text-[13px] sm:text-[14px] leading-relaxed mt-2 max-w-xl text-pretty">
+              <p className="hidden sm:block text-fog-400 text-[13px] sm:text-[14px] leading-relaxed mt-2 max-w-xl text-pretty">
                 {t.services.subtitle}
               </p>
             </div>

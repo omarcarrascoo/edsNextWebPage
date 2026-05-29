@@ -2,88 +2,41 @@
 
 import dynamic from 'next/dynamic'
 import { motion, useScroll, useMotionValueEvent } from 'framer-motion'
-import { useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Layers, Hand } from 'lucide-react'
 import { useT } from '@/i18n/LanguageProvider'
 
-const RocketParticles = dynamic(() => import('@/components/graph/RocketParticles'), {
+const RocketLanding = dynamic(() => import('@/components/graph/RocketLanding'), {
   ssr: false,
   loading: () => null,
 })
 
-const LAYER_TONES = [
-  { dot: '#2DE2C5', label: 'text-accent' },
-  { dot: '#38BDF8', label: 'text-signal-blue' },
-  { dot: '#9D8DF1', label: 'text-[#9D8DF1]' },
-  { dot: '#F5B544', label: 'text-signal-amber' },
-  { dot: '#2DE2C5', label: 'text-accent' },
-  { dot: '#38BDF8', label: 'text-signal-blue' },
-  { dot: '#9D8DF1', label: 'text-[#9D8DF1]' },
-  { dot: '#F5B544', label: 'text-signal-amber' },
-  { dot: '#2DE2C5', label: 'text-accent' },
-  { dot: '#38BDF8', label: 'text-signal-blue' },
-]
-
-function FlatCard({ layer, index }) {
-  const tone = LAYER_TONES[index % LAYER_TONES.length]
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 8 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-40px' }}
-      transition={{ duration: 0.4, delay: Math.min(index * 0.04, 0.3) }}
-      className="group relative rounded-xl border bg-[rgba(10,14,20,0.78)] backdrop-blur-md transition-all duration-300 hover:bg-[rgba(15,21,30,0.9)]"
-      style={{
-        borderColor: 'rgba(255,255,255,0.07)',
-        boxShadow:
-          '0 1px 0 rgba(255,255,255,0.04) inset, 0 18px 38px -18px rgba(0,0,0,0.7)',
-      }}
-    >
-      <div
-        aria-hidden
-        className="absolute left-0 top-2 bottom-2 w-[2px] rounded-full opacity-70 group-hover:opacity-100 transition-opacity"
-        style={{ background: tone.dot, boxShadow: `0 0 12px ${tone.dot}` }}
-      />
-      <div className="flex items-center gap-2.5 sm:gap-4 px-3.5 py-3.5 sm:px-6 sm:py-[18px] min-w-0">
-        <span className="mono-label text-fog-500 text-[10px] sm:text-[11px] tracking-[0.16em] w-6 sm:w-7 shrink-0">
-          {layer.code}
-        </span>
-        <span
-          className={`mono-label text-[9px] sm:text-[10px] tracking-[0.18em] sm:tracking-[0.22em] w-[64px] sm:w-[92px] shrink-0 ${tone.label}`}
-        >
-          {layer.tag}
-        </span>
-        <div className="flex-1 min-w-0">
-          <p className="text-fog-50 text-[13px] sm:text-[15px] font-medium leading-tight truncate">
-            {layer.title}
-          </p>
-          <p className="mono-label text-fog-500 text-[9px] sm:text-[10px] tracking-[0.12em] sm:tracking-[0.14em] mt-1 truncate">
-            {layer.meta}
-          </p>
-        </div>
-      </div>
-    </motion.div>
-  )
-}
-
 export default function ValueSection() {
   const t = useT()
   const sectionRef = useRef(null)
-  const activeStagesRef = useRef(0)
+  const scrollProgressRef = useRef(0)
+  const [isDesktop, setIsDesktop] = useState(true)
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    const mq = window.matchMedia('(min-width: 1024px)')
+    const update = () => setIsDesktop(mq.matches)
+    update()
+    mq.addEventListener?.('change', update)
+    return () => mq.removeEventListener?.('change', update)
+  }, [])
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ['start end', 'end start'],
   })
 
-  // map scroll (0..1) → activeStages (0..10), with the assembly happening
-  // in the middle 50% of the section's scroll arc (not at the very edges)
+  // remap scroll into a "descent window" — rocket is high above before scroll 0.2,
+  // touches down by 0.85, dwells the rest. Gives the descent room to read.
   useMotionValueEvent(scrollYProgress, 'change', (v) => {
-    const t = Math.max(0, Math.min(1, (v - 0.2) / 0.5))
-    activeStagesRef.current = t * 10
+    const t = Math.max(0, Math.min(1, (v - 0.15) / 0.7))
+    scrollProgressRef.current = t
   })
-
-  const layers = t.value.layers || []
 
   return (
     <section
@@ -193,24 +146,14 @@ export default function ValueSection() {
             >
               <Hand size={12} className="text-accent" />
               <p className="mono-label text-[10px] tracking-[0.2em]">
-                hover · particles scatter · reform
+                scroll · descent · landing
               </p>
             </motion.div>
           </div>
 
-          {/* RIGHT — 3D glass stack on lg+, flat list below */}
+          {/* RIGHT — 3D rocket landing on lg+, mobile renders below the grid */}
           <div className="relative">
-            {/* layers title */}
-            <div className="flex items-center justify-between mb-5">
-              <p className="mono-label text-fog-400 text-[10px] tracking-[0.22em]">
-                {t.value.layersTitle}
-              </p>
-              <p className="mono-label text-fog-500 text-[10px] tracking-[0.18em]">
-                {String(layers.length).padStart(2, '0')} / 10
-              </p>
-            </div>
-
-            {/* DESKTOP — three.js glass stack viewport */}
+            {/* DESKTOP — three.js rocket landing viewport */}
             <motion.div
               initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -219,7 +162,7 @@ export default function ValueSection() {
               className="hidden lg:block relative w-full"
               style={{ height: '620px' }}
             >
-              <RocketParticles activeStagesRef={activeStagesRef} />
+              {isDesktop && <RocketLanding scrollProgressRef={scrollProgressRef} />}
               {/* corner crosshairs — quiet HUD framing */}
               <div aria-hidden className="absolute inset-0 pointer-events-none">
                 <div className="absolute top-0 left-0 w-3 h-3 border-t border-l border-accent/40" />
@@ -227,15 +170,52 @@ export default function ValueSection() {
                 <div className="absolute bottom-0 left-0 w-3 h-3 border-b border-l border-accent/40" />
                 <div className="absolute bottom-0 right-0 w-3 h-3 border-b border-r border-accent/40" />
               </div>
+              {/* HUD label */}
+              <div className="absolute bottom-3 left-3 pointer-events-none">
+                <p className="mono-label text-accent text-[10px] tracking-[0.22em]">
+                  rocket.landing
+                </p>
+                <p className="mono-label text-fog-500 text-[9px] tracking-[0.18em] mt-1">
+                  digital terrain · approach
+                </p>
+              </div>
             </motion.div>
-
-            {/* MOBILE / TABLET — flat vertical list */}
-            <div className="lg:hidden space-y-2">
-              {layers.map((layer, i) => (
-                <FlatCard key={layer.code} layer={layer} index={i} />
-              ))}
-            </div>
           </div>
+        </div>
+
+        {/* MOBILE — full-bleed rocket landing scene, then the layer list below.
+            Hidden on lg+ where the desktop two-column above already shows it. */}
+        <div className="lg:hidden mt-12">
+          <motion.div
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: '-60px' }}
+            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+            className="relative w-full"
+            style={{ height: '70vh', minHeight: 420, maxHeight: 620 }}
+          >
+            {!isDesktop && <RocketLanding scrollProgressRef={scrollProgressRef} />}
+            <div aria-hidden className="absolute inset-0 pointer-events-none">
+              <div className="absolute top-0 left-0 w-3 h-3 border-t border-l border-accent/40" />
+              <div className="absolute top-0 right-0 w-3 h-3 border-t border-r border-accent/40" />
+              <div className="absolute bottom-0 left-0 w-3 h-3 border-b border-l border-accent/40" />
+              <div className="absolute bottom-0 right-0 w-3 h-3 border-b border-r border-accent/40" />
+            </div>
+            {/* mobile HUD label */}
+            <div className="absolute top-3 left-3 pointer-events-none">
+              <p className="mono-label text-accent text-[10px] tracking-[0.22em]">
+                rocket.landing
+              </p>
+              <p className="mono-label text-fog-500 text-[9px] tracking-[0.18em] mt-1">
+                digital terrain · approach
+              </p>
+            </div>
+            <div className="absolute bottom-3 right-3 pointer-events-none">
+              <p className="mono-label text-fog-500 text-[9px] tracking-[0.2em]">
+                scroll · descent
+              </p>
+            </div>
+          </motion.div>
         </div>
 
         {/* CLOSING — sober, mono-anchored. */}
