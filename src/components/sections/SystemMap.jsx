@@ -34,24 +34,6 @@ export default function SystemMap() {
       className="relative w-full overflow-hidden flex flex-col"
       style={{ background: '#05080C' }}
     >
-      {/* DESKTOP: full-bleed 3D flow behind copy */}
-      {isDesktop && (
-        <>
-          <div className="absolute inset-0 z-0">
-            <SystemFlow3D nodes={nodes} />
-          </div>
-          {/* single soft vignette — left side keeps copy legible */}
-          <div
-            aria-hidden
-            className="absolute inset-0 z-[1] pointer-events-none"
-            style={{
-              background:
-                'linear-gradient(to right, rgba(5,8,12,0.9) 0%, rgba(5,8,12,0.45) 28%, rgba(5,8,12,0.0) 56%, rgba(5,8,12,0.0) 100%)',
-            }}
-          />
-        </>
-      )}
-
       {/* TOP-LEFT — section index */}
       <motion.div
         initial={{ opacity: 0, y: -8 }}
@@ -68,55 +50,76 @@ export default function SystemMap() {
         </p>
       </motion.div>
 
-      {/* DESKTOP: copy floats over the canvas; full viewport tall */}
+      {/* DESKTOP layout — two columns: copy LEFT, canvas RIGHT */}
       {isDesktop ? (
-        <div className="relative z-10 min-h-screen flex flex-col px-4 sm:px-8 lg:px-14 max-w-[1400px]">
-          <div className="pt-40">
-            <motion.h2
-              initial={{ opacity: 0, y: 18 }}
+        <div className="relative z-10 min-h-screen flex flex-col px-4 sm:px-8 lg:px-14 max-w-[1500px] w-full mx-auto">
+          <div className="pt-40 grid grid-cols-[1fr_1.2fr] gap-12 items-center min-h-[calc(100vh-15rem)]">
+            {/* LEFT — copy column */}
+            <div>
+              <motion.h2
+                initial={{ opacity: 0, y: 18 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-80px' }}
+                transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
+                className="font-display font-semibold tracking-[-0.03em] leading-[0.96] text-balance break-words"
+                style={{ fontSize: 'clamp(34px, 4.6vw, 76px)' }}
+              >
+                <span className="text-fog-300 block font-light">{t.systemMap.titleA}</span>
+                <span className="text-fog-50 block">{t.systemMap.titleB}</span>
+              </motion.h2>
+
+              <motion.div
+                initial={{ opacity: 0, y: 12 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: '-80px' }}
+                transition={{ duration: 0.7, delay: 0.2 }}
+                className="mt-6 max-w-md space-y-4"
+              >
+                <p className="text-fog-200 text-[16px] leading-relaxed text-pretty font-medium">
+                  {t.systemMap.subtitle}
+                </p>
+                <p className="text-fog-400 text-[14px] leading-relaxed text-pretty">
+                  {t.systemMap.body}
+                </p>
+                <p className="text-fog-500 text-[13.5px] leading-relaxed text-pretty pt-4 border-t border-white/[0.06]">
+                  {t.systemMap.bodyClose}
+                </p>
+              </motion.div>
+
+              <motion.div
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true, margin: '-80px' }}
+                transition={{ duration: 0.7, delay: 0.4 }}
+                className="mt-8 flex items-center gap-2 text-fog-500"
+              >
+                <Hand size={11} className="text-accent" />
+                <p className="mono-label text-[9px] tracking-[0.2em]">
+                  {t.systemMap.hudDrag}
+                </p>
+              </motion.div>
+            </div>
+
+            {/* RIGHT — canvas, constrained */}
+            <motion.div
+              initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-80px' }}
-              transition={{ duration: 0.85, ease: [0.22, 1, 0.36, 1] }}
-              className="font-display font-semibold tracking-[-0.03em] leading-[0.96] text-balance break-words max-w-[820px]"
-              style={{ fontSize: 'clamp(34px, 5.4vw, 88px)' }}
+              transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+              className="relative w-full"
+              style={{ height: '72vh', maxHeight: 720, minHeight: 480 }}
             >
-              <span className="text-fog-300 block font-light">{t.systemMap.titleA}</span>
-              <span className="text-fog-50 block">{t.systemMap.titleB}</span>
-            </motion.h2>
-
-            <motion.div
-              initial={{ opacity: 0, y: 12 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-80px' }}
-              transition={{ duration: 0.7, delay: 0.2 }}
-              className="mt-6 max-w-md space-y-4"
-            >
-              <p className="text-fog-200 text-[16px] leading-relaxed text-pretty font-medium">
-                {t.systemMap.subtitle}
-              </p>
-              <p className="text-fog-400 text-[14px] leading-relaxed text-pretty">
-                {t.systemMap.body}
-              </p>
-              <p className="text-fog-500 text-[13.5px] leading-relaxed text-pretty pt-4 border-t border-white/[0.06]">
-                {t.systemMap.bodyClose}
-              </p>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true, margin: '-80px' }}
-              transition={{ duration: 0.7, delay: 0.4 }}
-              className="mt-8 flex items-center gap-2 text-fog-500"
-            >
-              <Hand size={11} className="text-accent" />
-              <p className="mono-label text-[9px] tracking-[0.2em]">
-                {t.systemMap.hudDrag}
-              </p>
+              <SystemFlow3D nodes={nodes} />
+              <div aria-hidden className="absolute inset-0 pointer-events-none">
+                <div className="absolute top-0 left-0 w-3 h-3 border-t border-l border-accent/40" />
+                <div className="absolute top-0 right-0 w-3 h-3 border-t border-r border-accent/40" />
+                <div className="absolute bottom-0 left-0 w-3 h-3 border-b border-l border-accent/40" />
+                <div className="absolute bottom-0 right-0 w-3 h-3 border-b border-r border-accent/40" />
+              </div>
             </motion.div>
           </div>
 
-          {/* ACCENT LINE — bottom-right, pinned via mt-auto */}
+          {/* ACCENT LINE — bottom-right */}
           <motion.div
             initial={{ opacity: 0, y: 18 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -172,7 +175,6 @@ export default function SystemMap() {
             </p>
           </motion.div>
 
-          {/* drag hint — sits right above the 3D viewport so it reads as a caption */}
           <motion.div
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
@@ -186,7 +188,6 @@ export default function SystemMap() {
             </p>
           </motion.div>
 
-          {/* MOBILE 3D flow — bigger viewport, in flow */}
           <motion.div
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -204,7 +205,6 @@ export default function SystemMap() {
             </div>
           </motion.div>
 
-          {/* ACCENT LINE — flows right after the 3D, no mt-auto on mobile */}
           <motion.div
             initial={{ opacity: 0, y: 18 }}
             whileInView={{ opacity: 1, y: 0 }}
