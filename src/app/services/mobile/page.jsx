@@ -769,7 +769,7 @@ function FinalCta({ m }) {
           {m.finalCta.body}
         </p>
         <div className="mt-9 flex flex-wrap items-center gap-3">
-          <a href="mailto:hello@eradigitalsolutions.com" className="btn-primary">
+          <a href="mailto:omar.carrasco.aranda@gmail.com" className="btn-primary">
             {m.finalCta.cta}
             <ArrowRight size={15} />
           </a>

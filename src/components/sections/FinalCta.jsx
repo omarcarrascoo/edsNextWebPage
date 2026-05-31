@@ -49,11 +49,11 @@ export default function FinalCta() {
             </p>
 
             <div className="mt-9 flex flex-wrap gap-3">
-              <a href="mailto:contact@eradigitalsolutions.com" className="btn-primary">
+              <a href="mailto:omar.carrasco.aranda@gmail.com" className="btn-primary">
                 {t.finalCta.cta}
                 <ArrowRight size={16} />
               </a>
-              <a href="mailto:contact@eradigitalsolutions.com" className="btn-secondary">
+              <a href="mailto:omar.carrasco.aranda@gmail.com" className="btn-secondary">
                 <Mail size={15} />
                 {t.finalCta.ctaSecondary}
               </a>

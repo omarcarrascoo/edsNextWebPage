@@ -6,17 +6,17 @@ import Logo from './Logo'
 import LanguageToggle from './LanguageToggle'
 import { useT } from '@/i18n/LanguageProvider'
 
-// fintech is the only service with its own page (for now). Others link
-// back to the homepage anchor until their dedicated routes are built.
-const LIVE_SERVICES = new Set(['fintech', 'mobile'])
+const LIVE_SERVICES = new Set(['fintech', 'mobile', 'backend', 'ecommerce'])
 const SERVICE_HREF = (slug) =>
   LIVE_SERVICES.has(slug) ? `/services/${slug}` : '/#services'
 const isLive = (slug) => LIVE_SERVICES.has(slug)
 
-const links = [
-  { id: 'system',  key: 'work' },
-  { id: 'process', key: 'process' },
-  { id: 'contact', key: 'contact' },
+// Nav order — Home, Servicios (dropdown), Nosotros, Contacto.
+// `services` is rendered separately because it owns the dropdown.
+const SIMPLE_LINKS = [
+  { key: 'home',    href: '/' },
+  { key: 'about',   href: '/about' },
+  { key: 'contact', href: '/#contact' },
 ]
 
 export default function SiteHeader() {
@@ -40,8 +40,8 @@ export default function SiteHeader() {
     return () => { document.body.style.overflow = '' }
   }, [open])
 
-  // Hover intent — keep dropdown open briefly so cursor can travel between
-  // trigger and menu without it disappearing
+  // hover intent — keep dropdown open briefly so cursor can travel between
+  // trigger and panel without flicker
   const onTriggerEnter = () => {
     if (closeTimer.current) clearTimeout(closeTimer.current)
     setServicesOpen(true)
@@ -63,8 +63,17 @@ export default function SiteHeader() {
           <Logo />
         </a>
 
+        {/* DESKTOP NAV */}
         <nav className="hidden lg:flex items-center gap-1">
-          {/* Services dropdown trigger */}
+          {/* Home */}
+          <a
+            href="/"
+            className="px-3 py-2 text-[13.5px] text-fog-300 hover:text-fog-50 transition-colors"
+          >
+            {t.nav.home}
+          </a>
+
+          {/* Servicios with dropdown */}
           <div
             className="relative"
             onMouseEnter={onTriggerEnter}
@@ -72,26 +81,23 @@ export default function SiteHeader() {
           >
             <button
               type="button"
-              className="px-3 py-2 text-sm text-fog-300 hover:text-fog-50 transition-colors flex items-center gap-1"
+              className="px-3 py-2 text-[13.5px] text-fog-300 hover:text-fog-50 transition-colors flex items-center gap-1"
               aria-haspopup="true"
               aria-expanded={servicesOpen}
             >
-              {t.servicesNav?.label || 'Services'}
+              {t.nav.services}
               <ChevronDown
-                size={13}
+                size={12}
                 className={`transition-transform duration-200 ${servicesOpen ? 'rotate-180' : ''}`}
               />
             </button>
 
-            {/* Mega menu */}
             {servicesOpen && (
               <div
                 className="absolute left-0 top-full pt-2 z-50"
                 style={{ minWidth: 720 }}
               >
-                <div
-                  className="rounded-xl border border-white/[0.07] bg-ink-900/95 backdrop-blur-xl p-5 shadow-[0_24px_60px_-20px_rgba(0,0,0,0.7)]"
-                >
+                <div className="rounded-xl border border-white/[0.07] bg-ink-900/95 backdrop-blur-xl p-5 shadow-[0_24px_60px_-20px_rgba(0,0,0,0.7)]">
                   <div className="flex items-baseline justify-between mb-4 px-1">
                     <p className="mono-label text-fog-500 text-[10px] tracking-[0.22em]">
                       {'// services · 10'}
@@ -101,7 +107,7 @@ export default function SiteHeader() {
                     </p>
                   </div>
                   <div className="grid grid-cols-2 gap-1">
-                    {servicesItems.map((it) => (
+                    {servicesItems.map((it, i) => (
                       <a
                         key={it.slug}
                         href={SERVICE_HREF(it.slug)}
@@ -109,7 +115,7 @@ export default function SiteHeader() {
                         className="group flex items-start gap-3 rounded-lg px-3 py-2.5 hover:bg-white/[0.04] transition-colors"
                       >
                         <span className="mono-label text-fog-600 text-[10px] tracking-[0.18em] mt-0.5 w-6 shrink-0">
-                          {String(servicesItems.indexOf(it) + 1).padStart(2, '0')}
+                          {String(i + 1).padStart(2, '0')}
                         </span>
                         <div className="min-w-0 flex-1">
                           <div className="flex items-center gap-2">
@@ -138,11 +144,12 @@ export default function SiteHeader() {
             )}
           </div>
 
-          {links.map((l) => (
+          {/* Nosotros · Contacto */}
+          {SIMPLE_LINKS.filter((l) => l.key !== 'home').map((l) => (
             <a
-              key={l.id}
-              href={`/#${l.id}`}
-              className="px-3 py-2 text-sm text-fog-300 hover:text-fog-50 transition-colors"
+              key={l.key}
+              href={l.href}
+              className="px-3 py-2 text-[13.5px] text-fog-300 hover:text-fog-50 transition-colors"
             >
               {t.nav[l.key]}
             </a>
@@ -151,7 +158,7 @@ export default function SiteHeader() {
 
         <div className="flex items-center gap-3">
           <LanguageToggle />
-          <a href="/#contact" className="hidden sm:inline-flex btn-primary text-sm py-2 px-3.5">
+          <a href="/#contact" className="hidden sm:inline-flex btn-primary text-[13px] py-1.5 px-3.5">
             {t.nav.cta}
           </a>
           <button
@@ -165,10 +172,19 @@ export default function SiteHeader() {
         </div>
       </div>
 
-      {/* Mobile menu */}
+      {/* MOBILE MENU */}
       {open && (
         <div className="lg:hidden border-t border-white/[0.06] bg-ink-900/95 backdrop-blur-xl max-h-[calc(100vh-4rem)] overflow-y-auto">
           <div className="container-shell py-6 flex flex-col gap-1">
+            {/* Home */}
+            <a
+              href="/"
+              onClick={() => setOpen(false)}
+              className="py-3 text-base text-fog-100 border-b border-white/5"
+            >
+              {t.nav.home}
+            </a>
+
             {/* Services accordion */}
             <button
               type="button"
@@ -176,7 +192,7 @@ export default function SiteHeader() {
               className="py-3 text-base text-fog-100 border-b border-white/5 flex items-center justify-between"
               aria-expanded={mobileServicesOpen}
             >
-              <span>{t.servicesNav?.label || 'Services'}</span>
+              <span>{t.nav.services}</span>
               <ChevronDown
                 size={16}
                 className={`transition-transform duration-200 ${mobileServicesOpen ? 'rotate-180' : ''}`}
@@ -192,9 +208,7 @@ export default function SiteHeader() {
                     className="flex items-center justify-between gap-3 px-3 py-2.5 rounded-lg hover:bg-white/[0.03]"
                   >
                     <div className="min-w-0">
-                      <p className="text-fog-100 text-[14px] font-medium truncate">
-                        {it.name}
-                      </p>
+                      <p className="text-fog-100 text-[14px] font-medium truncate">{it.name}</p>
                       <p className="mono-label text-fog-500 text-[10px] tracking-[0.12em] mt-0.5 truncate">
                         {it.meta}
                       </p>
@@ -209,16 +223,18 @@ export default function SiteHeader() {
               </div>
             )}
 
-            {links.map((l) => (
+            {/* Nosotros · Contacto */}
+            {SIMPLE_LINKS.filter((l) => l.key !== 'home').map((l) => (
               <a
-                key={l.id}
-                href={`/#${l.id}`}
+                key={l.key}
+                href={l.href}
                 onClick={() => setOpen(false)}
                 className="py-3 text-base text-fog-100 border-b border-white/5"
               >
                 {t.nav[l.key]}
               </a>
             ))}
+
             <a href="/#contact" onClick={() => setOpen(false)} className="btn-primary mt-4 justify-center">
               {t.nav.cta}
             </a>

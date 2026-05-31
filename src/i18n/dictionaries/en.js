@@ -1,10 +1,10 @@
 const en = {
   nav: {
+    home: 'Home',
     services: 'Services',
-    work: 'What we build',
-    process: 'How we work',
+    about: 'About',
     contact: 'Contact',
-    cta: "Let's talk about your project",
+    cta: "Let's talk",
   },
   hero: {
     eyebrow: 'Digital infrastructure studio',
@@ -1043,18 +1043,1022 @@ const en = {
     },
   },
 
+  backend: {
+    meta: {
+      title: 'Backend, APIs & cloud infrastructure',
+      description:
+        'We design and develop backend, APIs, microservices, databases, cloud infrastructure, authentication, integrations, and scalable systems for companies.',
+    },
+    breadcrumb: { services: 'Services', current: 'Backend & infrastructure' },
+
+    hero: {
+      eyebrow: '// BACKEND · 01 · run()',
+      titleA: 'The invisible engine',
+      titleB: 'that makes your product',
+      titleC: 'actually work.',
+      titleAccent: 'APIs, data, infrastructure.',
+      subtitle:
+        'We design the technical layer that holds web apps, mobile apps, dashboards, ecommerce, fintech, AI, and enterprise integrations together. Backend that operates, scales, and stays maintainable.',
+      hudUptime: 'uptime · 99.94%',
+      hudInteract: 'hover · scatter',
+      ctaPrimary: 'Design your architecture',
+      ctaSecondary: 'See technical capabilities',
+    },
+
+    problem: {
+      eyebrow: '// 02 · diagnose()',
+      title: 'A great interface does not save',
+      titleAccent: 'a badly designed backend.',
+      body:
+        "The screens look good in the demo. The problem shows up later — when the system starts to grow and the truth comes out of the backend.",
+      symptoms: [
+        { tag: 'SLOW',     text: 'The app gets slow' },
+        { tag: 'SYNC',     text: "Data does not sync" },
+        { tag: 'PERMS',    text: 'Wrong permissions' },
+        { tag: 'REPORTS',  text: 'Reports take minutes' },
+        { tag: 'INTEGR',   text: 'Integrations fail' },
+        { tag: 'TRACE',    text: "Errors that can't be traced" },
+        { tag: 'SCALE',    text: "Won't handle more users" },
+        { tag: 'FRAGILE',  text: 'Every change breaks something old' },
+      ],
+      closing:
+        "The backend is the invisible engine of a digital product. When it's well designed, no one notices. When it's poorly designed, everyone suffers.",
+    },
+
+    value: {
+      eyebrow: '// 03 · build()',
+      title: 'Not just an API that returns data.',
+      titleAccent: "It's the logical center of your operation.",
+      body:
+        'Business rules, permissions, validations, users, integrations, payments, reports, events, files, and inter-system communication all live there.',
+      closing:
+        'Clear, maintainable architecture, ready to evolve without every change becoming a negotiation with chaos.',
+      capabilities: [
+        { code: '01', tag: 'API',       title: 'REST · GraphQL APIs',          meta: 'Endpoints · validation · errors' },
+        { code: '02', tag: 'MICRO',     title: 'Microservices',                  meta: 'When it fits, not for fashion' },
+        { code: '03', tag: 'DATA',      title: 'Data modeling',                  meta: 'Postgres · Mongo · Prisma' },
+        { code: '04', tag: 'AUTH',      title: 'Auth · roles · permissions',     meta: 'JWT · RBAC · refresh tokens' },
+        { code: '05', tag: 'CLOUD',     title: 'Cloud infrastructure',           meta: 'AWS · Docker · serverless' },
+        { code: '06', tag: 'INTEGR',    title: 'External integrations',          meta: 'i2c · BPC · Salesforce · payments' },
+        { code: '07', tag: 'EVENTS',    title: 'Events · queues · webhooks',     meta: 'Async processing' },
+        { code: '08', tag: 'OBS',       title: 'Logs · monitoring · audit',      meta: 'Traceability by default' },
+      ],
+    },
+
+    apis: {
+      eyebrow: '// 04 · connect()',
+      title: 'APIs designed to connect products,',
+      titleAccent: 'not to improvise endpoints.',
+      body:
+        'We build clear, documented, secure APIs to connect web apps, mobile apps, dashboards, CRMs, payment providers, financial systems, and internal tools.',
+      bestPractices: [
+        'Clear endpoint structure',
+        'Data validation',
+        'Error handling',
+        'Authentication',
+        'Role-based permissions',
+        'Logs',
+        'Versioning when it applies',
+        'Technical documentation',
+        'Consistent responses',
+        'Security by design',
+      ],
+      closing:
+        'We build APIs that let your systems talk to each other without turning every integration into a small technical tragedy.',
+      sampleLogs: [
+        { method: 'GET',    path: '/v1/users/me',       status: 200, ms: 38 },
+        { method: 'POST',   path: '/v1/auth/login',      status: 200, ms: 122 },
+        { method: 'POST',   path: '/v1/transfers',       status: 201, ms: 184 },
+        { method: 'GET',    path: '/v1/accounts/4291',   status: 200, ms: 42 },
+        { method: 'PUT',    path: '/v1/cards/4291',      status: 200, ms: 110 },
+        { method: 'POST',   path: '/v1/webhooks/stripe', status: 200, ms: 76 },
+        { method: 'DELETE', path: '/v1/sessions/x4f2',   status: 204, ms: 28 },
+        { method: 'POST',   path: '/v1/notifications',   status: 202, ms: 94 },
+        { method: 'GET',    path: '/v1/orders?limit=50', status: 200, ms: 156 },
+        { method: 'POST',   path: '/v1/payments/charge', status: 402, ms: 88 },
+      ],
+    },
+
+    microservices: {
+      eyebrow: '// 05 · modular()',
+      title: 'Modular architecture',
+      titleAccent: 'to grow without breaking.',
+      body:
+        'Not every project needs microservices. And anyone who says otherwise probably also wants to put Kubernetes on a landing page.',
+      bodyClose:
+        'When a system has multiple domains, integrations, critical flows, or teams working in parallel, modular architecture is the difference between growing in order or building a ball of mud with endpoints.',
+      services: [
+        { code: 'usr',   name: 'users',         meta: 'Auth · profiles · sessions' },
+        { code: 'pay',   name: 'payments',      meta: 'Payments · states · providers' },
+        { code: 'card',  name: 'cards',          meta: 'Activation · renewal · sync' },
+        { code: 'inv',   name: 'inventory',      meta: 'Stock · movements · alerts' },
+        { code: 'rpt',   name: 'reports',        meta: 'Aggregations · exports' },
+        { code: 'msg',   name: 'messaging',      meta: 'Inbox · notifications · push' },
+        { code: 'file',  name: 'files',          meta: 'Upload · storage · CDN' },
+        { code: 'aud',   name: 'audit',          meta: 'Events · traceability' },
+        { code: 'int',   name: 'integrations',   meta: 'CRMs · ERPs · providers' },
+        { code: 'ai',    name: 'ai',             meta: 'Agents · workflows · LLM' },
+      ],
+    },
+
+    databases: {
+      eyebrow: '// 06 · model()',
+      title: 'Data well modeled,',
+      titleAccent: "so you don't depend on eternal spreadsheets.",
+      body:
+        "A database isn't just where 'we save things'. It's where the operational memory of the business lives. We design models for users, customers, products, transactions, inventory, permissions, and any critical entity.",
+      closing:
+        'A bad database goes unnoticed at first. It shows up once the system has users, money, and operations on top. A magnificent moment to discover errors, naturally.',
+      stacks: [
+        { label: 'Relational',    items: ['PostgreSQL', 'MySQL', 'Prisma', 'SQL', 'Migrations', 'Indexes'] },
+        { label: 'Document',      items: ['MongoDB', 'DocumentDB', 'Flexible structures', 'Aggregations'] },
+        { label: 'Operations',    items: ['Backups', 'Replicas', 'Optimization', 'Reports', 'Audit', 'Caching'] },
+      ],
+    },
+
+    auth: {
+      eyebrow: '// 07 · gate()',
+      title: 'Who enters. What they see. What they can do.',
+      titleAccent: 'Three questions that define a secure system.',
+      body:
+        'We design authentication and authorization systems to protect routes, data, modules, and sensitive operations. Because "everyone is admin" is not a security policy — it is an invitation to disaster.',
+      capabilities: [
+        { title: 'Authentication',     meta: 'Sign-up · login · MFA · biometrics' },
+        { title: 'Sessions · tokens',  meta: 'JWT · refresh · expiration · revoke' },
+        { title: 'Roles · RBAC',       meta: 'Admin · manager · operator · client' },
+        { title: 'Multi-tenant',        meta: 'Org-level or team-level access' },
+        { title: 'Guards · middleware', meta: 'Route protection · validation' },
+        { title: 'Audit',                meta: 'Every sensitive action recorded' },
+      ],
+    },
+
+    cloud: {
+      eyebrow: '// 08 · deploy()',
+      title: 'Your product lives outside',
+      titleAccent: "the developer's laptop.",
+      body:
+        'That magical place where everything worked and nobody knew why. We design deployments, cloud services, environments, configurations, domains, APIs, databases, and operational processes.',
+      services: [
+        { name: 'AWS',                meta: 'EC2 · Lambda · API Gateway' },
+        { name: 'Docker',              meta: 'Containers · images · orchestration' },
+        { name: 'Serverless',          meta: 'Functions · scaling · pay-per-use' },
+        { name: 'Elastic Beanstalk',   meta: 'Managed deploys' },
+        { name: 'Nginx · PM2',         meta: 'Reverse proxy · process manager' },
+        { name: 'CI/CD',                meta: 'GitHub Actions · automation' },
+        { name: 'Environments',        meta: 'Dev · staging · production' },
+        { name: 'Domains · TLS',       meta: 'DNS · certificates · CDN' },
+      ],
+    },
+
+    integrations: {
+      eyebrow: '// 09 · bridge()',
+      title: 'We connect your systems',
+      titleAccent: 'to the rest of the world.',
+      body:
+        'A modern company rarely uses a single system. It needs to connect payments, CRMs, ERPs, financial providers, card platforms, messaging, ecommerce, AI, banks, logistics, and internal tools.',
+      closing:
+        'An integration does not end when "it connects". It has to handle errors, states, retries, validations, and weird cases. Because external providers always fail right when someone important is watching. They are considerate that way.',
+      providers: [
+        { name: 'i2c',           kind: 'Cards' },
+        { name: 'BPC SmartVista',kind: 'Processing' },
+        { name: 'Salesforce',     kind: 'CRM' },
+        { name: 'Stripe',         kind: 'Payments' },
+        { name: 'PayPal',         kind: 'Payments' },
+        { name: 'Twilio',         kind: 'SMS · WhatsApp' },
+        { name: 'SendGrid',       kind: 'Email' },
+        { name: 'OpenAI',         kind: 'AI · LLM' },
+        { name: 'Anthropic',      kind: 'AI · LLM' },
+        { name: 'AWS S3',         kind: 'Storage' },
+        { name: 'Slack',          kind: 'Comms' },
+        { name: 'HubSpot',        kind: 'CRM' },
+      ],
+    },
+
+    architecture: {
+      eyebrow: '// 10 · architect()',
+      title: 'This is what well-thought-out',
+      titleAccent: 'infrastructure looks like.',
+      body:
+        'A complete backend architecture connects frontend, business logic, data, integrations, automation, and monitoring in clear layers.',
+      layers: [
+        { code: 'L1', name: 'Web · Mobile · Dashboard',   meta: 'Frontend · UX' },
+        { code: 'L2', name: 'API Gateway',                 meta: 'Routing · rate-limit · auth' },
+        { code: 'L3', name: 'Auth · Authorization',        meta: 'JWT · RBAC · sessions' },
+        { code: 'L4', name: 'Business Logic',              meta: 'Rules · validation · state' },
+        { code: 'L5', name: 'Database · Files · Events',   meta: 'Postgres · Mongo · S3 · queues' },
+        { code: 'L6', name: 'External Integrations',       meta: 'i2c · BPC · Salesforce · payments' },
+        { code: 'L7', name: 'Reports · Notifications · AI',meta: 'BI · push · automation' },
+        { code: 'L8', name: 'Logs · Monitoring · Audit',   meta: 'Observability · traceability' },
+      ],
+    },
+
+    useCases: {
+      eyebrow: '// 11 · cases()',
+      title: 'What we can build',
+      items: [
+        { num: '01', title: 'Backend for mobile app',          meta: 'Users · payments · push · sync' },
+        { num: '02', title: 'API for ecommerce',                meta: 'Products · orders · payments' },
+        { num: '03', title: 'Fintech backend',                   meta: 'Transfers · cards · state' },
+        { num: '04', title: 'Financial dashboard',              meta: 'Endpoints · aggregations · KPIs' },
+        { num: '05', title: 'Roles & permissions system',       meta: 'RBAC · multi-tenant · audit' },
+        { num: '06', title: 'Salesforce integration',           meta: 'CRM ↔ ops · sync' },
+        { num: '07', title: 'Payment processor integration',    meta: 'Webhooks · retries · states' },
+        { num: '08', title: 'Messaging system',                  meta: 'Inbox · push · events' },
+        { num: '09', title: 'SaaS platform',                     meta: 'Orgs · subscriptions · modules' },
+        { num: '10', title: 'AI agent infrastructure',           meta: 'Tools · permissions · context' },
+      ],
+    },
+
+    differentiators: {
+      eyebrow: '// 12 · why()',
+      title: 'Why build your backend with Era Digital Solutions',
+      items: [
+        { title: 'We think architecture',     body: "We design the structure before writing code as if running from something." },
+        { title: 'Product + operation',        body: 'We do not build random endpoints. We understand what process the system solves.' },
+        { title: 'Real fullstack',             body: 'We connect backend with web, mobile, dashboards, AI, ecommerce, and fintech.' },
+        { title: 'Sensitive systems',          body: 'Experience with financial flows, sensitive data, cards, transfers, and external providers.' },
+        { title: 'Built to maintain',          body: 'A good backend works today. It also has to be understood and extended tomorrow.' },
+        { title: 'Security & traceability',    body: 'We control access, validate data, log events, and reduce unnecessary exposure.' },
+      ],
+    },
+
+    process: {
+      eyebrow: '// 13 · build()',
+      title: 'How we build backend & infrastructure',
+      steps: [
+        { num: '01', title: 'Diagnostic',     body: 'Business, users, processes, data, systems, integrations, current problems.' },
+        { num: '02', title: 'Architecture',   body: 'Modules, services, APIs, database, permissions, infrastructure, integrations.' },
+        { num: '03', title: 'Data modeling',  body: 'Entities, relations, migrations, indexes, report structures.' },
+        { num: '04', title: 'APIs',            body: 'Endpoints, validations, rules, auth, authorization, consistent responses.' },
+        { num: '05', title: 'Integrations',    body: 'External providers, CRMs, payments, AI, notifications, internal systems.' },
+        { num: '06', title: 'Deployment',      body: 'Cloud, Docker, environments, domains, variables, logs, automation.' },
+        { num: '07', title: 'Security',        body: 'Permissions, sensitive data, exposure, access, performance.' },
+        { num: '08', title: 'Documentation',   body: 'We deliver technical docs and a base ready to grow with new modules.' },
+      ],
+    },
+
+    stack: {
+      eyebrow: '// 14 · stack()',
+      title: 'Modern stack.',
+      titleAccent: 'No tech picked to show off.',
+      body:
+        'We pick the stack so the product can be maintained, grow, and adapt — not to fill slides with logos.',
+      groups: [
+        { label: 'Backend',         items: ['Node.js', 'NestJS', 'LoopBack', 'Express', 'Go', 'TypeScript'] },
+        { label: 'APIs',             items: ['REST', 'GraphQL', 'Webhooks', 'Event-driven', 'API Gateway'] },
+        { label: 'Databases',        items: ['PostgreSQL', 'MySQL', 'MongoDB', 'DocumentDB', 'Prisma', 'Redis'] },
+        { label: 'Cloud · Infra',    items: ['AWS', 'Lambda', 'Docker', 'Nginx', 'PM2', 'Serverless', 'CI/CD'] },
+        { label: 'Security',          items: ['JWT', 'RBAC', 'OWASP', 'Encryption', 'Secret mgmt', 'Audit logs'] },
+        { label: 'Integrations',     items: ['i2c', 'BPC', 'Salesforce', 'Stripe', 'OpenAI', 'CRMs · ERPs'] },
+      ],
+    },
+
+    midCta: {
+      title: 'Does your product need a more serious technical base?',
+      body:
+        'We can design the backend, APIs, database, infrastructure, and integrations your company needs.',
+      cta: "Let's talk about your architecture",
+    },
+
+    security: {
+      eyebrow: '// 15 · secure()',
+      title: 'Security from design,',
+      titleAccent: 'not as a plugin at the end.',
+      body:
+        'A secure backend is not the one that promises to be invincible. It is the one that reduces risk surface, controls access, protects data, and leaves enough traceability to understand what is happening.',
+      practices: [
+        'Input validation',
+        'Data sanitization',
+        'Secure token handling',
+        'Role separation',
+        'Route protection',
+        'Rate limiting',
+        'Secret management',
+        'Per-environment config',
+        'Encryption when applicable',
+        'Logs without leaking sensitive data',
+        'Controlled error responses',
+        'Principle of least privilege',
+      ],
+    },
+
+    faq: {
+      eyebrow: '// 16 · faq()',
+      title: 'Frequently asked questions',
+      items: [
+        { q: 'Do you build backend from scratch?',
+          a: 'Yes. We design and develop backend from scratch for web apps, mobile apps, dashboards, ecommerce, fintech, internal systems, and automations.' },
+        { q: 'Can you work with an existing backend?',
+          a: 'Yes. We can review, extend, refactor, or integrate existing systems, depending on the state of the code and current architecture.' },
+        { q: 'Do you build REST APIs?',
+          a: 'Yes. We build REST APIs to connect applications, dashboards, internal systems, external providers, and mobile apps.' },
+        { q: 'Do you build GraphQL?',
+          a: 'Yes. We build or consume GraphQL APIs when the project needs it.' },
+        { q: 'Can you build microservices?',
+          a: 'Yes, when architecture justifies it. We do not use microservices for fashion — we use them when they help separate domains, scale modules, or integrate complex systems.' },
+        { q: 'Can you set up cloud infrastructure?',
+          a: 'Yes. We configure AWS, serverless, Docker, environments, deployments, and databases.' },
+        { q: 'Can you connect my app with external providers?',
+          a: 'Yes. We integrate payments, CRMs, financial systems, messaging, logistics, AI, and enterprise tools.' },
+        { q: 'Can you build backend for mobile apps?',
+          a: 'Yes. We build backend for login, users, profiles, notifications, payments, dashboards, permissions, history, messages, and sync.' },
+        { q: 'Can you build backend for fintech?',
+          a: 'Yes. We have experience with financial flows, cards, transfers, back office, secure messaging, sensitive data, and bank integrations.' },
+        { q: 'Do you include security?',
+          a: 'Yes. We design backend with auth, authorization, validations, secure data handling, exposure control, logs, and security best practices.' },
+      ],
+    },
+
+    finalCta: {
+      eyebrow: '// 17 · ship()',
+      title: "Let's build the technical engine",
+      titleAccent: 'your product needs to grow.',
+      body:
+        'If your company needs APIs, backend, databases, cloud infrastructure, integrations, dashboards, security, or automation, we can design and develop a solid base for you to operate with more clarity.',
+      cta: 'Book a backend consultation',
+      ctaSecondary: 'Back to home',
+    },
+  },
+
+  commerce: {
+    meta: {
+      title: 'Custom ecommerce, POS & inventory',
+      description:
+        'We build ecommerce, POS, inventory, digital catalogs, sales dashboards, customer management, suppliers, and connected commerce platforms.',
+    },
+    breadcrumb: { services: 'Services', current: 'Ecommerce, POS & inventory' },
+
+    hero: {
+      eyebrow: '// COMMERCE · 01 · sell()',
+      titleA: 'Selling is easy.',
+      titleB: 'Holding the operation',
+      titleC: 'behind the sale, not so much.',
+      titleAccent: 'Connected ecommerce, POS & inventory.',
+      subtitle:
+        "We build full commerce systems: online store, point of sale, inventory, customers, suppliers, and dashboards. So selling stops depending on Excel, WhatsApp, and human memory.",
+      hudOmni: 'omnichannel · 24/7',
+      hudInteract: 'hover · scatter',
+      ctaPrimary: "Let's build your system",
+      ctaSecondary: 'See capabilities',
+    },
+
+    problem: {
+      eyebrow: '// 02 · diagnose()',
+      title: 'Selling more does little',
+      titleAccent: "if your operation can't hold it up.",
+      body:
+        'An online store without a connected operation creates more problems than it solves. The classics start showing up:',
+      symptoms: [
+        { tag: 'STOCK',    text: 'Items sold with no real stock' },
+        { tag: 'EXCEL',    text: 'Inventory updated by hand' },
+        { tag: 'CHAT',     text: 'Orders tracked through WhatsApp' },
+        { tag: 'COSTS',    text: 'Costs guessed by feel' },
+        { tag: 'CLIENTS',  text: 'Customers with no history' },
+        { tag: 'BLIND',    text: 'Branches running without visibility' },
+        { tag: 'LATE',     text: 'Reports that arrive too late' },
+        { tag: 'MARGIN',   text: 'Margin calculated "more or less"' },
+      ],
+      closing:
+        "A store shouldn't be an island. It should be part of a connected commerce system — sell, record, measure, buy, and decide from a single operation.",
+    },
+
+    value: {
+      eyebrow: '// 03 · build()',
+      title: 'Behind every sale there is inventory, cost,',
+      titleAccent: 'payment, customer, delivery, decision.',
+      body:
+        'That is why we build platforms that connect the whole commerce operation — not just the cart.',
+      closing:
+        'A platform that does more than sell: helps you manage, measure, and improve the business.',
+      capabilities: [
+        { code: '01', tag: 'STORE',     title: 'Online store',                meta: 'Catalog · cart · checkout' },
+        { code: '02', tag: 'POS',       title: 'Web · mobile POS',            meta: 'Counter · tablet · branch' },
+        { code: '03', tag: 'STOCK',     title: 'Centralized inventory',       meta: 'SKU · variants · branches' },
+        { code: '04', tag: 'CLIENTS',   title: 'Customers · CRM',              meta: 'History · segmentation · tickets' },
+        { code: '05', tag: 'SUPPLY',    title: 'Suppliers · costs',           meta: 'Purchases · margins · profitability' },
+        { code: '06', tag: 'PAY',       title: 'Integrated payments',          meta: 'Card · transfer · COD' },
+        { code: '07', tag: 'BI',        title: 'Commerce dashboards',         meta: 'Sales · profit · alerts' },
+        { code: '08', tag: 'AI',        title: 'AI where it adds value',       meta: 'Demand · recs · alerts' },
+      ],
+    },
+
+    ecommerce: {
+      eyebrow: '// 04 · ship()',
+      title: 'Stores designed around your business,',
+      titleAccent: 'not around a generic template.',
+      body:
+        'From a simple shop to a full commerce platform with inventory, customers, payments, promotions, and admin panel.',
+      features: [
+        'Catalog · categories · filters',
+        'Search · featured products',
+        'Cart · checkout',
+        'Online payments',
+        'User account · history',
+        'Promotions · coupons',
+        'Product variants',
+        'Connected stock control',
+        'Customer notifications',
+        'Admin panel',
+        'Sales reports',
+        'SEO for products & categories',
+      ],
+    },
+
+    pos: {
+      eyebrow: '// 05 · checkout()',
+      title: 'A POS is not a cash register',
+      titleAccent: 'with a complex about Excel.',
+      body:
+        'POS systems built to sell fast, record well, and understand what is happening — from counter, phone, tablet, or branch.',
+      kinds: [
+        { tag: 'WEB',     name: 'Web POS',          meta: 'Counter · admin' },
+        { tag: 'MOBILE',  name: 'Mobile POS',        meta: 'Sales reps · field' },
+        { tag: 'TABLET',  name: 'Tablet POS',         meta: 'Restaurant · retail' },
+        { tag: 'BRANCH',  name: 'Multi-branch POS',  meta: 'Centralized inventory' },
+        { tag: 'OMNI',    name: 'POS + ecommerce',    meta: 'Same stock · same client' },
+      ],
+      capabilities: [
+        'Sales recording',
+        'Search · barcode scan',
+        'Discounts · coupons',
+        'Payment methods',
+        'Customer association',
+        'Tickets · receipts',
+        'Cash close',
+        'Sales by rep',
+        'Live inventory',
+        'Returns · cancellations',
+        'Daily reports',
+        'Admin dashboard',
+      ],
+    },
+
+    inventory: {
+      eyebrow: '// 06 · stock()',
+      title: 'Your inventory stops being',
+      titleAccent: 'an "optimistic estimate".',
+      body:
+        'Bad inventory makes everything else lie: sales, profit, purchases, orders, availability. We build modules to control products, stock, movements, suppliers, and alerts.',
+      features: [
+        'Products · categories · variants',
+        'SKU · barcode',
+        'Available stock · low-stock thresholds',
+        'In/out movements · adjustments',
+        'Low-stock alerts',
+        'Best sellers',
+        'Stalled products',
+        'Per-branch inventory',
+        'Per-warehouse inventory',
+        'Change history',
+        'Exportable reports',
+        'Movement audit',
+      ],
+      closing:
+        'Your inventory becomes a real source of information for selling and buying better — not an act of optimistic faith.',
+    },
+
+    catalog: {
+      eyebrow: '// 07 · catalog()',
+      title: 'Digital catalogs',
+      titleAccent: 'clear, ordered, easy to manage.',
+      body:
+        'So your team can manage products, prices, images, categories, variants, promotions, and availability without fighting the platform.',
+      features: [
+        'Add · edit products',
+        'Image · description upload',
+        'Categories · tags',
+        'Variants (size · color · format)',
+        'Prices · costs · margins',
+        'Featured · related products',
+        'Public · private catalogs',
+        'WhatsApp · social catalog',
+      ],
+    },
+
+    clients: {
+      eyebrow: '// 08 · know()',
+      title: 'Selling once is fine.',
+      titleAccent: "Selling again without chasing the customer, better.",
+      body:
+        'Each purchase can feed a smarter commercial relationship. We build modules to manage customers, history, behavior, and follow-up.',
+      features: [
+        { title: 'Purchase history',           meta: 'Products · ticket · frequency' },
+        { title: 'Segmentation',                meta: 'Frequent · inactive · new' },
+        { title: 'Average ticket',              meta: 'Per customer · per category' },
+        { title: 'Personalized promotions',     meta: 'By segment · by behavior' },
+        { title: 'Notifications',               meta: 'Email · push · WhatsApp' },
+        { title: 'CRM integration',             meta: 'Salesforce · HubSpot · in-house' },
+      ],
+    },
+
+    suppliers: {
+      eyebrow: '// 09 · margin()',
+      title: 'Knowing how much you sell is fine.',
+      titleAccent: 'Knowing how much you actually earn, better.',
+      body:
+        "Many businesses sell but don't really know how much they earn. That is an elegant way to walk smiling toward financial trouble.",
+      features: [
+        'Supplier registry',
+        'Products per supplier',
+        'Purchase costs · history',
+        'Purchase orders',
+        'Inventory entries',
+        'Per-product margins',
+        'Supplier comparison',
+        'Cost-change alerts',
+        'Profit reports',
+        'Profitable · low-margin products',
+      ],
+    },
+
+    dashboards: {
+      eyebrow: '// 10 · observe()',
+      title: 'A system without a dashboard',
+      titleAccent: 'is just a box where things happen.',
+      body:
+        'Very modern, sure — and just as blind. We turn your commerce data into clear panels so you can decide better, buy better, sell better.',
+      tickers: [
+        { label: '24h sales',         value: '$48.2K',  delta: '+8.4%',  up: true },
+        { label: 'Avg ticket',         value: '$420',    delta: '+2.1%',  up: true },
+        { label: 'Conversion',         value: '3.8%',    delta: '+0.6%',  up: true },
+        { label: 'Low stock',          value: '24',      delta: '+6',     up: false },
+        { label: 'Avg margin',         value: '38%',     delta: '+1.2%',  up: true },
+        { label: 'Returns',            value: '0.7%',    delta: '-0.3%',  up: false },
+      ],
+      closing:
+        'Sales, profit, best sellers, customers, inventory, reps, branches, suppliers. All measurable, all actionable.',
+    },
+
+    omnichannel: {
+      eyebrow: '// 11 · connect()',
+      title: 'The store, the ecommerce, and the POS',
+      titleAccent: 'should speak the same language.',
+      body:
+        "If you sell at the store, inventory should update. If you sell online, stock should change. If new merchandise arrives, the catalog should reflect it. If a sale happens, the dashboard should measure it.",
+      flow: [
+        { code: 'L1', name: 'Ecommerce',                    meta: 'Online store' },
+        { code: 'L2', name: 'Web · mobile POS',              meta: 'Physical store · sales reps' },
+        { code: 'L3', name: 'Centralized inventory',         meta: 'Stock · variants · branches' },
+        { code: 'L4', name: 'Customers · suppliers',         meta: 'History · costs · margins' },
+        { code: 'L5', name: 'Payments · orders',              meta: 'Processors · states' },
+        { code: 'L6', name: 'Commerce dashboard',            meta: 'Sales · profit · alerts' },
+        { code: 'L7', name: 'Automation · AI',                meta: 'Reports · demand · alerts' },
+      ],
+    },
+
+    aiCallout: {
+      eyebrow: '// 12 · intelligence()',
+      title: 'Well-used AI predicts demand',
+      titleAccent: 'and warns you before you run out of stock.',
+      body:
+        'We do not add AI as hot sauce. We integrate it when it helps you sell better, buy better, or save your team time.',
+      uses: [
+        'Product recommendations',
+        'Demand prediction',
+        'Auto product classification',
+        'Description generation',
+        'Stalled-product detection',
+        'Customer segmentation',
+        'Ticket and comment analysis',
+        'Auto executive summaries',
+        'Internal assistant for metrics',
+        'Auto reports',
+      ],
+      closing:
+        "That is useful AI. Not a chatbot stuck in the corner saying \"hi, I'm your virtual assistant\" while nobody can find the buy button.",
+    },
+
+    architecture: {
+      eyebrow: '// 13 · architect()',
+      title: 'This is what a well-connected',
+      titleAccent: 'commerce platform looks like.',
+      body:
+        'Each layer talks to the next. Sales trigger stock, stock feeds dashboards, dashboards inform purchases. No Excel acting as middleman.',
+      layers: [
+        { code: 'L1', name: 'Ecommerce · POS · App',         meta: 'Frontend · channels' },
+        { code: 'L2', name: 'API Gateway · Backend',          meta: 'Auth · routing · validation' },
+        { code: 'L3', name: 'Products · Inventory',           meta: 'Catalog · stock · variants' },
+        { code: 'L4', name: 'Customers · Suppliers',          meta: 'CRM · costs · orders' },
+        { code: 'L5', name: 'Payments · Orders',               meta: 'Processors · states · webhooks' },
+        { code: 'L6', name: 'Dashboards · Reports · AI',      meta: 'Sales · profit · automation' },
+      ],
+    },
+
+    useCases: {
+      eyebrow: '// 14 · cases()',
+      title: 'What we can build',
+      items: [
+        { num: '01', title: 'Online store',                      meta: 'Catalog · payments · inventory · orders' },
+        { num: '02', title: 'POS for physical store',            meta: 'Counter · clients · discounts' },
+        { num: '03', title: 'Mobile POS',                         meta: 'Sales reps · scan · reports' },
+        { num: '04', title: 'Inventory system',                   meta: 'SKU · branches · alerts' },
+        { num: '05', title: 'Commerce dashboard',                 meta: 'Sales · profit · clients' },
+        { num: '06', title: 'Supplier system',                    meta: 'Costs · orders · margins' },
+        { num: '07', title: 'Digital catalog',                    meta: 'Web · mobile · WhatsApp' },
+        { num: '08', title: 'Omnichannel platform',               meta: 'Physical + online + social + branches' },
+        { num: '09', title: 'Ecommerce with AI',                  meta: 'Demand · recs · alerts' },
+        { num: '10', title: 'Full commerce system',                meta: 'Everything connected on one platform' },
+      ],
+    },
+
+    differentiators: {
+      eyebrow: '// 15 · why()',
+      title: 'Why build your system with Era Digital Solutions',
+      items: [
+        { title: 'We do not build isolated stores',     body: 'Systems connected to inventory, payments, customers, suppliers, and dashboards.' },
+        { title: 'We understand real operations',        body: 'Selling is controlling stock, costs, orders, payments, customers, reports — not just showing products.' },
+        { title: 'Web · mobile · backend',                body: 'Store, POS, mobile app, backend, database, dashboard, and integrations.' },
+        { title: 'Built to grow',                         body: 'Start with the essentials. Add modules, branches, channels, or automation when you need them.' },
+        { title: 'AI where it adds value',                body: 'Sales analysis, demand prediction, product classification, recommendations.' },
+        { title: 'Real financial visibility',             body: 'Not just sales — also costs, margins, profit, and profitable products.' },
+      ],
+    },
+
+    process: {
+      eyebrow: '// 16 · build()',
+      title: 'How we build a commerce platform',
+      steps: [
+        { num: '01', title: 'Diagnostic',     body: 'How you sell, where you sell, what products, how you control inventory, what reports you need.' },
+        { num: '02', title: 'Design',          body: 'Whether you need ecommerce, POS, inventory, dashboard, mobile app, payment integration, or full system.' },
+        { num: '03', title: 'Modeling',        body: 'Products, categories, variants, stock, costs, suppliers, movements.' },
+        { num: '04', title: 'UX · UI',          body: 'Experience for clients, reps, admins, operators.' },
+        { num: '05', title: 'Backend',          body: 'APIs, database, rules, permissions, payments, orders, inventory, reports.' },
+        { num: '06', title: 'Frontend',         body: 'Store, POS, admin panel, dashboard, or mobile app per scope.' },
+        { num: '07', title: 'Integrations',    body: 'Payments, notifications, analytics, external providers, CRM, or existing tools.' },
+        { num: '08', title: 'Launch',           body: 'Deploy, training, documentation, evolution with new modules.' },
+      ],
+    },
+
+    stack: {
+      eyebrow: '// 17 · stack()',
+      title: 'Tech for modern digital commerce',
+      titleAccent: 'Not for filling slides with logos.',
+      body:
+        'Stack picked so the platform can grow, stay maintainable, and connect with what you already use.',
+      groups: [
+        { label: 'Frontend',         items: ['React', 'Next.js', 'TypeScript', 'Tailwind', 'Responsive', 'SEO'] },
+        { label: 'Mobile',           items: ['React Native', 'Expo', 'Push notifications', 'Barcode scanning'] },
+        { label: 'Backend',           items: ['Node.js', 'NestJS', 'LoopBack', 'REST · GraphQL', 'Microservices'] },
+        { label: 'Databases',        items: ['PostgreSQL', 'MySQL', 'MongoDB', 'Prisma', 'Redis · cache'] },
+        { label: 'Cloud · Infra',     items: ['AWS', 'Docker', 'Serverless', 'API Gateway', 'CI/CD'] },
+        { label: 'Integrations',     items: ['Stripe', 'PayPal', 'Twilio · WhatsApp', 'Salesforce', 'OpenAI'] },
+      ],
+    },
+
+    midCta: {
+      title: 'Does your business sell, but the operation is still patched with Excel and human memory?',
+      body:
+        'We can build a commerce platform that connects sales, inventory, customers, suppliers, payments, and dashboards.',
+      cta: "Let's design your commerce system",
+    },
+
+    faq: {
+      eyebrow: '// 18 · faq()',
+      title: 'Frequently asked questions',
+      items: [
+        { q: 'Do you build online stores?',
+          a: 'Yes. We build custom ecommerce with catalog, cart, checkout, payments, orders, users, admin panel, and inventory integration.' },
+        { q: 'Can you build a POS system?',
+          a: 'Yes. Web, mobile, or tablet POS, connected to inventory, customers, sales reps, branches, and reports.' },
+        { q: 'Can inventory connect to the online store?',
+          a: 'Yes. We design centralized inventory so ecommerce and POS sales update stock automatically.' },
+        { q: 'Can you add barcode scanning?',
+          a: 'Yes. We integrate barcode or QR scanning in web or mobile apps depending on the device and flow.' },
+        { q: 'Can you build sales dashboards?',
+          a: 'Yes. Dashboards for sales, profit, inventory, customers, products, suppliers, sales reps, and branches.' },
+        { q: 'Can you handle suppliers and costs?',
+          a: 'Yes. Modules to register suppliers, purchase costs, inventory entries, margins, and profitability reports.' },
+        { q: 'Can you integrate payments?',
+          a: 'Yes. We integrate payment methods in ecommerce or POS based on country, provider, and project needs.' },
+        { q: 'Can you build a mobile app for sales reps?',
+          a: 'Yes. Mobile apps for sales, inventory, deliveries, catalog, reports, or commerce management.' },
+        { q: 'Can you add AI to ecommerce?',
+          a: 'Yes. AI for recommendations, sales analysis, demand prediction, description generation, product classification, and smart reports.' },
+        { q: 'Can you migrate from Excel?',
+          a: 'Yes. We help structure products, customers, inventory, and sales from existing files into a more orderly platform.' },
+        { q: 'Does this work for small businesses?',
+          a: 'Yes. We build a first version focused on the essentials and leave the architecture ready to grow.' },
+        { q: 'Does this work for businesses with multiple branches?',
+          a: 'Yes. We design inventory, sales, users, permissions, and reports per branch or business unit.' },
+      ],
+    },
+
+    finalCta: {
+      eyebrow: '// 19 · ship()',
+      title: "Let's build a commerce platform",
+      titleAccent: 'that sells, measures, and orders your operation.',
+      body:
+        'If your business needs ecommerce, POS, inventory, clients, suppliers, payments, dashboards, or automation, we can design a system to sell better and operate with more control.',
+      cta: 'Book a commerce consultation',
+      ctaSecondary: 'Back to home',
+    },
+  },
+
+  about: {
+    meta: {
+      title: 'About',
+      description:
+        'Era Digital Solutions was founded in 2019 to bring high-end technology to SMBs, micro-businesses, and entrepreneurs. Software, AI, cybersecurity, and infrastructure for companies that are growing.',
+    },
+    breadcrumb: { home: 'Home', current: 'About' },
+
+    hero: {
+      eyebrow: '// ABOUT · since 2019',
+      titleA: 'High-end technology',
+      titleB: 'for the companies',
+      titleC: 'building from the bottom up.',
+      titleAccent: 'We bring closer what felt out of reach.',
+      subtitle:
+        'Era Digital Solutions was founded in 2019 to help SMBs, micro-businesses, and entrepreneurs enter, grow, and compete in the digital world with tools that used to be reserved for large enterprises.',
+      bodyExtra:
+        "We don't believe high-end technology should live far from small businesses. We believe it should be better explained, better built, and closer to the people who actually need it.",
+      ctaPrimary: 'See what we build',
+      ctaSecondary: "Let's talk about your project",
+    },
+
+    market: {
+      eyebrow: '// 02 · context()',
+      title: 'The real market',
+      titleAccent: "isn't enterprise. It's small business.",
+      body:
+        "In Mexico, micro and small businesses are practically the entire business fabric. The Ministry of Economy describes them as more than 99.8% of all companies. And almost none of them have real access to modern technology.",
+      stats: [
+        { value: '99.8%', label: 'of companies in Mexico are SMBs',                source: 'Ministry of Economy' },
+        { value: '95.5%', label: 'are micro-businesses (under 10 employees)',      source: 'INEGI · 2023' },
+        { value: '41.5%', label: 'of the workforce works at a micro-business',     source: 'INEGI · 2023' },
+        { value: '25.3%', label: 'of economic units use computer equipment',       source: 'INEGI · 2023' },
+      ],
+      closing:
+        "That's the gap. There's no shortage of talent or hunger to grow — what's missing is useful, secure, modern technology reaching the people building from the bottom up.",
+    },
+
+    story: {
+      eyebrow: '// 03 · origin()',
+      title: 'Era Digital Solutions was born in 2019',
+      titleAccent: 'with one clear idea: democratize access to technology.',
+      body:
+        "From day one we started as a tech firm for SMBs. We saw a clear gap: thousands of businesses want to grow, sell better, organize their processes, and compete in a more digital market — but they don't always know where to start.",
+      bodyMid:
+        "Some have great ideas but no tech team. Others have working processes but still depend on spreadsheets, WhatsApp, and manual reports. Many want to innovate, but the technology feels expensive, confusing, or built only for huge corporations.",
+      bodyClose:
+        "Era was born to close that gap. To translate real business needs into clear digital solutions. To turn ideas into products. To help growing companies take the next step without getting lost between vendors, buzzwords, and tools that promise a lot and solve little.",
+      tagline:
+        "An SMB doesn't need someone selling them \"digital transformation\" as a pretty concept. It needs technology that helps them sell, operate, protect themselves, measure, and grow.",
+    },
+
+    missionVision: {
+      eyebrow: '// 04 · purpose()',
+      title: 'Mission & vision.',
+      titleAccent: 'Plain, no corporate dressing.',
+      mission: {
+        label: 'Mission',
+        title: 'Bring useful, secure, and innovative technology to SMBs, micro-businesses, and entrepreneurs.',
+        body:
+          "Make technology stop feeling distant. Let a company have its own system, understand its numbers, sell online, control its inventory, automate tasks, or turn a wild idea into a real app. Make digital security a baseline, not a luxury.",
+      },
+      vision: {
+        label: 'Vision',
+        title: 'Be the bridge between companies with potential and technology that feels out of reach.',
+        body:
+          "Many small and mid-sized companies have vision, talent, and hunger to grow but hit a wall with technology — not because they can't use it, but because no one explains it well or grounds it to their reality. Era wants to be that bridge between an idea and a product, between a manual operation and a digital system.",
+      },
+    },
+
+    represent: {
+      eyebrow: '// 05 · who()',
+      title: 'Innovation for those who need it,',
+      titleAccent: 'not just for those who can afford giant consultancies.',
+      body:
+        'We love working with entrepreneurs, family businesses, growing companies, and people with ambitious ideas — even when they are still messy. The best stuff usually lives there.',
+      tags: [
+        'Strange ideas',
+        'New models',
+        'Undigitized processes',
+        'Traditional businesses',
+        'Growing companies',
+        'Opportunities without a map',
+      ],
+      closing:
+        'Innovation does not always come from a fancy room with glass whiteboards. Sometimes it comes from a chaotic conversation, a notebook, a store, a kitchen, a warehouse, or a family business that already understands it needs to evolve.',
+    },
+
+    stance: {
+      eyebrow: '// 06 · approach()',
+      title: 'Technology should not',
+      titleAccent: 'complicate companies more. It should give them clarity.',
+      body:
+        "The problem isn't a lack of tools. It's that many tools are not built for the reality of SMBs. They're expensive, generic, hard to implement, don't connect to the real operation, require processes the company doesn't have yet, or get abandoned because nobody understands them.",
+      questions: [
+        'What are you trying to solve?',
+        'What process is slowing you down?',
+        'What operation depends too much on manual work?',
+        'What data do you need to see and currently cannot?',
+        "What part of the business has outgrown its tools?",
+      ],
+      closing:
+        "Then we pick the technology. Not the other way around. Building first and thinking later is a popular human tradition, but a costly one.",
+    },
+
+    security: {
+      eyebrow: '// 07 · secure()',
+      title: 'We were also born under another premise:',
+      titleAccent: 'democratize security in the digital world.',
+      body:
+        'Entering the digital world without understanding security is like opening a new store and leaving the door without a lock because "no one knows us yet." Many SMBs think cybersecurity is only for banks and corporations. In practice, any business handling customers, payments, passwords, inventory, or personal data needs to think about security.',
+      pillars: [
+        'Authentication',
+        'Permissions',
+        'Sensitive data',
+        'Backups',
+        'Access control',
+        'Infrastructure',
+        'APIs',
+        'Best practices',
+        'Training',
+        'Prevention',
+      ],
+      closing:
+        "We don't see cybersecurity as an extra. We see it as part of building well — from a landing page to a financial platform, it should be in the conversation from the start.",
+    },
+
+    beliefs: {
+      eyebrow: '// 08 · believe()',
+      title: 'We believe in software',
+      titleAccent: 'that solves real problems.',
+      against: [
+        "Pretty pages that don't convert",
+        "Dashboards full of charts no one uses",
+        "Expensive systems more complex than the original problem",
+        'AI used as decoration to call something "innovative"',
+      ],
+      forItems: [
+        'Sell better',
+        'Organize processes',
+        'Reduce manual work',
+        'Understand the numbers',
+        'Protect information',
+        'Automate tasks',
+        'Serve customers better',
+        'Launch new products',
+        'Decide with data',
+        'Compete with modern tools',
+      ],
+    },
+
+    pillars: {
+      eyebrow: '// 09 · pillars()',
+      title: 'Five pillars.',
+      titleAccent: 'What holds up everything we build.',
+      items: [
+        {
+          num: '01',
+          title: 'Democratize technology',
+          body: "Let more SMBs, micro-businesses, and entrepreneurs access software, automation, AI, dashboards, and infrastructure without feeling like it belongs to another world. Tech should adapt to the business, not intimidate it.",
+        },
+        {
+          num: '02',
+          title: 'Digitize with purpose',
+          body: "Not everything needs an app. Not everything needs AI. But many businesses do need to stop running on manual processes, scattered data, and disconnected tools. We build what actually moves the operation.",
+        },
+        {
+          num: '03',
+          title: 'Turn wild ideas into real products',
+          body: "We take that ambitious, weird, hard-to-explain idea, organize it, design it, break it down into features, and turn it into something that can be used, sold, measured, and evolved.",
+        },
+        {
+          num: '04',
+          title: 'Build security from the start',
+          body: 'Security is not added at the end. It is designed from the beginning. We think about access, permissions, sensitive data, exposure, and infrastructure from the architecture.',
+        },
+        {
+          num: '05',
+          title: 'Explain, teach, accompany',
+          body: "We don't believe in hiding everything behind technical words so the client depends on us forever. We want them to understand what we're building and why it matters.",
+        },
+      ],
+    },
+
+    whatWeDo: {
+      eyebrow: '// 10 · build()',
+      title: 'What we do, concretely.',
+      titleAccent: 'No "digital transformation" as a pretty concept.',
+      body:
+        'Beyond the service list, what we do is simpler: we help a company use technology to work better.',
+      services: [
+        { tag: 'WEB',     title: 'Custom software' },
+        { tag: 'WEB',     title: 'Enterprise web apps' },
+        { tag: 'MOBILE',  title: 'iOS & Android mobile apps' },
+        { tag: 'BACKEND', title: 'APIs & cloud infrastructure' },
+        { tag: 'AI',      title: 'AI automation' },
+        { tag: 'AI',      title: 'AI agents for businesses' },
+        { tag: 'BI',      title: 'Dashboards & analytics' },
+        { tag: 'COMMERCE',title: 'Ecommerce, POS & inventory' },
+        { tag: 'FINTECH', title: 'Fintech & banking infrastructure' },
+        { tag: 'SEC',     title: 'Cybersecurity & audit' },
+        { tag: 'REALTIME',title: 'Realtime messaging' },
+        { tag: 'OPS',     title: 'Logistics, delivery, field ops' },
+      ],
+    },
+
+    forWhom: {
+      eyebrow: '// 11 · clients()',
+      title: 'For companies that know',
+      titleAccent: "they can't keep operating the same way.",
+      body:
+        "We work with growing businesses that need a stronger digital base. It doesn't matter if the first step is a page, an app, a dashboard, or a full platform. What matters is that the step makes sense.",
+      audiences: [
+        'SMBs that want to organize their operation',
+        'Micro-businesses that want to sell more and control better',
+        'Entrepreneurs with an idea to launch',
+        'Stores that need ecommerce, POS, and inventory',
+        'Service businesses with internal systems',
+        'Teams that need dashboards and reports',
+        'Businesses that want to automate processes',
+        'Companies that want to protect their information',
+        'Projects that need to go from idea to product',
+      ],
+    },
+
+    process: {
+      eyebrow: '// 12 · how()',
+      title: 'First we understand the business.',
+      titleAccent: 'Then we build technology.',
+      body:
+        "Our process starts with questions, not templates. We want to understand how the company operates, where time is lost, which processes are manual, which data isn't visible, what tools already exist, and what objective the business wants to reach.",
+      steps: [
+        { num: '01', title: 'Understand the problem',     body: 'Before talking about screens, we talk about the business.' },
+        { num: '02', title: 'Define the digital goal',     body: "What the solution must achieve, not what tech we'll use." },
+        { num: '03', title: 'Design the solution',          body: 'UX, flows, modules, priorities, scalability.' },
+        { num: '04', title: 'Build the product',             body: 'Frontend, backend, integrations, infrastructure.' },
+        { num: '05', title: 'Wire data & security',          body: 'Permissions, auth, exposure, monitoring.' },
+        { num: '06', title: 'Measure results',               body: 'Dashboards, reports, actionable metrics.' },
+        { num: '07', title: 'Evolve with the business',      body: 'New modules, integrations, capabilities.' },
+      ],
+    },
+
+    different: {
+      eyebrow: '// 13 · why()',
+      title: 'We do not come to sell technology.',
+      titleAccent: 'We come to translate it.',
+      body:
+        "Many companies don't need someone impressing them with technical terms. They need someone helping them understand what's possible, what should be done first, and how technology can become a real advantage.",
+      translations: [
+        { from: 'Ideas',         to: 'Products' },
+        { from: 'Processes',     to: 'Systems' },
+        { from: 'Data',          to: 'Decisions' },
+        { from: 'Risks',         to: 'Security' },
+        { from: 'Growth',        to: 'Infrastructure' },
+      ],
+      closing:
+        "We're not just a company that builds web pages. We're a tech firm built to help growing companies enter the digital era with clarity, security, and innovation.",
+    },
+
+    manifesto: {
+      eyebrow: '// 14 · manifesto()',
+      title: 'High-end technology',
+      titleAccent: 'should also belong to small businesses.',
+      body:
+        'Innovation should not stay locked inside corporations, banks, giant startups, or companies with impossible budgets. SMBs and micro-businesses also deserve modern tools, security, automation, dashboards, and well-built software.',
+      lines: [
+        'To bring technology closer to those building from the bottom up.',
+        'To help real businesses take the next step.',
+        'To turn wild ideas into functional products.',
+        'To democratize information, security, and access to the digital world.',
+      ],
+      closing:
+        "We don't want technology to be a barrier. We want it to be a platform.",
+    },
+
+    finalCta: {
+      eyebrow: '// 15 · ship()',
+      title: "If your company is growing,",
+      titleAccent: 'your technology should be growing with it.',
+      body:
+        'We can help you turn your processes, ideas, and challenges into clear, secure digital solutions ready to evolve.',
+      cta: "Let's talk about your project",
+      ctaSecondary: 'See our services',
+    },
+  },
+
   footer: {
-    tagline: "Digital infrastructure studio. We build software, AI and systems for companies that don't want to run on manual mode anymore.",
+    tagline: "Technology firm for SMEs, micro-businesses and founders. Software, AI, infrastructure and security for companies building from the ground up.",
     sectionsTitle: 'Services',
     companyTitle: 'Company',
     contactTitle: 'Contact',
+    legalTitle: 'Legal',
     company: [
-      { label: 'How we work', href: '#process' },
-      { label: 'What we build', href: '#services' },
-      { label: 'Use cases', href: '#use-cases' },
+      { label: 'About',          href: '/about' },
+      { label: 'How we work',    href: '/about#process' },
+      { label: 'Manifesto',      href: '/about#manifesto' },
+      { label: 'Contact',        href: '/#contact' },
     ],
+    legal: [
+      { label: 'Privacy notice', href: '#privacy' },
+      { label: 'Terms',          href: '#terms' },
+    ],
+    location: 'Remote · Mexico · LATAM',
     rights: 'All rights reserved.',
-    builtWith: 'Built with judgement.',
+    builtWith: 'Built with judgement in CDMX.',
   },
 }
 

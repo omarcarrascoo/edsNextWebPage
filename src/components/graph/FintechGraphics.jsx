@@ -1492,6 +1492,205 @@ export function SwitchMatrix({ modules = [] }) {
 }
 
 // =============================================================================
+// POSGrid — animated POS-style product grid. Tiles cycle "selected" state
+// to suggest a clerk tapping items into a sale; total counter ticks up.
+// =============================================================================
+export function POSGrid({ kinds = [], capabilities = [] }) {
+  const [activeIdx, setActiveIdx] = useState(0)
+  const [total, setTotal] = useState(0)
+
+  // 12 product tiles with prices. Categories rotate which one is "tapped".
+  const products = useMemo(() => [
+    { name: 'Coffee',   price: 4.50, cat: 'beverage' },
+    { name: 'Bagel',    price: 3.25, cat: 'bakery' },
+    { name: 'Salad',    price: 8.90, cat: 'food' },
+    { name: 'Wine',     price: 18.0, cat: 'beverage' },
+    { name: 'Croissant',price: 2.95, cat: 'bakery' },
+    { name: 'Pizza',    price: 12.5, cat: 'food' },
+    { name: 'Latte',    price: 5.20, cat: 'beverage' },
+    { name: 'Cookie',   price: 1.80, cat: 'bakery' },
+    { name: 'Burger',   price: 11.0, cat: 'food' },
+    { name: 'Tea',      price: 3.50, cat: 'beverage' },
+    { name: 'Donut',    price: 2.50, cat: 'bakery' },
+    { name: 'Pasta',    price: 9.75, cat: 'food' },
+  ], [])
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      setActiveIdx((i) => {
+        const next = (i + 1 + Math.floor(Math.random() * 3)) % products.length
+        // accumulate total
+        setTotal((t) => {
+          const newTotal = t + products[next].price
+          // reset every ~$60 so the counter doesn't grow forever
+          return newTotal > 60 ? products[next].price : newTotal
+        })
+        return next
+      })
+    }, 1100)
+    return () => clearInterval(id)
+  }, [products])
+
+  const catColor = {
+    beverage: 'text-signal-blue',
+    bakery:   'text-signal-amber',
+    food:     'text-accent',
+  }
+
+  return (
+    <div className="rounded-xl border border-white/[0.07] bg-[rgba(8,12,18,0.6)] backdrop-blur-sm overflow-hidden">
+      {/* terminal header */}
+      <div className="flex items-center justify-between px-4 py-2.5 border-b border-white/[0.06]">
+        <div className="flex items-center gap-2">
+          <span className="status-dot run" />
+          <p className="mono-label text-fog-400 text-[10px] tracking-[0.22em]">pos.terminal</p>
+        </div>
+        <p className="mono-label text-accent text-[10px] tracking-[0.18em] tabular-nums">
+          TOTAL · ${total.toFixed(2)}
+        </p>
+      </div>
+
+      {/* product grid */}
+      <div className="p-3 grid grid-cols-3 sm:grid-cols-4 gap-1.5">
+        {products.map((p, i) => {
+          const active = i === activeIdx
+          return (
+            <div
+              key={p.name}
+              className={`rounded-lg border p-2.5 transition-all duration-300 ${
+                active
+                  ? 'border-accent/50 bg-accent/10'
+                  : 'border-white/[0.06] bg-white/[0.015]'
+              }`}
+            >
+              <p className={`mono-label text-[8px] tracking-[0.16em] mb-1 ${
+                active ? catColor[p.cat] : 'text-fog-600'
+              }`}>
+                {p.cat}
+              </p>
+              <p className={`text-[12px] font-medium leading-tight truncate ${
+                active ? 'text-fog-50' : 'text-fog-300'
+              }`}>
+                {p.name}
+              </p>
+              <p className={`mono-label text-[10px] tabular-nums mt-1 ${
+                active ? 'text-accent' : 'text-fog-500'
+              }`}>
+                ${p.price.toFixed(2)}
+              </p>
+            </div>
+          )
+        })}
+      </div>
+
+      {/* footer with categories */}
+      <div className="flex items-center justify-between px-4 py-2 border-t border-white/[0.06] mono-label text-fog-500 text-[9px] tracking-[0.18em]">
+        <div className="flex items-center gap-3">
+          <span className="flex items-center gap-1.5">
+            <span className="w-1.5 h-1.5 rounded-full bg-signal-blue" />
+            <span>beverage</span>
+          </span>
+          <span className="flex items-center gap-1.5">
+            <span className="w-1.5 h-1.5 rounded-full bg-signal-amber" />
+            <span>bakery</span>
+          </span>
+          <span className="flex items-center gap-1.5">
+            <span className="w-1.5 h-1.5 rounded-full bg-accent" />
+            <span>food</span>
+          </span>
+        </div>
+        <span className="hidden sm:inline">12 SKU · live</span>
+      </div>
+    </div>
+  )
+}
+
+// =============================================================================
+// InventoryTicker — simulates SKUs ticking in/out of stock as sales happen.
+// Used in the Inventory section.
+// =============================================================================
+export function InventoryTicker({ items: customItems }) {
+  const items = customItems || [
+    { sku: 'SKU-4291', name: 'Visa premium',  base: 124 },
+    { sku: 'SKU-8814', name: 'Latte 16oz',    base: 286 },
+    { sku: 'SKU-2207', name: 'Bagel · sesame',base: 92 },
+    { sku: 'SKU-5523', name: 'Pasta · large', base: 48 },
+    { sku: 'SKU-7710', name: 'Salad · veggie',base: 156 },
+    { sku: 'SKU-3399', name: 'Wine · red',    base: 22 },
+  ]
+  const [stock, setStock] = useState(() => items.map((it) => it.base))
+  const [activeIdx, setActiveIdx] = useState(0)
+  // movements/day — stable per mount (avoids hydration mismatch from
+  // randomizing on every render)
+  const [movements, setMovements] = useState(240)
+
+  useEffect(() => {
+    setMovements(Math.floor(Math.random() * 100) + 200)
+    const id = setInterval(() => {
+      setActiveIdx((i) => (i + 1) % items.length)
+      setStock((arr) => {
+        const idx = Math.floor(Math.random() * arr.length)
+        const delta = Math.random() < 0.7 ? -1 : 1
+        const next = [...arr]
+        next[idx] = Math.max(0, next[idx] + delta)
+        return next
+      })
+    }, 850)
+    return () => clearInterval(id)
+  }, [items.length])
+
+  return (
+    <div className="rounded-xl border border-white/[0.07] bg-[rgba(8,12,18,0.6)] backdrop-blur-sm overflow-hidden">
+      <div className="flex items-center justify-between px-4 py-2.5 border-b border-white/[0.06]">
+        <div className="flex items-center gap-2">
+          <span className="status-dot run" />
+          <p className="mono-label text-fog-400 text-[10px] tracking-[0.22em]">stock.live</p>
+        </div>
+        <p className="mono-label text-fog-500 text-[10px] tracking-[0.18em]">
+          {items.length} SKU · sync
+        </p>
+      </div>
+
+      <div className="px-4 py-3 space-y-1.5 font-mono text-[12px]">
+        {items.map((item, i) => {
+          const s = stock[i]
+          const active = i === activeIdx
+          const lowStock = s < 30
+          return (
+            <div
+              key={item.sku}
+              className={`grid grid-cols-[80px_minmax(0,1fr)_60px_50px] gap-2 items-center py-1 transition-colors ${
+                active ? 'bg-accent/[0.04] -mx-2 px-2 rounded' : ''
+              }`}
+            >
+              <span className="mono-label text-fog-500 text-[10px] tracking-[0.14em]">
+                {item.sku}
+              </span>
+              <span className="text-fog-200 truncate">{item.name}</span>
+              <span className={`tabular-nums text-right ${
+                lowStock ? 'text-signal-amber' : active ? 'text-accent' : 'text-fog-300'
+              }`}>
+                {s}
+              </span>
+              <span className={`mono-label text-[10px] tracking-[0.12em] text-right ${
+                lowStock ? 'text-signal-amber' : 'text-fog-500'
+              }`}>
+                {lowStock ? 'LOW' : 'OK'}
+              </span>
+            </div>
+          )
+        })}
+      </div>
+
+      <div className="flex items-center justify-between px-4 py-2 border-t border-white/[0.06] mono-label text-fog-500 text-[9px] tracking-[0.18em]">
+        <span>movements · {movements}/day</span>
+        <span className="text-signal-green">connected</span>
+      </div>
+    </div>
+  )
+}
+
+// =============================================================================
 // EditorialMosaic — magazine-style asymmetric grid for use cases
 // =============================================================================
 export function EditorialMosaic({ items = [] }) {
