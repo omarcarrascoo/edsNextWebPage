@@ -1754,6 +1754,570 @@ const es = {
     },
   },
 
+  messaging: {
+    meta: {
+      title: 'Mensajería en tiempo real, notificaciones y chat para plataformas',
+      description:
+        'Desarrollamos sistemas de mensajería en tiempo real, chats, inbox, notificaciones push, confirmaciones de lectura, centros de mensajes seguros, WebSockets, eventos y comunicación para plataformas digitales.',
+    },
+    breadcrumb: { services: 'Servicios', current: 'Mensajería · tiempo real' },
+
+    hero: {
+      eyebrow: '// MESSAGING · 09 · realtime()',
+      titleA: 'Mensajería',
+      titleB: 'y tiempo real',
+      titleC: 'para plataformas que conectan personas.',
+      titleAccent: 'Infraestructura de comunicación, no una caja con burbujitas.',
+      subtitle:
+        'Chats, inbox, centros de mensajes seguros, notificaciones push, confirmaciones de lectura y eventos en vivo para aplicaciones web, apps móviles, fintech, ecommerce, comunidades, marketplaces y logística.',
+      hudLive: 'sockets · live',
+      hudEvents: 'event-driven',
+      hudLatency: 'latency · ms',
+      hudInteract: 'mueve el cursor',
+      ctaPrimary: 'Construyamos tu sistema de mensajería',
+      ctaSecondary: 'Ver capacidades en tiempo real',
+    },
+
+    problem: {
+      eyebrow: '// 02 · diagnose()',
+      title: 'Cuando una plataforma crece,',
+      titleAccent: 'la comunicación deja de caber en WhatsApp y correos sueltos.',
+      body:
+        'Muchas empresas empiezan comunicándose con clientes y equipos desde canales externos: WhatsApp, email, llamadas, hojas compartidas, capturas de pantalla. Funciona un rato. Después aparecen los problemas — y no son pequeños.',
+      symptoms: [
+        { tag: 'LOST',  text: 'Mensajes perdidos' },
+        { tag: 'BLIND', text: 'Equipos sin contexto' },
+        { tag: 'DUP',   text: 'Notificaciones duplicadas' },
+        { tag: 'AUDIT', text: 'Conversaciones sin trazabilidad' },
+        { tag: 'PERM',  text: 'Datos visibles para quien no debería' },
+        { tag: 'OPS',   text: 'Soporte respondiendo desde 5 canales' },
+        { tag: 'STATE', text: 'Mensajes sin estado real' },
+        { tag: 'STALE', text: 'Datos que no actualizan en vivo' },
+      ],
+      closing:
+        'Una plataforma seria necesita comunicación integrada. Construimos mensajería que vive dentro del producto, conectada con usuarios, datos, permisos, eventos y operación.',
+    },
+
+    value: {
+      eyebrow: '// 03 · build()',
+      title: 'La capa de comunicación',
+      titleAccent: 'que conecta usuarios, eventos y decisiones.',
+      body:
+        'La mensajería en tiempo real no es solo enviar texto. Es saber quién mandó qué, quién puede leerlo, cuándo llegó, si fue leído, qué evento lo generó, qué acción detona y a qué usuario, pedido o transacción pertenece. Diseñamos comunicación con contexto, estado, permisos y trazabilidad.',
+      capabilities: [
+        { tag: 'CHAT',     title: 'Chats privados y grupales' },
+        { tag: 'INBOX',    title: 'Inbox interno y centros de mensajes' },
+        { tag: 'PUSH',     title: 'Notificaciones push e in-app' },
+        { tag: 'READ',     title: 'Confirmaciones de lectura y estados' },
+        { tag: 'EVENT',    title: 'Mensajes detonados por evento' },
+        { tag: 'SECURE',   title: 'Comunicación segura para fintech' },
+        { tag: 'SOCKETS',  title: 'WebSockets y suscripciones' },
+        { tag: 'LIVE',     title: 'Dashboards y monitoreo en vivo' },
+      ],
+    },
+
+    chat: {
+      eyebrow: '// 04 · conversation()',
+      title: 'Chats e inbox para operar,',
+      titleAccent: 'no solo para conversar.',
+      body:
+        'Un sistema de mensajería dentro de una plataforma vive del contexto. No es lo mismo un chat social que un inbox financiero, un mensaje de soporte, una alerta de pedido o una conversación de comunidad.',
+      types: [
+        {
+          label: 'CHAT',
+          title: 'Chat entre usuarios',
+          body: 'Para comunidades, marketplaces, apps sociales, membresías, clubes, educación o plataformas colaborativas.',
+        },
+        {
+          label: 'B2C',
+          title: 'Chat cliente · empresa',
+          body: 'Para soporte, atención, ventas, seguimiento de solicitudes, pedidos, entregas o servicios.',
+        },
+        {
+          label: 'INBOX',
+          title: 'Inbox administrativo',
+          body: 'Para que equipos internos reciban, clasifiquen, respondan y den seguimiento desde un panel centralizado.',
+        },
+        {
+          label: 'SECURE',
+          title: 'Centro de mensajes seguro',
+          body: 'Para fintech, banca, salud o servicios sensibles que necesitan controlar acceso, historial y trazabilidad.',
+        },
+        {
+          label: 'EVENT',
+          title: 'Mensajes automáticos por evento',
+          body: 'Para avisar cambios de estado, pagos, pedidos, entregas, aprobaciones, rechazos o documentos.',
+        },
+      ],
+      closing:
+        'Conectamos cada conversación con usuarios, permisos, eventos y procesos reales. No abrimos un chat: abrimos un canal con contexto.',
+    },
+
+    notifications: {
+      eyebrow: '// 05 · notify()',
+      title: 'Notificaciones que informan,',
+      titleAccent: 'no que ruegan atención como app desesperada.',
+      body:
+        'Las notificaciones pueden ser una herramienta poderosa o la forma más rápida de que un usuario desinstale tu app y te odie en silencio. Diseñamos sistemas que envían mensajes útiles, oportunos y conectados con eventos importantes.',
+      types: ['Push', 'In-app', 'Email', 'Administrativas', 'Transaccionales', 'Recordatorios', 'Confirmaciones', 'Cambios de estado', 'Seguridad', 'Pedidos', 'Pagos', 'Equipos internos'],
+      examples: [
+        'Tu pedido cambió de estado.',
+        'Tienes un nuevo mensaje.',
+        'Tu tarjeta fue activada.',
+        'Tu transferencia está en proceso.',
+        'Tu solicitud fue aprobada.',
+        'Hay bajo stock de este producto.',
+        'Un cliente respondió tu mensaje.',
+        'Tu entrega fue confirmada.',
+        'Hay una alerta operativa.',
+        'Tu reporte está listo.',
+      ],
+      closing:
+        'Mantén usuarios y equipos informados en el momento correcto, con el contexto correcto.',
+    },
+
+    realtime: {
+      eyebrow: '// 06 · stream()',
+      title: 'Actualizaciones instantáneas',
+      titleAccent: 'para productos que no pueden vivir esperando refresh.',
+      body:
+        'Hay plataformas donde el usuario necesita ver cambios al momento — mensajes, pedidos, pagos, entregas, disponibilidad, alertas, actividad. Implementamos comunicación en tiempo real con WebSockets, suscripciones, eventos o polling inteligente, según el alcance del proyecto.',
+      stack: [
+        'Mensajes nuevos',
+        'Estados de lectura',
+        'Notificaciones',
+        'Cambios de pedido',
+        'Cambios de transacción',
+        'Alertas operativas',
+        'Disponibilidad de productos',
+        'Seguimiento de entregas',
+        'Actividad de usuarios',
+        'Paneles administrativos',
+        'Dashboards en vivo',
+        'Sistemas colaborativos',
+        'Actualizaciones de soporte',
+        'Eventos críticos',
+      ],
+      closing:
+        'No todo necesita realtime absoluto. A veces un buen polling resuelve el problema con menos complejidad. Meter WebSockets donde no hacen falta es como llevar un tráiler para comprar pan: impresionante, sí — ridículo también.',
+    },
+
+    states: {
+      eyebrow: '// 07 · state()',
+      title: 'Saber si un mensaje fue enviado,',
+      titleAccent: 'recibido o leído cambia la operación.',
+      body:
+        'En muchas plataformas el estado importa tanto como el mensaje. Un usuario quiere saber si su solicitud fue vista. Soporte necesita saber si alguien respondió. Una fintech necesita trazabilidad de comunicaciones sensibles.',
+      states: ['Enviando', 'Enviado', 'Entregado', 'Leído', 'No leído', 'Fallido', 'Reintentando', 'Archivado', 'Respondido', 'Pendiente', 'Cerrado', 'Escalado'],
+      features: [
+        'Confirmaciones de lectura',
+        'Indicadores de no leído',
+        'Contadores por conversación',
+        'Contadores por usuario',
+        'Estados por canal',
+        'Marcar como leído (uno o todos)',
+        'Historial de lectura',
+        'Sincronización entre dispositivos',
+        'Reintentos automáticos',
+        'Manejo de mensajes propios',
+      ],
+      closing:
+        'Estados que ayudan a usuarios y equipos a saber qué pasó, qué falta y qué necesita atención.',
+    },
+
+    secure: {
+      eyebrow: '// 08 · secure()',
+      title: 'Comunicación segura',
+      titleAccent: 'para operaciones donde el mensaje también es riesgo.',
+      body:
+        'En fintech, banca, seguros, salud o plataformas con datos sensibles, los mensajes no pueden vivir en canales desordenados. Se necesita un centro de mensajes con control de acceso, historial, permisos, trazabilidad y reglas claras desde el inicio.',
+      capabilities: [
+        'Centro de mensajes seguro',
+        'Mensajes institución · usuario',
+        'Notificaciones de actividad financiera',
+        'Comunicaciones de tarjetas',
+        'Avisos de transferencia',
+        'Alertas de seguridad',
+        'Confirmaciones operativas',
+        'Historial consultable',
+        'Mensajes con permisos por rol',
+        'Back office para equipos internos',
+        'Auditoría de acciones',
+        'Control de lectura',
+        'Integración con apps móviles',
+        'Integración con backend financiero',
+      ],
+      closing:
+        'En sistemas sensibles un mensaje no es solo texto: es evidencia, contexto, operación y posible riesgo. Diseñamos con seguridad, trazabilidad y acceso controlado desde el día uno.',
+    },
+
+    ecommerce: {
+      eyebrow: '// 09 · commerce()',
+      title: 'Mensajes y alertas para',
+      titleAccent: 'mantener ventas, pedidos y entregas bajo control.',
+      body:
+        'En ecommerce y logística, la comunicación es parte de la experiencia del cliente y de la eficiencia operativa. Conectamos mensajes con pedidos, pagos, inventario, entregas, soporte y equipos internos.',
+      ecommerce: [
+        'Confirmación de pedido',
+        'Confirmación de pago',
+        'Cambio de estado',
+        'Pedido en preparación',
+        'Pedido enviado',
+        'Pedido entregado',
+        'Producto agotado',
+        'Promociones',
+        'Recuperación de carrito',
+        'Atención a cliente',
+        'Mensajes vendedor · comprador',
+        'Notificaciones de inventario',
+      ],
+      logistics: [
+        'Asignación de ruta',
+        'Paquete recibido',
+        'Paquete en tránsito',
+        'Paquete entregado',
+        'Incidencia de entrega',
+        'Mensaje al repartidor',
+        'Alerta al administrador',
+        'Confirmación con evidencia',
+        'Notificación al cliente',
+        'Cambio de estado en vivo',
+      ],
+      closing:
+        'Para que la operación comercial no dependa de perseguir información a mano.',
+    },
+
+    community: {
+      eyebrow: '// 10 · community()',
+      title: 'Comunicación para',
+      titleAccent: 'plataformas donde la participación importa.',
+      body:
+        'Las comunidades digitales necesitan interacción real: conversaciones, respuestas, anuncios, eventos, recordatorios, grupos y notificaciones de actividad. Construimos sistemas para apps de comunidad, cursos, clubes, membresías y plataformas educativas.',
+      features: [
+        'Mensajes directos',
+        'Grupos',
+        'Anuncios',
+        'Comentarios',
+        'Respuestas',
+        'Reacciones',
+        'Notificaciones de actividad',
+        'Recordatorios de eventos',
+        'Mensajes de moderadores',
+        'Canales por tema',
+        'Comunicación entre miembros',
+        'Comunicación admin · usuario',
+        'Control de permisos',
+        'Moderación básica',
+        'Reportes de actividad',
+      ],
+      closing:
+        'Para que comunidades y plataformas educativas mantengan interacción, seguimiento y participación real.',
+    },
+
+    events: {
+      eyebrow: '// 11 · events()',
+      title: 'Mensajería event-driven',
+      titleAccent: 'para conectar acciones, alertas y automatizaciones.',
+      body:
+        'Una arquitectura de comunicación moderna no solo responde cuando alguien escribe. También escucha eventos del sistema. Cada evento puede detonar una notificación, un mensaje, una alerta interna, una actualización de dashboard o una automatización.',
+      triggers: [
+        'Nuevos mensajes',
+        'Nuevas solicitudes',
+        'Cambios de estado',
+        'Pagos',
+        'Transferencias',
+        'Entregas',
+        'Alertas de inventario',
+        'Registros de usuario',
+        'Errores operativos',
+        'Aprobaciones',
+        'Rechazos',
+        'Actividad interna',
+        'Acciones administrativas',
+        'Actualizaciones de dashboard',
+        'Automatizaciones con IA',
+      ],
+      pipeline: [
+        'User Action · System Event',
+        'Event Layer',
+        'Notification Service',
+        'Realtime Channel',
+        'Mobile · Web · Dashboard',
+        'Logs · Audit · Analytics',
+      ],
+      closing:
+        'Eventos importantes generan comunicación automática, trazable y conectada con la operación.',
+    },
+
+    backend: {
+      eyebrow: '// 12 · backend()',
+      title: 'El chat visible es la punta del iceberg.',
+      titleAccent: 'El backend es donde vive la complejidad real.',
+      body:
+        'Un sistema de mensajería necesita mucho más que una pantalla con burbujas: usuarios, conversaciones, permisos, paginación, estados, sockets, almacenamiento, sincronización, seguridad, historial y manejo de errores.',
+      modules: [
+        'Modelo de conversaciones',
+        'Modelo de mensajes',
+        'Participantes',
+        'Permisos',
+        'Estados de lectura',
+        'Unread counts',
+        'Paginación',
+        'Búsqueda',
+        'Adjuntos',
+        'Reacciones',
+        'Respuestas',
+        'Notificaciones',
+        'Eventos',
+        'WebSockets',
+        'Logs',
+        'Moderación',
+        'Seguridad',
+        'Auditoría',
+        'Retención por reglas de negocio',
+      ],
+      closing:
+        'Infraestructura para que una conversación se mantenga sincronizada, segura y útil entre usuarios, dispositivos y sistemas.',
+    },
+
+    sync: {
+      eyebrow: '// 13 · sync()',
+      title: 'Mensajería sincronizada entre',
+      titleAccent: 'web, mobile y paneles administrativos.',
+      body:
+        'Tus usuarios pueden estar en una app móvil. Tu equipo puede estar en un dashboard. Tu cliente puede recibir un push. Tu admin puede responder desde back office. Todo debe mantenerse sincronizado.',
+      surfaces: ['App móvil', 'Aplicación web', 'Dashboard administrativo', 'Back office', 'Push notifications', 'Email', 'WebSockets', 'API backend', 'Base de datos', 'Servicios externos', 'Automatizaciones', 'IA'],
+      flows: [
+        'Cliente escribe desde app móvil → soporte responde desde dashboard',
+        'Usuario recibe push por nuevo mensaje',
+        'Administrador ve conversaciones no respondidas',
+        'Sistema marca leído entre dispositivos',
+        'Pedido cambia de estado → notificación',
+        'Dashboard muestra actividad en tiempo real',
+        'Evento financiero genera mensaje seguro',
+      ],
+      closing:
+        'Comunicación que funciona entre dispositivos, plataformas y equipos sin perder contexto.',
+    },
+
+    dashboards: {
+      eyebrow: '// 14 · observe()',
+      title: 'Visibilidad sobre conversaciones,',
+      titleAccent: 'alertas y actividad.',
+      body:
+        'Cuando la comunicación es parte de la operación, necesitas medirla. Construimos dashboards para entender volumen, tiempos de respuesta, conversaciones abiertas, mensajes no leídos, alertas y actividad por equipo.',
+      metrics: [
+        'Mensajes enviados',
+        'Mensajes recibidos',
+        'Conversaciones abiertas',
+        'Conversaciones cerradas',
+        'Tiempo promedio de respuesta',
+        'Mensajes no leídos',
+        'Notificaciones enviadas',
+        'Notificaciones abiertas',
+        'Usuarios activos',
+        'Actividad por canal',
+        'Actividad por equipo',
+        'Mensajes por estado',
+        'Errores de entrega',
+        'Alertas críticas',
+        'Conversaciones por tipo',
+        'Solicitudes pendientes',
+      ],
+      closing:
+        'La comunicación de tu plataforma convertida en métricas claras para mejorar soporte, operación y experiencia.',
+    },
+
+    ai: {
+      eyebrow: '// 15 · assist()',
+      title: 'IA para responder mejor,',
+      titleAccent: 'clasificar conversaciones y reducir carga operativa.',
+      body:
+        'No se trata de poner un bot que responda cualquier cosa con confianza sospechosa — eso ya lo hizo medio internet, y mira cómo vamos. Se trata de usar IA para asistir, clasificar, resumir, sugerir y automatizar tareas concretas.',
+      useCases: [
+        'Clasificación automática',
+        'Resúmenes de conversación',
+        'Sugerencias de respuesta',
+        'Priorización de solicitudes',
+        'Detección de temas frecuentes',
+        'Asistente para soporte',
+        'Respuestas automáticas controladas',
+        'Análisis de sentimiento',
+        'Escalamiento automático',
+        'Extracción de datos desde mensajes',
+        'Generación de reportes',
+        'Seguimiento de pendientes',
+      ],
+      closing:
+        'La IA debe ayudar al equipo, no reemplazar criterio donde hay riesgo. Diseñamos flujos donde la IA sugiere y un humano aprueba — especialmente en soporte, fintech y procesos sensibles.',
+    },
+
+    security: {
+      eyebrow: '// 16 · permissions()',
+      title: 'La comunicación debe respetar',
+      titleAccent: 'permisos, contexto y datos sensibles.',
+      body:
+        'Un sistema de mensajería mal diseñado puede exponer conversaciones, datos personales, información financiera o actividad interna. Diseñamos comunicación pensando en seguridad desde el inicio.',
+      practices: [
+        'Autenticación',
+        'Autorización por conversación',
+        'Permisos por usuario',
+        'Acceso por organización',
+        'Protección de rutas',
+        'Validación de participantes',
+        'Control de lectura',
+        'Manejo seguro de adjuntos',
+        'Logs sin información sensible',
+        'Auditoría de acciones',
+        'Separación de ambientes',
+        'Revisión de exposición de datos',
+        'Encriptación cuando aplica',
+        'Retención según reglas del negocio',
+      ],
+      closing:
+        'Cada usuario ve solo lo que debe ver — con trazabilidad y control desde la arquitectura.',
+    },
+
+    architecture: {
+      eyebrow: '// 17 · architecture()',
+      title: 'Así se ve una infraestructura',
+      titleAccent: 'de mensajería y tiempo real.',
+      layers: [
+        { tag: 'CLIENTS',  title: 'Mobile · Web · Dashboard',          tone: 'accent' },
+        { tag: 'API',      title: 'Messaging API',                     tone: 'blue'   },
+        { tag: 'AUTH',     title: 'Auth · Permissions',                tone: 'violet' },
+        { tag: 'CORE',     title: 'Conversations · Messages · Reads',  tone: 'accent' },
+        { tag: 'REALTIME', title: 'Realtime Layer',                    tone: 'blue'   },
+        { tag: 'NOTIFY',   title: 'Push · In-app Alerts',              tone: 'amber'  },
+        { tag: 'OBS',      title: 'Logs · Audit · Analytics',          tone: 'violet' },
+        { tag: 'AI',       title: 'Automations · IA · Reports',        tone: 'accent' },
+      ],
+    },
+
+    useCases: {
+      eyebrow: '// 18 · useCases()',
+      title: 'Lo que podemos construir',
+      titleAccent: 'con mensajería y tiempo real.',
+      items: [
+        { num: '01', title: 'Chat interno para web o móvil',          body: 'Conversaciones entre usuarios, equipos o clientes dentro de la aplicación.' },
+        { num: '02', title: 'Inbox empresarial',                       body: 'Panel centralizado para recibir, responder y dar seguimiento desde back office.' },
+        { num: '03', title: 'Centro de mensajes seguro',               body: 'Mensajería para fintech, banca y plataformas con datos sensibles y trazabilidad.' },
+        { num: '04', title: 'Notificaciones push',                     body: 'Alertas móviles para mensajes, pedidos, pagos, solicitudes, entregas o eventos.' },
+        { num: '05', title: 'Mensajes por evento',                     body: 'Mensajes automáticos generados por cambios de estado, pagos, aprobaciones o entregas.' },
+        { num: '06', title: 'Dashboard realtime',                      body: 'Panel que actualiza información en vivo para operación, soporte, logística o ventas.' },
+        { num: '07', title: 'Chat para ecommerce',                     body: 'Comunicación cliente · vendedor · soporte conectada a pedidos y productos.' },
+        { num: '08', title: 'Mensajería para logística',               body: 'Alertas y comunicación entre repartidores, clientes, operadores y administradores.' },
+        { num: '09', title: 'Chat para comunidades',                   body: 'Mensajes directos, grupos, comentarios, respuestas, anuncios y notificaciones.' },
+        { num: '10', title: 'Asistente de IA para soporte',            body: 'Resumir, sugerir, clasificar y priorizar conversaciones para mejorar tiempos de atención.' },
+      ],
+    },
+
+    differentiators: {
+      eyebrow: '// 19 · why()',
+      title: 'Por qué construir con',
+      titleAccent: 'Era Digital Solutions.',
+      items: [
+        { num: '01', title: 'No vemos el chat como una pantalla', body: 'Lo diseñamos como infraestructura conectada a usuarios, eventos, permisos y operación.' },
+        { num: '02', title: 'Backend, frontend y mobile',         body: 'API, base de datos, realtime, app móvil, web, dashboard y notificaciones — sistema completo.' },
+        { num: '03', title: 'Sistemas críticos',                  body: 'Mensajería para fintech, banca, ecommerce, logística y soporte donde la trazabilidad importa.' },
+        { num: '04', title: 'Estados y sincronización',           body: 'Mensajes no leídos, confirmaciones, entrega, lectura, reintentos y consistencia entre dispositivos.' },
+        { num: '05', title: 'IA con control',                     body: 'Resumir, clasificar y asistir conversaciones sin convertir la plataforma en un bot irresponsable con traje elegante.' },
+        { num: '06', title: 'Diseño para crecer',                 body: 'La arquitectura empieza simple y evoluciona hacia eventos, dashboards, automatización y comunicación avanzada.' },
+      ],
+    },
+
+    process: {
+      eyebrow: '// 20 · how()',
+      title: 'Cómo construimos mensajería',
+      titleAccent: 'y comunicación en tiempo real.',
+      steps: [
+        { num: '01', title: 'Diagnóstico de comunicación',  body: 'Quién se comunica con quién, qué eventos importan, qué canales existen y qué problemas operativos hay.' },
+        { num: '02', title: 'Diseño de flujos',              body: 'Conversaciones, participantes, permisos, estados, notificaciones, eventos y reglas.' },
+        { num: '03', title: 'Arquitectura backend',          body: 'Modelos de mensajes, conversaciones, lectura, notificaciones, realtime, logs y seguridad.' },
+        { num: '04', title: 'Diseño UX/UI',                  body: 'Chat, inbox, notificaciones, estados, filtros, conversaciones y paneles.' },
+        { num: '05', title: 'Desarrollo realtime',           body: 'Comunicación en tiempo real con la tecnología adecuada al proyecto.' },
+        { num: '06', title: 'Integración mobile · web',      body: 'App móvil, web, dashboard, push notifications y backend conectados.' },
+        { num: '07', title: 'Seguridad y permisos',          body: 'Acceso, participantes, roles, datos sensibles y exposición revisados.' },
+        { num: '08', title: 'Pruebas',                       body: 'Mensajes, estados, lectura, no leídos, notificaciones, reconexión, errores, sincronización.' },
+        { num: '09', title: 'Lanzamiento',                   body: 'Despliegue, monitoreo y base lista para evolucionar.' },
+        { num: '10', title: 'Evolución',                     body: 'IA, dashboards, automatizaciones, nuevos canales, reglas avanzadas y métricas.' },
+      ],
+    },
+
+    stack: {
+      eyebrow: '// 21 · stack()',
+      title: 'Tecnología para',
+      titleAccent: 'comunicación moderna.',
+      groups: [
+        {
+          label: 'Frontend',
+          items: ['React', 'Next.js', 'TypeScript', 'Componentes realtime', 'Dashboards', 'Inboxes'],
+        },
+        {
+          label: 'Mobile',
+          items: ['React Native', 'Expo', 'Push notifications', 'Secure storage', 'Deep linking', 'Estados offline'],
+        },
+        {
+          label: 'Backend',
+          items: ['Node.js', 'NestJS', 'LoopBack', 'APIs REST', 'GraphQL', 'Servicios modulares', 'Webhooks', 'Event-driven'],
+        },
+        {
+          label: 'Realtime',
+          items: ['WebSockets', 'GraphQL subscriptions', 'Server-sent events', 'Polling inteligente', 'Event-driven architecture'],
+        },
+        {
+          label: 'Data',
+          items: ['PostgreSQL', 'MySQL', 'MongoDB', 'DocumentDB', 'Modelos para conversaciones y lectura'],
+        },
+        {
+          label: 'Infra',
+          items: ['AWS', 'Docker', 'Serverless', 'API Gateway', 'Servicios de notificaciones', 'Logs y monitoreo'],
+        },
+        {
+          label: 'IA',
+          items: ['Resúmenes', 'Clasificación', 'Asistentes de soporte', 'Sugerencias', 'Análisis de intención', 'Automatización'],
+        },
+      ],
+    },
+
+    midCta: {
+      eyebrow: '// 22 · ship()',
+      title: '¿Tu plataforma necesita comunicación integrada,',
+      titleAccent: 'no parches en WhatsApp?',
+      body:
+        'Podemos ayudarte a construir chats, inbox, notificaciones, centros de mensajes seguros y comunicación en tiempo real conectada a tu operación.',
+      cta: 'Diseñemos tu sistema de mensajería',
+    },
+
+    faq: {
+      eyebrow: '// 23 · faq()',
+      title: 'Preguntas frecuentes.',
+      titleAccent: 'Lo que la gente nos pregunta.',
+      items: [
+        { q: '¿Desarrollan chats para apps web y móviles?',          a: 'Sí. Para apps móviles, plataformas web, dashboards administrativos, comunidades, ecommerce, fintech y sistemas internos.' },
+        { q: '¿Pueden implementar notificaciones push?',             a: 'Sí. Para mensajes, pedidos, pagos, entregas, solicitudes, alertas, recordatorios y eventos importantes.' },
+        { q: '¿Pueden crear un inbox para equipos internos?',        a: 'Sí. Inbox administrativo para que soporte, ventas u operación reciban, respondan y den seguimiento.' },
+        { q: '¿Pueden hacer comunicación en tiempo real?',           a: 'Sí. WebSockets, suscripciones, eventos o polling inteligente. Elegimos la arquitectura correcta para el problema.' },
+        { q: '¿Pueden agregar confirmaciones de lectura?',           a: 'Sí. Estados como enviado, entregado, leído, no leído, fallido, pendiente o respondido — según el flujo.' },
+        { q: '¿Pueden crear un centro de mensajes seguro para fintech?', a: 'Sí. Con autenticación, permisos, historial, trazabilidad, notificaciones y acceso controlado.' },
+        { q: '¿Pueden conectar mensajería con pedidos, pagos o entregas?', a: 'Sí. Mensajes y notificaciones conectados con eventos de ecommerce, pagos, logística e inventario.' },
+        { q: '¿Pueden agregar IA a la mensajería?',                  a: 'Sí. Resumir, clasificar, sugerir respuestas, priorizar y automatizar seguimiento — con supervisión humana.' },
+        { q: '¿Pueden construir dashboards de comunicación?',         a: 'Sí. Mensajes, conversaciones abiertas, tiempos de respuesta, usuarios activos, notificaciones y actividad.' },
+        { q: '¿Pueden migrar desde un proveedor externo?',            a: 'Sí, según el sistema actual, acceso a datos, APIs disponibles y reglas. Revisamos la arquitectura y proponemos migración gradual.' },
+      ],
+    },
+
+    finalCta: {
+      eyebrow: '// 24 · ship()',
+      title: 'Construyamos la comunicación en tiempo real',
+      titleAccent: 'que tu plataforma necesita para operar mejor.',
+      body:
+        'Si tu producto necesita chat, inbox, notificaciones, centro de mensajes seguro, dashboards en vivo o comunicación entre usuarios, podemos diseñar y desarrollar una solución conectada a tus procesos, datos y usuarios.',
+      cta: 'Agenda una consultoría de mensajería y realtime',
+      ctaSecondary: 'Volver al inicio',
+    },
+  },
+
   about: {
     meta: {
       title: 'Nosotros',

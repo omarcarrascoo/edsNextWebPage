@@ -6,7 +6,7 @@ import Logo from './Logo'
 import LanguageToggle from './LanguageToggle'
 import { useT } from '@/i18n/LanguageProvider'
 
-const LIVE_SERVICES = new Set(['fintech', 'mobile', 'backend', 'ecommerce'])
+const LIVE_SERVICES = new Set(['fintech', 'mobile', 'backend', 'ecommerce', 'messaging'])
 const SERVICE_HREF = (slug) =>
   LIVE_SERVICES.has(slug) ? `/services/${slug}` : '/#services'
 const isLive = (slug) => LIVE_SERVICES.has(slug)
